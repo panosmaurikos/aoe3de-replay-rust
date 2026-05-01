@@ -1,0 +1,15 @@
+[package]
+name = "aoe3de-replay-rust"
+version = "0.1.0"
+edition = "2021"
+description = "Parser for Age of Empires 3: Definitive Edition replay files (.age3Yrec)"
+license = "MIT"
+repository = "https://github.com/panosmaurikos/aoe3de-replay-rust"
+readme = "README.md"
+keywords = ["aoe3", "replay", "parser", "age-of-empires"]
+categories = ["parser-implementations", "games"]
+
+[dependencies]
+flate2 = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

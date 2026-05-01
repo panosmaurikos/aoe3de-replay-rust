@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AoE3DE Replay Timeline</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f2ec;
+      --panel: #ffffff;
+      --ink: #1d242b;
+      --muted: #64707c;
+      --line: #d8dde2;
+      --header: #22313c;
+      --accent: #2f6f73;
+      --accent-soft: #e6f0ef;
+      --danger: #a33a35;
+      --chat: #2c5d9f;
+      --shipment: #7b5b15;
+      --shadow: 0 8px 24px rgba(28, 35, 43, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto auto auto 1fr;
+    }
+
+    header {
+      background: var(--header);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: 18px;
+    }
+
+    h2 {
+      font-size: 15px;
+    }
+
+    .toolbar,
+    .filters,
+    .segmented,
+    .check-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    label.button,
+    button,
+    select,
+    input[type="search"],
+    .check-toggle {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: 6px;
+      padding: 0 10px;
+      font: inherit;
+    }
+
+    .check-toggle {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    label.button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    button.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    header label.button,
+    header button {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(110px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric {
+      background: var(--panel);
+      padding: 12px 16px;
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .players-section {
+      background: #fbfaf7;
+      border-bottom: 1px solid var(--line);
+      padding: 14px 20px 16px;
+      overflow-x: auto;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      background: #f8f9fa;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td {
+      overflow-wrap: anywhere;
+    }
+
+    .timeline-section {
+      min-width: 0;
+      padding: 16px 20px 24px;
+      overflow: auto;
+    }
+
+    .timeline-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .view-tabs {
+      margin-bottom: 12px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .filters input[type="search"] {
+      width: min(420px, 100%);
+    }
+
+    .events,
+    .build-order {
+      display: grid;
+      gap: 8px;
+    }
+
+    .event,
+    .build-player {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--chat);
+      border-radius: 6px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .build-player {
+      border-left-color: var(--shipment);
+    }
+
+    .build-player h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .build-row {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 10px;
+      padding: 7px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .event.resign {
+      border-left-color: var(--danger);
+    }
+
+    .event.shipment {
+      border-left-color: var(--shipment);
+    }
+
+    .event.shipment.candidate {
+      border-left-color: #9aa1a8;
+    }
+
+    .event.system {
+      border-left-color: var(--accent);
+    }
+
+    .event-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .event-type {
+      color: var(--chat);
+      font-weight: 750;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .event.resign .event-type {
+      color: var(--danger);
+    }
+
+    .event.shipment .event-type {
+      color: var(--shipment);
+    }
+
+    .event strong {
+      overflow-wrap: anywhere;
+    }
+
+    .event-meta,
+    .muted {
+      color: var(--muted);
+    }
+
+    .message {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      border-radius: 6px;
+      padding: 30px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      header,
+      .timeline-toolbar,
+      .section-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar,
+      .filters {
+        align-items: stretch;
+      }
+
+      .toolbar > *,
+      .filters > * {
+        flex: 1 1 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>AoE3DE Replay Timeline</h1>
+      <div class="toolbar">
+        <label class="button">
+          Open JSON
+          <input id="fileInput" type="file" accept="application/json,.json">
+        </label>
+        <button id="loadSample" type="button">Load Sample</button>
+        <button id="exportFiltered" type="button" disabled>Export Filtered</button>
+      </div>
+    </header>
+
+    <section id="summary" class="summary"></section>
+
+    <section class="players-section">
+      <div class="section-head">
+        <h2>Players</h2>
+        <span id="playerCount" class="muted">0 players</span>
+      </div>
+      <div id="players"></div>
+    </section>
+
+    <section class="timeline-section">
+      <div class="view-tabs segmented" aria-label="View">
+        <button class="active" type="button" data-view="timeline">Timeline</button>
+        <button type="button" data-view="buildOrder">Build Order</button>
+      </div>
+
+      <div id="timelinePanel">
+        <div class="timeline-toolbar">
+          <div class="filters">
+            <div class="segmented" aria-label="Event type">
+              <button class="active" type="button" data-type="all">All</button>
+              <button type="button" data-type="chat">Chat</button>
+              <button type="button" data-type="resign">Resign</button>
+              <button type="button" data-type="shipment">Shipment</button>
+            </div>
+            <label class="check-toggle">
+              <input id="confirmedShipmentsOnly" type="checkbox">
+              Confirmed only
+            </label>
+            <select id="playerFilter" aria-label="Player filter">
+              <option value="all">All players</option>
+            </select>
+            <input id="search" type="search" placeholder="Search chat or player">
+          </div>
+          <span id="visibleCount" class="muted">0 events</span>
+        </div>
+        <div id="events" class="events"></div>
+      </div>
+
+      <div id="buildOrderPanel" hidden>
+        <div class="section-head">
+          <h2>Build Order</h2>
+          <span id="buildOrderCount" class="muted">0 events</span>
+        </div>
+        <div id="buildOrder" class="build-order"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const state = {
+      data: null,
+      events: [],
+      filteredEvents: [],
+      activeType: "all",
+      activeView: "timeline",
+      confirmedShipmentsOnly: false,
+    };
+
+    const summary = document.querySelector("#summary");
+    const players = document.querySelector("#players");
+    const playerCount = document.querySelector("#playerCount");
+    const events = document.querySelector("#events");
+    const buildOrder = document.querySelector("#buildOrder");
+    const buildOrderCount = document.querySelector("#buildOrderCount");
+    const timelinePanel = document.querySelector("#timelinePanel");
+    const buildOrderPanel = document.querySelector("#buildOrderPanel");
+    const search = document.querySelector("#search");
+    const playerFilter = document.querySelector("#playerFilter");
+    const confirmedShipmentsOnly = document.querySelector("#confirmedShipmentsOnly");
+    const visibleCount = document.querySelector("#visibleCount");
+    const exportFiltered = document.querySelector("#exportFiltered");
+
+    document.querySelector("#fileInput").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      loadData(JSON.parse(await file.text()));
+    });
+
+    document.querySelector("#loadSample").addEventListener("click", async () => {
+      try {
+        const response = await fetch("../malloncheater.parsed.json", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        loadData(await response.json());
+      } catch (error) {
+        renderEmpty(`Could not auto-load sample JSON. Open a normalized .parsed.json file instead. ${error.message}`);
+      }
+    });
+
+    document.querySelectorAll("[data-type]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.activeType = button.dataset.type;
+        document.querySelectorAll("[data-type]").forEach((item) => item.classList.toggle("active", item === button));
+        renderEvents();
+      });
+    });
+
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.activeView = button.dataset.view;
+        document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("active", item === button));
+        renderActiveView();
+      });
+    });
+
+    search.addEventListener("input", renderEvents);
+    playerFilter.addEventListener("change", renderEvents);
+    confirmedShipmentsOnly.addEventListener("change", () => {
+      state.confirmedShipmentsOnly = confirmedShipmentsOnly.checked;
+      renderEvents();
+    });
+    exportFiltered.addEventListener("click", exportFilteredTimeline);
+
+    function loadData(data) {
+      state.data = data;
+      state.events = data.timeline?.events ?? [];
+      state.filteredEvents = state.events;
+      renderSummary();
+      renderPlayers();
+      renderPlayerFilter();
+      renderActiveView();
+      exportFiltered.disabled = false;
+    }
+
+    function renderActiveView() {
+      timelinePanel.hidden = state.activeView !== "timeline";
+      buildOrderPanel.hidden = state.activeView !== "buildOrder";
+      if (state.activeView === "buildOrder") {
+        renderBuildOrder();
+      } else {
+        renderEvents();
+      }
+    }
+
+    function renderSummary() {
+      if (!state.data) {
+        summary.innerHTML = "";
+        return;
+      }
+
+      const replay = state.data.replay ?? {};
+      const setting = replay.setting ?? {};
+      const counts = countEvents(state.events);
+      const participants = getParticipants();
+      summary.innerHTML = [
+        metric("Map", setting.mapName ?? "Unknown"),
+        metric("Players", String(participants.length)),
+        metric("Teams", String(replay.teams?.length ?? 0)),
+        metric("Events", String(state.events.length)),
+        metric("Chat", String(counts.chat)),
+        metric("Resigns", String(counts.resign)),
+        metric("Shipments", String(counts.shipment)),
+        metric("Confirmed", String(counts.shipmentConfirmed)),
+        metric("Candidates", String(counts.shipmentCandidate)),
+        metric("Result", formatResult(state.data.result)),
+        metric("Confidence", state.data.result?.confidence ?? "Unknown"),
+        metric("Exe version", String(replay.exeVersion ?? "Unknown")),
+      ].join("");
+    }
+
+    function renderPlayers() {
+      const items = getParticipants();
+      const rawPlayerCount = state.data?.replay?.players?.length ?? 0;
+      const source = rawPlayerCount ? "" : " from teams";
+      playerCount.textContent = `${items.length} participant${items.length === 1 ? "" : "s"}${source}`;
+
+      if (!items.length) {
+        players.innerHTML = `<div class="empty">No player or team member data found.</div>`;
+        return;
+      }
+
+      players.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Slot</th>
+              <th>Name</th>
+              <th>Civ</th>
+              <th>Team</th>
+              <th>Home City</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map((player) => `
+              <tr>
+                <td>${escapeHtml(player.slotId ?? "?")}</td>
+                <td>${escapeHtml(player.playerName ?? "")}</td>
+                <td>${escapeHtml(player.civName ?? "Unknown")}</td>
+                <td>${escapeHtml(player.teamLabel ?? "Unknown")}</td>
+                <td>${escapeHtml(player.homecityName ?? "")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderPlayerFilter() {
+      const items = getParticipants();
+      const hasSystem = state.events.some((event) => event.actor?.kind === "system");
+      const hasUnknown = state.events.some((event) => event.actor?.kind === "unknown");
+      playerFilter.innerHTML = [
+        `<option value="all">All players</option>`,
+        hasSystem ? `<option value="system">System</option>` : "",
+        hasUnknown ? `<option value="unknown">Unknown actor</option>` : "",
+        ...items.map((player) => {
+          const slotId = player.slotId ?? "";
+          const name = player.playerName ?? `Slot ${slotId}`;
+          return `<option value="player:${escapeHtml(slotId)}">${escapeHtml(slotId)} - ${escapeHtml(name)}</option>`;
+        }),
+      ].join("");
+    }
+
+    function renderEvents() {
+      if (!state.data) {
+        renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+        visibleCount.textContent = "0 events";
+        return;
+      }
+
+      const query = search.value.trim().toLowerCase();
+      const player = playerFilter.value;
+      const filtered = state.events.filter((event) => {
+        if (state.activeType !== "all" && event.type !== state.activeType) return false;
+        if (state.confirmedShipmentsOnly && event.type === "shipment" && shipmentStatus(event) !== "confirmed") return false;
+        if (!actorMatchesFilter(event.actor, player)) return false;
+        if (!query) return true;
+        const text = [
+          actorLabel(event.actor),
+          event.actor?.kind,
+          event.actor?.slotId,
+          event.payload?.message,
+          event.label,
+          event.payload?.resolvedName,
+          event.payload?.confidence,
+          event.payload?.status,
+          event.type,
+        ].filter(Boolean).join(" ").toLowerCase();
+        return text.includes(query);
+      });
+
+      state.filteredEvents = filtered;
+      visibleCount.textContent = `${filtered.length} event${filtered.length === 1 ? "" : "s"}`;
+
+      if (!filtered.length) {
+        renderEmpty("No events match the current filters.");
+        return;
+      }
+
+      events.innerHTML = filtered.map(renderEvent).join("");
+    }
+
+    function renderBuildOrder() {
+      if (!state.data) {
+        buildOrder.innerHTML = `<div class="empty">Open a normalized replay JSON.</div>`;
+        buildOrderCount.textContent = "0 events";
+        return;
+      }
+
+      const gameplayEvents = state.events.filter((event) => {
+        if (event.type !== "shipment") return false;
+        return shipmentStatus(event) === "confirmed" || event.payload?.confidence === "high";
+      });
+
+      buildOrderCount.textContent = `${gameplayEvents.length} event${gameplayEvents.length === 1 ? "" : "s"}`;
+
+      if (!gameplayEvents.length) {
+        buildOrder.innerHTML = `<div class="empty">No confirmed gameplay events found.</div>`;
+        return;
+      }
+
+      const groups = new Map();
+      for (const event of gameplayEvents) {
+        const key = event.actor?.slotId ?? actorLabel(event.actor);
+        if (!groups.has(key)) {
+          groups.set(key, {
+            name: actorLabel(event.actor),
+            events: [],
+          });
+        }
+        groups.get(key).events.push(event);
+      }
+
+      buildOrder.innerHTML = [...groups.values()].map((group) => `
+        <section class="build-player">
+          <h3>${escapeHtml(group.name)}</h3>
+          ${group.events.map((event) => `
+            <div class="build-row">
+              <span class="event-meta">${formatTime(event.timeMs ?? event.time)}</span>
+              <strong>${escapeHtml(event.label ?? "Confirmed shipment")}</strong>
+            </div>
+          `).join("")}
+        </section>
+      `).join("");
+    }
+
+    function renderEvent(event) {
+      const type = event.type;
+      const actor = actorLabel(event.actor);
+      const actorKind = event.actor?.kind ?? "unknown";
+      const status = event.type === "shipment" ? shipmentStatus(event) : "";
+      const body = eventBody(event, actor);
+      const timeValue = event.timeMs ?? event.time;
+
+      return `
+        <article class="event ${escapeHtml(type)} ${escapeHtml(actorKind)} ${escapeHtml(status)}">
+          <div class="event-head">
+            <div>
+              <span class="event-type">${escapeHtml(type)}</span>
+              <strong>${escapeHtml(actor)}</strong>
+            </div>
+            <span class="event-meta">${formatTime(timeValue)}</span>
+          </div>
+          ${body}
+        </article>
+      `;
+    }
+
+    function eventBody(event, actor) {
+      if (event.type === "chat") {
+        return `<div class="message">${escapeHtml(event.payload?.message ?? "")}</div>`;
+      }
+
+      if (event.type === "shipment") {
+        const status = shipmentStatus(event);
+        const label = event.label ?? (event.payload?.resolvedName ? `Sent shipment: ${event.payload.resolvedName}` : "Possible shipment/card command");
+        const details = [
+          status ? `Status: ${status}` : "",
+          event.payload?.confidence ? `Confidence: ${event.payload.confidence}` : "",
+        ].filter(Boolean).join(" · ");
+        return `
+          <div class="message">${escapeHtml(label)}</div>
+          ${details ? `<div class="event-meta">${escapeHtml(details)}</div>` : ""}
+        `;
+      }
+
+      return `<div class="message">${escapeHtml(actor)} resigned.</div>`;
+    }
+
+    function exportFilteredTimeline() {
+      if (!state.data) return;
+
+      const counts = countEvents(state.filteredEvents);
+      const payload = {
+        schemaVersion: state.data.schemaVersion ?? 1,
+        timeline: { events: state.filteredEvents },
+        summary: {
+          eventCount: state.filteredEvents.length,
+          chatCount: counts.chat,
+          resignCount: counts.resign,
+          shipmentCount: counts.shipment,
+          shipmentConfirmedCount: counts.shipmentConfirmed,
+          shipmentCandidateCount: counts.shipmentCandidate,
+          playerCount: getParticipants().length,
+          teamCount: state.data.replay?.teams?.length ?? 0,
+        },
+        result: state.data.result ?? null,
+        replay: state.data.replay ?? null,
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "filtered-timeline.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderEmpty(message) {
+      events.innerHTML = `<div class="empty">${escapeHtml(message)}</div>`;
+    }
+
+    function metric(label, value) {
+      return `<div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+    }
+
+    function countEvents(items) {
+      return items.reduce((acc, event) => {
+        acc[event.type] = (acc[event.type] ?? 0) + 1;
+        if (event.type === "shipment") {
+          if (shipmentStatus(event) === "confirmed") {
+            acc.shipmentConfirmed += 1;
+          } else {
+            acc.shipmentCandidate += 1;
+          }
+        }
+        return acc;
+      }, { chat: 0, resign: 0, shipment: 0, shipmentConfirmed: 0, shipmentCandidate: 0 });
+    }
+
+    function shipmentStatus(event) {
+      return event.payload?.status ?? (event.payload?.resolvedName ? "confirmed" : "candidate");
+    }
+
+    function actorMatchesFilter(actor, filter) {
+      if (filter === "all") return true;
+      if (filter === "system") return actor?.kind === "system";
+      if (filter === "unknown") return actor?.kind === "unknown";
+      if (filter.startsWith("player:")) {
+        return String(actor?.slotId) === filter.slice("player:".length);
+      }
+      return true;
+    }
+
+    function actorLabel(actor) {
+      if (!actor) return "Unknown";
+      if (actor.kind === "system") return actor.name ?? "System";
+      if (actor.kind === "player") return actor.name ?? participantNameForSlot(actor.slotId) ?? `Slot ${actor.slotId ?? "?"}`;
+      if (actor.slotId !== null && actor.slotId !== undefined) {
+        return participantNameForSlot(actor.slotId) ?? `Unknown slot ${actor.slotId}`;
+      }
+      return "Unknown";
+    }
+
+    function formatResult(result) {
+      if (!result?.inferred) return "Not inferred";
+      const teams = result.winningTeams?.length ? result.winningTeams.join(", ") : "?";
+      return `Likely Team ${teams}`;
+    }
+
+    function getParticipants() {
+      const participants = new Map();
+      const teamBySlot = buildTeamBySlot();
+
+      for (const player of state.data?.replay?.players ?? []) {
+        const slotId = Number(player.slotId);
+        if (!Number.isFinite(slotId)) continue;
+        participants.set(slotId, {
+          slotId,
+          playerName: player.playerName ?? `Slot ${slotId}`,
+          civName: player.civInfo?.name ?? "Unknown",
+          teamLabel: teamBySlot.get(slotId)?.label ?? "Unknown",
+          homecityName: player.homecityName ?? "",
+        });
+      }
+
+      for (const team of state.data?.replay?.teams ?? []) {
+        for (const member of team.members ?? []) {
+          const slotId = Number(member);
+          if (!Number.isFinite(slotId) || participants.has(slotId)) continue;
+          participants.set(slotId, {
+            slotId,
+            playerName: inferNameFromTeam(team, slotId),
+            civName: "Unknown",
+            teamLabel: displayTeam(team),
+            homecityName: "",
+          });
+        }
+      }
+
+      return [...participants.values()].sort((a, b) => a.slotId - b.slotId);
+    }
+
+    function participantNameForSlot(slotId) {
+      const numericSlot = Number(slotId);
+      if (!Number.isFinite(numericSlot)) return null;
+      return getParticipants().find((participant) => participant.slotId === numericSlot)?.playerName ?? null;
+    }
+
+    function buildTeamBySlot() {
+      const map = new Map();
+      for (const team of state.data?.replay?.teams ?? []) {
+        for (const member of team.members ?? []) {
+          map.set(Number(member), {
+            id: team.id,
+            name: team.name,
+            label: displayTeam(team),
+          });
+        }
+      }
+      return map;
+    }
+
+    function displayTeam(team) {
+      const id = team.id ?? "?";
+      const name = team.name ?? "";
+      return name ? `${id} - ${name}` : String(id);
+    }
+
+    function inferNameFromTeam(team, slotId) {
+      const name = team.name ?? "";
+      const cleaned = name.replace(/^Team\s+/i, "").trim();
+      return cleaned || `Slot ${slotId}`;
+    }
+
+    function formatTime(value) {
+      const timeMs = Math.max(0, Number(value) || 0);
+      const minutes = Math.floor(timeMs / 60000);
+      const seconds = Math.floor((timeMs % 60000) / 1000);
+      const millis = Math.floor(timeMs % 1000);
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(millis).padStart(3, "0")}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    renderSummary();
+    renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+  </script>
+</body>
+</html>
