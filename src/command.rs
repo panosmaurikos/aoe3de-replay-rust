@@ -3,8 +3,8 @@ use crate::binary::{
     read_utf16_string, search,
 };
 use crate::models::{
-    Commands, DebugRawFields, DebugU16Field, DebugU32Field, Message, RawDebugCommand, Resign,
-    ShipmentCandidate,
+    CardSendCandidate, Commands, DebugRawFields, DebugU16Field, DebugU32Field, Message,
+    RawDebugCommand, Resign,
 };
 use crate::ParseResult;
 use std::collections::BTreeMap;
@@ -27,7 +27,7 @@ fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult
     let data = decompress_replay(file_bytes)?;
     let mut chat = Vec::new();
     let mut resigns = Vec::new();
-    let mut shipments = Vec::new();
+    let mut card_sends = Vec::new();
     let mut debug_commands = Vec::new();
 
     let start_marker = [0x9a, 0x99, 0x99, 0x3d];
@@ -75,7 +75,7 @@ fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult
                     &mut position,
                     duration,
                     &mut resigns,
-                    &mut shipments,
+                    &mut card_sends,
                 )?;
                 if collect_debug {
                     debug_commands.push(debug_command);
@@ -88,7 +88,7 @@ fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult
         commands: Commands {
             chat,
             resigns,
-            shipments,
+            card_sends,
         },
         debug_commands,
     })
@@ -151,7 +151,7 @@ fn parse_inner_command(
     position: &mut usize,
     duration: i32,
     resigns: &mut Vec<Resign>,
-    shipments: &mut Vec<ShipmentCandidate>,
+    card_sends: &mut Vec<CardSendCandidate>,
 ) -> ParseResult<RawDebugCommand> {
     let command_start = *position;
     read_u8_advance(data, position)?;
@@ -218,7 +218,7 @@ fn parse_inner_command(
     advance(position, 4, data.len())?;
 
     let mut parsed_as = parsed_as_for_command_id(command_id);
-    let mut is_shipment_candidate = false;
+    let mut card_send: Option<CardSendCandidate> = None;
     match command_id {
         0 => {
             advance(position, 24, data.len())?;
@@ -231,9 +231,26 @@ fn parse_inner_command(
             decoded_fields.insert("techIdCandidate".to_string(), tech_id);
         }
         2 => {
-            let shipment_id = read_i32(data, *position + 4)?;
-            decoded_fields.insert("shipmentIdCandidate".to_string(), shipment_id);
-            is_shipment_candidate = true;
+            // Two observed variants share one layout:
+            //   train unit:  protoId >= 0, deckIndex == -1 (Settler/villager spam clicks)
+            //   card send:   protoId == -1, deckIndex >= 0 (index into the actor's ACTIVE deck)
+            let proto_id = read_i32(data, *position)?;
+            let deck_index = read_i32(data, *position + 4)?;
+            decoded_fields.insert("unitProtoIdCandidate".to_string(), proto_id);
+            decoded_fields.insert("deckIndexCandidate".to_string(), deck_index);
+            if proto_id == -1 && deck_index >= 0 {
+                parsed_as = "card_send_candidate";
+                card_send = Some(CardSendCandidate {
+                    slot_id: player_slot_id,
+                    time: duration,
+                    raw_command_id: command_id,
+                    deck_index,
+                });
+            } else if proto_id >= 0 && deck_index == -1 {
+                parsed_as = "train_unit_candidate";
+            } else {
+                parsed_as = "command2_unclassified";
+            }
             if unknown1 == 0 || unknown1 == 2 {
                 advance(position, 2, data.len())?;
             }
@@ -306,10 +323,18 @@ fn parse_inner_command(
         64 => {}
         65 => advance(position, 4, data.len())?,
         66 => {
+            // Two observed variants share one layout:
+            //   deck select:   cardId == -1, deckId = the deck made active for this slot
+            //   deck card add: cardId >= 0, appends cardId to deck deckId (in-game deck editing)
             let deck_id = read_i32_advance(data, position)?;
             let card_id = read_i32_advance(data, position)?;
             decoded_fields.insert("deckIdCandidate".to_string(), deck_id);
             decoded_fields.insert("cardIdCandidate".to_string(), card_id);
+            parsed_as = if card_id == -1 {
+                "deck_select_candidate"
+            } else {
+                "deck_card_add_candidate"
+            };
         }
         67 => advance(position, 12, data.len())?,
         71 => advance(position, 4, data.len())?,
@@ -320,14 +345,8 @@ fn parse_inner_command(
     }
 
     let length = position.saturating_sub(command_start);
-    let numeric_candidates = numeric_candidates(data, command_start, length, 20_000);
-    if is_shipment_candidate {
-        shipments.push(ShipmentCandidate {
-            slot_id: player_slot_id,
-            time: duration,
-            raw_command_id: command_id,
-            candidate_ids: command_candidate_ids(&decoded_fields, &numeric_candidates),
-        });
+    if let Some(card_send) = card_send {
+        card_sends.push(card_send);
     }
     let raw_fields = raw_fields(data, command_start, length, 128);
 
@@ -343,75 +362,19 @@ fn parse_inner_command(
         parsed_as: parsed_as.to_string(),
         decoded_fields,
         raw_fields,
-        numeric_candidates,
     })
-}
-
-fn command_candidate_ids(
-    decoded_fields: &BTreeMap<String, i32>,
-    numeric_candidates: &[i32],
-) -> Vec<i32> {
-    let mut ids = Vec::new();
-    for key in [
-        "cardIdCandidate",
-        "shipmentIdCandidate",
-        "techIdCandidate",
-        "protoIdCandidate",
-    ] {
-        if let Some(value) = decoded_fields.get(key).copied() {
-            push_card_like_candidate(&mut ids, value);
-        }
-    }
-    for value in numeric_candidates {
-        push_card_like_candidate(&mut ids, *value);
-    }
-    ids
-}
-
-fn push_card_like_candidate(ids: &mut Vec<i32>, value: i32) {
-    if (100..=20_000).contains(&value) && !ids.contains(&value) {
-        ids.push(value);
-    }
-}
-
-fn numeric_candidates(data: &[u8], start: usize, length: usize, max_candidate: i32) -> Vec<i32> {
-    let end = start.saturating_add(length).min(data.len());
-    let bytes = data.get(start..end).unwrap_or_default();
-    let mut values = Vec::new();
-
-    for offset in 0..bytes.len().saturating_sub(1) {
-        let value = u16::from_le_bytes([bytes[offset], bytes[offset + 1]]) as i32;
-        if (100..=max_candidate).contains(&value) && !values.contains(&value) {
-            values.push(value);
-        }
-    }
-
-    for offset in 0..bytes.len().saturating_sub(3) {
-        let raw = [
-            bytes[offset],
-            bytes[offset + 1],
-            bytes[offset + 2],
-            bytes[offset + 3],
-        ];
-        let value = i32::from_le_bytes(raw);
-        if (100..=max_candidate).contains(&value) && !values.contains(&value) {
-            values.push(value);
-        }
-    }
-
-    values
 }
 
 fn command_name_for_command_id(command_id: i32) -> &'static str {
     match command_id {
         0 => "unit_order_or_action",
         1 => "research_tech_candidate",
-        2 => "card_or_shipment_candidate",
+        2 => "train_or_card_send",
         3 => "proto_action_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",
         37 => "command_37_unclassified",
-        66 => "deck_card_command_candidate",
+        66 => "deck_select_or_card_add",
         _ => "known_layout_unclassified",
     }
 }
@@ -424,7 +387,7 @@ fn parsed_as_for_command_id(command_id: i32) -> &'static str {
     match command_id {
         0 => "order",
         1 => "research_tech_candidate",
-        2 => "shipment_candidate",
+        2 => "command2_unclassified",
         3 => "proto_action_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",

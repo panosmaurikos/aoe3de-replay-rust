@@ -21,6 +21,7 @@ fn run() -> Result<(), String> {
             replay_path,
             output_path,
             debug_commands,
+            experimental_shipments,
         } => {
             let file_bytes = fs::read(&replay_path).map_err(|err| {
                 format!(
@@ -29,7 +30,13 @@ fn run() -> Result<(), String> {
                 )
             })?;
 
-            let parsed = parse_all_with_options(&file_bytes, ParseOptions { debug_commands })?;
+            let parsed = parse_all_with_options(
+                &file_bytes,
+                ParseOptions {
+                    debug_commands,
+                    experimental_shipments,
+                },
+            )?;
             let json = serde_json::to_string_pretty(&parsed)
                 .map_err(|err| format!("Could not serialize parsed replay to JSON: {err}"))?;
             write_json(&output_path, json)?;
@@ -68,6 +75,13 @@ fn run() -> Result<(), String> {
         } => {
             let parsed_json = read_json_file(&parsed_path)?;
             inspect_commands(&parsed_json, &options)?;
+        }
+        Command::InspectCardCommands {
+            parsed_path,
+            actor_slot,
+        } => {
+            let parsed_json = read_json_file(&parsed_path)?;
+            inspect_card_commands(&parsed_json, actor_slot)?;
         }
         Command::CompareCommands { options } => {
             let a_json = read_json_file(&options.a_path)?;
@@ -146,6 +160,230 @@ fn inspect_commands(parsed: &Value, options: &InspectOptions) -> Result<(), Stri
     }
 
     Ok(())
+}
+
+fn inspect_card_commands(parsed: &Value, actor_slot: Option<i32>) -> Result<(), String> {
+    let commands = parsed
+        .get("debug")
+        .and_then(|debug| debug.get("commands"))
+        .and_then(Value::as_array)
+        .ok_or_else(|| {
+            "debug.commands is missing. Re-run parse with --debug-commands first.".to_string()
+        })?;
+
+    let mut slots: Vec<i32> = commands
+        .iter()
+        .filter(|command| is_card_related_command(command))
+        .filter_map(|command| command_actor_slot(command))
+        .collect();
+    slots.sort_unstable();
+    slots.dedup();
+
+    if let Some(wanted) = actor_slot {
+        slots.retain(|slot| *slot == wanted);
+    }
+
+    if slots.is_empty() {
+        println!("No commandId=2/66 card commands matched the requested filters.");
+        return Ok(());
+    }
+
+    for slot in slots {
+        let name = commands
+            .iter()
+            .filter(|command| command_actor_slot(command) == Some(slot))
+            .find_map(|command| {
+                command
+                    .get("actor")
+                    .and_then(|actor| actor.get("name"))
+                    .and_then(Value::as_str)
+            })
+            .unwrap_or("Unknown");
+        println!("Actor: {name} slot={slot}");
+
+        println!("  Deck selections (commandId=66, cardId=-1):");
+        let mut any = false;
+        for command in commands
+            .iter()
+            .filter(|command| command_actor_slot(command) == Some(slot))
+        {
+            if command.get("parsedAs").and_then(Value::as_str) != Some("deck_select_candidate") {
+                continue;
+            }
+            let time_ms = value_i32(command.get("timeMs")).unwrap_or_default();
+            let deck_id = command
+                .get("decodedFields")
+                .and_then(|fields| value_i32(fields.get("deckIdCandidate")))
+                .unwrap_or(-1);
+            println!("    {} selected deckId={deck_id}", format_time_ms(time_ms));
+            any = true;
+        }
+        if !any {
+            println!("    none (active deck must come from a unique parsed default deck)");
+        }
+
+        println!("  Card sends (commandId=2, deck index variant):");
+        any = false;
+        for command in commands
+            .iter()
+            .filter(|command| command_actor_slot(command) == Some(slot))
+        {
+            if command.get("parsedAs").and_then(Value::as_str) != Some("card_send_candidate") {
+                continue;
+            }
+            let time_ms = value_i32(command.get("timeMs")).unwrap_or_default();
+            let deck_index = command
+                .get("decodedFields")
+                .and_then(|fields| value_i32(fields.get("deckIndexCandidate")))
+                .unwrap_or(-1);
+            let deck_match = command
+                .get("deckMatch")
+                .map(deck_match_label)
+                .unwrap_or_else(|| "no deckMatch data".to_string());
+            println!(
+                "    {} deckIndex={deck_index} {deck_match}",
+                format_time_ms(time_ms)
+            );
+            any = true;
+        }
+        if !any {
+            println!("    none");
+        }
+
+        print_actor_deck_candidates(parsed, commands, slot);
+        println!();
+    }
+
+    println!("System shipment arrival messages (hints only — they do NOT prove which player sent a card; arrivals can lag sends by minutes):");
+    let mut any = false;
+    if let Some(events) = timeline_events(parsed) {
+        for event in events {
+            if event.get("type").and_then(Value::as_str) != Some("chat") {
+                continue;
+            }
+            let Some(message) = event
+                .get("payload")
+                .and_then(|payload| payload.get("message"))
+                .and_then(Value::as_str)
+            else {
+                continue;
+            };
+            if !message.contains("Shipment has arrived") {
+                continue;
+            }
+            let time_ms = value_i32(event.get("timeMs")).unwrap_or_default();
+            println!("  {} {}", format_time_ms(time_ms), message.trim());
+            any = true;
+        }
+    }
+    if !any {
+        println!("  none");
+    }
+
+    Ok(())
+}
+
+fn is_card_related_command(command: &Value) -> bool {
+    matches!(
+        command.get("parsedAs").and_then(Value::as_str),
+        Some("card_send_candidate" | "deck_select_candidate" | "deck_card_add_candidate")
+    )
+}
+
+fn command_actor_slot(command: &Value) -> Option<i32> {
+    command
+        .get("actor")
+        .and_then(|actor| value_i32(actor.get("slotId")))
+}
+
+fn print_actor_deck_candidates(parsed: &Value, commands: &[Value], slot: i32) {
+    println!("  Known decks:");
+    let mut any = false;
+
+    if let Some(players) = parsed
+        .get("replay")
+        .and_then(|replay| replay.get("players"))
+        .and_then(Value::as_array)
+    {
+        for player in players {
+            if value_i32(player.get("slotId")) != Some(slot) {
+                continue;
+            }
+            for deck in player
+                .get("initialDecks")
+                .and_then(Value::as_array)
+                .map(Vec::as_slice)
+                .unwrap_or_default()
+            {
+                let deck_id = value_i32(deck.get("deckId")).unwrap_or(-1);
+                let deck_name = deck
+                    .get("deckName")
+                    .and_then(Value::as_str)
+                    .unwrap_or("Unnamed Deck");
+                let is_default = deck
+                    .get("isDefault")
+                    .and_then(Value::as_bool)
+                    .unwrap_or(false);
+                let card_ids = deck_card_ids(deck);
+                println!(
+                    "    deckId={deck_id} name=\"{deck_name}\" default={is_default} cards={} source=parsed_player_deck",
+                    card_ids.len()
+                );
+                any = true;
+            }
+        }
+    }
+
+    let mut command66_decks: HashMap<i32, Vec<i32>> = HashMap::new();
+    for command in commands
+        .iter()
+        .filter(|command| command_actor_slot(command) == Some(slot))
+    {
+        if command.get("parsedAs").and_then(Value::as_str) != Some("deck_card_add_candidate") {
+            continue;
+        }
+        let fields = command.get("decodedFields");
+        let deck_id = fields
+            .and_then(|fields| value_i32(fields.get("deckIdCandidate")))
+            .unwrap_or(-1);
+        let Some(card_id) =
+            fields.and_then(|fields| value_i32(fields.get("cardIdCandidate")))
+        else {
+            continue;
+        };
+        command66_decks.entry(deck_id).or_default().push(card_id);
+    }
+    let mut command66_decks: Vec<(i32, Vec<i32>)> = command66_decks.into_iter().collect();
+    command66_decks.sort_by_key(|(deck_id, _)| *deck_id);
+    for (deck_id, card_ids) in command66_decks {
+        println!(
+            "    deckId={deck_id} cards={} source=debug_command66_deck_setup rawIds=[{}]",
+            card_ids.len(),
+            format_i32_list(&card_ids)
+        );
+        any = true;
+    }
+
+    if !any {
+        println!("    none");
+    }
+}
+
+fn inspect_card_args(args: &[String], start_index: usize) -> Result<Option<i32>, String> {
+    let mut actor_slot = None;
+    let mut index = start_index;
+
+    while index < args.len() {
+        match args[index].as_str() {
+            "--actor-slot" => {
+                actor_slot = Some(parse_i32_arg(args, index, "--actor-slot")?);
+                index += 2;
+            }
+            other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
+        }
+    }
+
+    Ok(actor_slot)
 }
 
 fn compare_commands(a: &Value, b: &Value, options: &CompareOptions) -> Result<(), String> {
@@ -744,8 +982,45 @@ fn print_debug_command(command: &Value, full_hex: bool) {
             }
         }
     }
+    if let Some(deck_match) = command.get("deckMatch") {
+        println!("  deckMatch={}", deck_match_label(deck_match));
+    }
     if full_hex {
         print_raw_u32_fields(command);
+    }
+}
+
+fn deck_match_label(deck_match: &Value) -> String {
+    let matched = deck_match
+        .get("matched")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
+    if matched {
+        let card_id = value_i32(deck_match.get("cardIdCandidate")).unwrap_or(-1);
+        let deck_id = value_i32(deck_match.get("activeDeckId"))
+            .map(|id| id.to_string())
+            .unwrap_or_else(|| "?".to_string());
+        let deck_name = deck_match
+            .get("deckName")
+            .and_then(Value::as_str)
+            .unwrap_or("?");
+        let source = deck_match
+            .get("source")
+            .and_then(Value::as_str)
+            .unwrap_or("?");
+        let confidence = deck_match
+            .get("confidence")
+            .and_then(Value::as_str)
+            .unwrap_or("?");
+        format!(
+            "matched cardId={card_id} deckId={deck_id} deck=\"{deck_name}\" source={source} confidence={confidence}"
+        )
+    } else {
+        let reason = deck_match
+            .get("reason")
+            .and_then(Value::as_str)
+            .unwrap_or("unknown");
+        format!("unmatched ({reason})")
     }
 }
 
@@ -807,6 +1082,7 @@ enum Command {
         replay_path: PathBuf,
         output_path: PathBuf,
         debug_commands: bool,
+        experimental_shipments: bool,
     },
     Normalize {
         parsed_path: PathBuf,
@@ -818,6 +1094,10 @@ enum Command {
     InspectCommands {
         parsed_path: PathBuf,
         options: InspectOptions,
+    },
+    InspectCardCommands {
+        parsed_path: PathBuf,
+        actor_slot: Option<i32>,
     },
     CompareCommands {
         options: CompareOptions,
@@ -877,12 +1157,13 @@ impl Cli {
             "parse" => {
                 let input_arg = args.get(1).ok_or_else(usage)?;
                 let input_path = PathBuf::from(input_arg.as_str());
-                let (output_path, debug_commands) =
+                let (output_path, debug_commands, experimental_shipments) =
                     parse_args(&args, 2, default_output_path(command_name, &input_path))?;
                 Command::Parse {
                     replay_path: input_path.clone(),
                     output_path,
                     debug_commands,
+                    experimental_shipments,
                 }
             }
             "normalize" => {
@@ -913,6 +1194,14 @@ impl Cli {
                 Command::InspectCommands {
                     parsed_path: input_path,
                     options: inspect_args(&args, 2)?,
+                }
+            }
+            "inspect-card-commands" => {
+                let input_arg = args.get(1).ok_or_else(usage)?;
+                let input_path = PathBuf::from(input_arg.as_str());
+                Command::InspectCardCommands {
+                    parsed_path: input_path,
+                    actor_slot: inspect_card_args(&args, 2)?,
                 }
             }
             _ => return Err(usage()),
@@ -1106,9 +1395,10 @@ fn parse_args(
     args: &[String],
     start_index: usize,
     default_output_path: PathBuf,
-) -> Result<(PathBuf, bool), String> {
+) -> Result<(PathBuf, bool, bool), String> {
     let mut output_path = default_output_path;
     let mut debug_commands = false;
+    let mut experimental_shipments = false;
     let mut index = start_index;
 
     while index < args.len() {
@@ -1124,11 +1414,15 @@ fn parse_args(
                 debug_commands = true;
                 index += 1;
             }
+            "--experimental-shipments" => {
+                experimental_shipments = true;
+                index += 1;
+            }
             other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
         }
     }
 
-    Ok((output_path, debug_commands))
+    Ok((output_path, debug_commands, experimental_shipments))
 }
 
 fn normalize_parsed_json(mut parsed: Value) -> Result<Value, String> {
@@ -2060,7 +2354,11 @@ fn validate_debug(parsed: &Value, player_slots: &HashSet<i32>, report: &mut Vali
             }
         }
 
-        if command.get("parsedAs").and_then(Value::as_str) == Some("shipment_candidate") {
+        // "shipment_candidate" is the legacy name kept for older debug JSONs.
+        if matches!(
+            command.get("parsedAs").and_then(Value::as_str),
+            Some("card_send_candidate" | "shipment_candidate")
+        ) {
             shipment_candidate_count += 1;
         }
     }
@@ -2196,7 +2494,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]".to_string()
 }
 
 #[derive(Default)]

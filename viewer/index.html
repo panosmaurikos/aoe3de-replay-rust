@@ -348,7 +348,6 @@
           Open JSON
           <input id="fileInput" type="file" accept="application/json,.json">
         </label>
-        <button id="loadSample" type="button">Load Sample</button>
         <button id="exportFiltered" type="button" disabled>Export Filtered</button>
       </div>
     </header>
@@ -430,16 +429,6 @@
       const file = event.target.files[0];
       if (!file) return;
       loadData(JSON.parse(await file.text()));
-    });
-
-    document.querySelector("#loadSample").addEventListener("click", async () => {
-      try {
-        const response = await fetch("../malloncheater.parsed.json", { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        loadData(await response.json());
-      } catch (error) {
-        renderEmpty(`Could not auto-load sample JSON. Open a normalized .parsed.json file instead. ${error.message}`);
-      }
     });
 
     document.querySelectorAll("[data-type]").forEach((button) => {
@@ -855,8 +844,13 @@
         .replaceAll("'", "&#039;");
     }
 
-    renderSummary();
-    renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+    if (window.__AOE3_DATA__) {
+      // Injected by analyze.ps1 for one-command "parse and open" runs.
+      loadData(window.__AOE3_DATA__);
+    } else {
+      renderSummary();
+      renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+    }
   </script>
 </body>
 </html>

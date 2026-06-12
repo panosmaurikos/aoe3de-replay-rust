@@ -168,7 +168,8 @@ pub struct DeckCard {
 pub struct Commands {
     pub chat: Vec<Message>,
     pub resigns: Vec<Resign>,
-    pub shipments: Vec<ShipmentCandidate>,
+    #[serde(rename = "cardSends")]
+    pub card_sends: Vec<CardSendCandidate>,
 }
 
 #[derive(Debug, Serialize)]
@@ -232,10 +233,10 @@ pub enum TimelinePayload {
         raw_command_id: i32,
         #[serde(rename = "cardId")]
         card_id: i32,
+        #[serde(rename = "deckIndex")]
+        deck_index: i32,
         #[serde(rename = "resolvedName", skip_serializing_if = "Option::is_none")]
         resolved_name: Option<String>,
-        #[serde(rename = "arrivalChatTimeMs", skip_serializing_if = "Option::is_none")]
-        arrival_chat_time_ms: Option<i32>,
         confidence: String,
         status: String,
         source: String,
@@ -261,14 +262,14 @@ pub struct Resign {
 }
 
 #[derive(Clone, Debug, Serialize)]
-pub struct ShipmentCandidate {
+pub struct CardSendCandidate {
     #[serde(rename = "slotId")]
     pub slot_id: i32,
     pub time: i32,
     #[serde(rename = "rawCommandId")]
     pub raw_command_id: i32,
-    #[serde(skip)]
-    pub candidate_ids: Vec<i32>,
+    #[serde(rename = "deckIndex")]
+    pub deck_index: i32,
 }
 
 #[derive(Debug, Serialize)]
@@ -333,6 +334,12 @@ pub struct DebugDeckResolution {
     pub matched: bool,
     #[serde(rename = "slotId")]
     pub slot_id: i32,
+    #[serde(rename = "deckIndex")]
+    pub deck_index: i32,
+    #[serde(rename = "activeDeckId", skip_serializing_if = "Option::is_none")]
+    pub active_deck_id: Option<i32>,
+    #[serde(rename = "deckName", skip_serializing_if = "Option::is_none")]
+    pub deck_name: Option<String>,
     #[serde(rename = "cardIdCandidate", skip_serializing_if = "Option::is_none")]
     pub card_id_candidate: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -388,7 +395,6 @@ pub struct RawDebugCommand {
     pub parsed_as: String,
     pub decoded_fields: BTreeMap<String, i32>,
     pub raw_fields: DebugRawFields,
-    pub numeric_candidates: Vec<i32>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

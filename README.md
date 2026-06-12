@@ -15,6 +15,22 @@ cargo run --release -- parse "path/to/game.age3Yrec" -o game.parsed.json
 
 Open `viewer/index.html` in a browser, click **Open JSON**, pick the output.
 
+## One-command analysis (Windows)
+
+Parse a replay and open the result in your default browser in one step:
+
+```powershell
+.\analyze.ps1 "D:\AGEOFEMPIRE3TEST\testship.age3Yrec"
+```
+
+Or drag a `.age3Yrec` file onto `analyze.cmd`.
+
+### Drop-zone app
+
+Start `AoE3 Analyzer.cmd` (desktop shortcut: **AoE3 Replay Analyzer**). A small window opens; drop one or more `.age3Yrec` files into it (or click **Browse...**) and each replay is parsed and opened in the browser. The checkbox adds `--debug-commands` output to the JSON.
+
+Options: `-DebugCommands` (include the reverse-engineering command stream), `-NoShipments` (skip experimental shipment events), `-NoBrowser` (generate files only). Output goes to `target\analyze\<name>.json` and a self-contained `target\analyze\<name>.html` (viewer with the JSON embedded — no server or file picker needed).
+
 ## Usage
 
 ```powershell
@@ -37,6 +53,12 @@ To include command-level debug data for reverse engineering:
 
 ```powershell
 cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o "D:\AGEOFEMPIRE3TEST\malloncheater.debug.json" --debug-commands
+```
+
+To additionally emit deck-resolved card send events into the normal timeline (experimental, `status=candidate` only):
+
+```powershell
+cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o ".\malloncheater.exp.json" --experimental-shipments
 ```
 
 The JSON shape is:
@@ -107,11 +129,14 @@ Inspect command-level debug JSON:
 ```powershell
 cargo run -- inspect-commands ".\out\game.debug.json" --from 155000 --to 165000
 cargo run -- inspect-commands ".\out\game.debug.json" --command-id 37 --actor-slot 1 --limit 25
-cargo run -- inspect-commands ".\out\game.debug.json" --parsed-as shipment_candidate --limit 25
+cargo run -- inspect-commands ".\out\game.debug.json" --parsed-as card_send_candidate --limit 25
 cargo run -- inspect-commands ".\out\game.debug.json" --command-id 2 --full-hex --limit 5
+cargo run -- inspect-card-commands ".\out\game.debug.json" --actor-slot 2
 cargo run -- compare-commands --a ".\out\a.debug.json" --a-offset 123456 --b ".\out\b.debug.json" --b-offset 456789
 cargo run -- dump-decks ".\out\game.debug.json" --card-id 1676
 ```
+
+`inspect-card-commands` groups card-related commands per actor: deck selections (`commandId=66` with `cardId=-1`), card sends (`commandId=2` deck index variant) with their `deckMatch` resolution, the actor's known decks, and the system shipment arrival chats (hints only — they do not prove ownership).
 
 Debug command records include `commandName`, `decodedFields`, `deckMatches`, and `rawFields.u16le/u32le` candidate values. These are the reverse-engineering layer used to turn raw commands into future gameplay events such as `shipment`, `train_unit`, or `research_tech`.
 
@@ -184,18 +209,6 @@ The viewer includes:
 - filtered timeline export
 - build order tab for confirmed/high-confidence gameplay events
 
-If you want the **Load Sample** button to work, serve the repo directory with any static server first, for example:
-
-```powershell
-python -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000/viewer/
-```
-
 ## Replay Corpus Loop
 
 Keep a small replay set outside source control or under an ignored `samples/` directory:
@@ -218,25 +231,41 @@ cargo run -- validate ".\out\1v1.parsed.json"
 
 ## Shipment Ownership
 
-Shipments emitted into `timeline.events` are gated by deck matching:
+Card sends are decoded from the command stream, never guessed from system chat. See `docs/reverse-engineering/shipments.md` for the full evidence.
 
-- `commandId=2` is a card/shipment send candidate
-- The candidate id must exist in the actor's own deck (parsed `replay.players[*].initialDecks` or `commandId=66` deck setup fallback)
-- A nearby `*** has arrived` system chat is used only as a hint for `resolvedName` and to upgrade `confidence` to `high`
+- `commandId=2` with `unitProtoIdCandidate=-1` and `deckIndexCandidate>=0` is a card send click: the payload carries a deck **index**, not a card id
+- `commandId=66` with `cardIdCandidate=-1` selects the actor's active deck (`deckIdCandidate`); with `cardIdCandidate>=0` it appends a card to a deck being edited in-game
+- The deck index is resolved against the **acting slot's own** active deck (parsed `replay.players[*].initialDecks` or `commandId=66` reconstruction) — a candidate is never matched against another player's deck
+- Arrival can lag the send by minutes (XP shipment queue), so `*** Shipment has arrived` system chat is never used to assign ownership
+- By default the normal timeline contains **no** shipment events; pass `--experimental-shipments` to emit deck-resolved sends as `status=candidate`
 
-`debug.commands[*].deckMatch` records the resolution per `commandId=2`:
+`debug.commands[*].deckMatch` records the resolution per card send:
 
 ```json
 {
   "matched": true,
   "slotId": 2,
+  "deckIndex": 0,
+  "activeDeckId": 0,
   "cardIdCandidate": 1676,
-  "source": "parsed_player_deck",
+  "source": "debug_command66_deck_setup",
   "confidence": "medium"
+}
+```
+
+Unresolved example:
+
+```json
+{
+  "matched": false,
+  "slotId": 6,
+  "deckIndex": 2,
+  "confidence": "low",
+  "reason": "active deck unknown (no deck selection command, no unique default)"
 }
 ```
 
 Sources:
 
 - `parsed_player_deck` — replay player block was decoded
-- `debug_command66_deck_setup` — fallback when player decks were not parsed
+- `debug_command66_deck_setup` — deck reconstructed from in-game `commandId=66` deck edit commands
