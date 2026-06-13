@@ -3,6 +3,7 @@ pub mod command;
 pub mod constants;
 pub mod deck;
 pub mod fields;
+pub mod gamedata;
 pub mod models;
 pub mod replay;
 pub mod team;
@@ -155,12 +156,14 @@ fn build_timeline(
             .source
             .unwrap_or("debug_command66_deck_setup")
             .to_string();
+        // The replay card rawId is NOT the game-data dbid, so we cannot resolve a
+        // display name here yet (see docs/game-data-layer.md). Label by id only.
         let label = match &resolution.deck_name {
             Some(deck_name) => format!(
-                "Sent card {card_id} (deck \"{deck_name}\" slot {})",
+                "Sent card #{card_id} (deck \"{deck_name}\" slot {})",
                 send.deck_index
             ),
-            None => format!("Sent card {card_id} (deck slot {})", send.deck_index),
+            None => format!("Sent card #{card_id} (deck slot {})", send.deck_index),
         };
 
         events.push((

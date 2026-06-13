@@ -1,0 +1,851 @@
+{
+  "Akan": {
+    "confidence": "imported",
+    "displayName": "Akan",
+    "iconKey": "civ.native_akan_site_portrait",
+    "internalName": "Akan",
+    "source": "aoe3_companion"
+  },
+  "Apache": {
+    "confidence": "imported",
+    "displayName": "Apache",
+    "iconKey": "civ.apache",
+    "internalName": "Apache",
+    "source": "aoe3_companion"
+  },
+  "Aztecs": {
+    "confidence": "imported",
+    "displayName": "Aztecs",
+    "iconKey": "civ.aztec",
+    "internalName": "Aztecs",
+    "source": "aoe3_companion"
+  },
+  "Berbers": {
+    "confidence": "imported",
+    "displayName": "Berbers",
+    "iconKey": "civ.native_berber_site_portrait",
+    "internalName": "Berbers",
+    "source": "aoe3_companion"
+  },
+  "Bhakti": {
+    "confidence": "imported",
+    "displayName": "Bhakti",
+    "iconKey": "civ.native_bhakti_site_icon_portrait",
+    "internalName": "Bhakti",
+    "source": "aoe3_companion"
+  },
+  "Bolivar": {
+    "confidence": "imported",
+    "displayName": "Bolivar",
+    "internalName": "Bolivar",
+    "source": "aoe3_companion"
+  },
+  "Bonifacio": {
+    "confidence": "imported",
+    "displayName": "Bonifacio",
+    "internalName": "Bonifacio",
+    "source": "aoe3_companion"
+  },
+  "Bourbon": {
+    "confidence": "imported",
+    "displayName": "House of Bourbon",
+    "iconKey": "civ.native_site_bourbon_icon_portrait",
+    "internalName": "Bourbon",
+    "source": "aoe3_companion"
+  },
+  "British": {
+    "confidence": "imported",
+    "displayName": "British",
+    "iconKey": "civ.british",
+    "internalName": "British",
+    "source": "aoe3_companion"
+  },
+  "Caribs": {
+    "confidence": "imported",
+    "displayName": "Caribs",
+    "iconKey": "civ.carib",
+    "internalName": "Caribs",
+    "source": "aoe3_companion"
+  },
+  "Cherokee": {
+    "confidence": "imported",
+    "displayName": "Cherokee",
+    "iconKey": "civ.cherokee",
+    "internalName": "Cherokee",
+    "source": "aoe3_companion"
+  },
+  "Cheyenne": {
+    "confidence": "imported",
+    "displayName": "Cheyenne",
+    "iconKey": "civ.cheyenne",
+    "internalName": "Cheyenne",
+    "source": "aoe3_companion"
+  },
+  "Chinese": {
+    "confidence": "imported",
+    "displayName": "Chinese",
+    "iconKey": "civ.china",
+    "internalName": "Chinese",
+    "source": "aoe3_companion"
+  },
+  "Comanche": {
+    "confidence": "imported",
+    "displayName": "Comanche",
+    "iconKey": "civ.comanche",
+    "internalName": "Comanche",
+    "source": "aoe3_companion"
+  },
+  "Cree": {
+    "confidence": "imported",
+    "displayName": "Cree",
+    "iconKey": "civ.cree",
+    "internalName": "Cree",
+    "source": "aoe3_companion"
+  },
+  "DEAmericans": {
+    "confidence": "imported",
+    "displayName": "United States",
+    "iconKey": "civ.spc_americans",
+    "internalName": "DEAmericans",
+    "source": "aoe3_companion"
+  },
+  "DEEthiopians": {
+    "confidence": "imported",
+    "displayName": "Ethiopians",
+    "iconKey": "civ.spc_ethiopians",
+    "internalName": "DEEthiopians",
+    "source": "aoe3_companion"
+  },
+  "DEHausa": {
+    "confidence": "imported",
+    "displayName": "Hausa",
+    "iconKey": "civ.hausa",
+    "internalName": "DEHausa",
+    "source": "aoe3_companion"
+  },
+  "DEInca": {
+    "confidence": "imported",
+    "displayName": "Inca",
+    "iconKey": "civ.inca",
+    "internalName": "DEInca",
+    "source": "aoe3_companion"
+  },
+  "DEItalians": {
+    "confidence": "imported",
+    "displayName": "Italians",
+    "iconKey": "civ.italian",
+    "internalName": "DEItalians",
+    "source": "aoe3_companion"
+  },
+  "DEMaltese": {
+    "confidence": "imported",
+    "displayName": "Maltese",
+    "iconKey": "civ.malta",
+    "internalName": "DEMaltese",
+    "source": "aoe3_companion"
+  },
+  "DEMexicans": {
+    "confidence": "imported",
+    "displayName": "Mexicans",
+    "iconKey": "civ.mexican",
+    "internalName": "DEMexicans",
+    "source": "aoe3_companion"
+  },
+  "DERevArgentina": {
+    "confidence": "imported",
+    "displayName": "Argentines",
+    "internalName": "DERevArgentina",
+    "source": "aoe3_companion"
+  },
+  "DERevBarbaryStates": {
+    "confidence": "imported",
+    "displayName": "Barbary Pirates",
+    "internalName": "DERevBarbaryStates",
+    "source": "aoe3_companion"
+  },
+  "DERevBrazil": {
+    "confidence": "imported",
+    "displayName": "Brazilians",
+    "internalName": "DERevBrazil",
+    "source": "aoe3_companion"
+  },
+  "DERevCanada": {
+    "confidence": "imported",
+    "displayName": "Canadians",
+    "internalName": "DERevCanada",
+    "source": "aoe3_companion"
+  },
+  "DERevChile": {
+    "confidence": "imported",
+    "displayName": "Chileans",
+    "internalName": "DERevChile",
+    "source": "aoe3_companion"
+  },
+  "DERevColombia": {
+    "confidence": "imported",
+    "displayName": "Colombians",
+    "internalName": "DERevColombia",
+    "source": "aoe3_companion"
+  },
+  "DERevEgypt": {
+    "confidence": "imported",
+    "displayName": "Egyptians",
+    "internalName": "DERevEgypt",
+    "source": "aoe3_companion"
+  },
+  "DERevFinland": {
+    "confidence": "imported",
+    "displayName": "Finns",
+    "internalName": "DERevFinland",
+    "source": "aoe3_companion"
+  },
+  "DERevFrance": {
+    "confidence": "imported",
+    "displayName": "Revolutionary French",
+    "internalName": "DERevFrance",
+    "source": "aoe3_companion"
+  },
+  "DERevFranceNE": {
+    "confidence": "imported",
+    "displayName": "Revolutionary French",
+    "internalName": "DERevFranceNE",
+    "source": "aoe3_companion"
+  },
+  "DERevHaiti": {
+    "confidence": "imported",
+    "displayName": "Haitians",
+    "internalName": "DERevHaiti",
+    "source": "aoe3_companion"
+  },
+  "DERevHungary": {
+    "confidence": "imported",
+    "displayName": "Hungarians",
+    "internalName": "DERevHungary",
+    "source": "aoe3_companion"
+  },
+  "DERevIndonesia": {
+    "confidence": "imported",
+    "displayName": "Indonesians",
+    "internalName": "DERevIndonesia",
+    "source": "aoe3_companion"
+  },
+  "DERevMXBajaCalifornia": {
+    "confidence": "imported",
+    "displayName": "Filibusters",
+    "internalName": "DERevMXBajaCalifornia",
+    "source": "aoe3_companion"
+  },
+  "DERevMXCalifornia": {
+    "confidence": "imported",
+    "displayName": "Californians",
+    "internalName": "DERevMXCalifornia",
+    "source": "aoe3_companion"
+  },
+  "DERevMXCentralAmerica": {
+    "confidence": "imported",
+    "displayName": "Central Americans",
+    "internalName": "DERevMXCentralAmerica",
+    "source": "aoe3_companion"
+  },
+  "DERevMXMaya": {
+    "confidence": "imported",
+    "displayName": "Mayans",
+    "internalName": "DERevMXMaya",
+    "source": "aoe3_companion"
+  },
+  "DERevMXRioGrande": {
+    "confidence": "imported",
+    "displayName": "Rio Grande",
+    "internalName": "DERevMXRioGrande",
+    "source": "aoe3_companion"
+  },
+  "DERevMXTexas": {
+    "confidence": "imported",
+    "displayName": "Texians",
+    "internalName": "DERevMXTexas",
+    "source": "aoe3_companion"
+  },
+  "DERevMXYucatan": {
+    "confidence": "imported",
+    "displayName": "Yucatecos",
+    "internalName": "DERevMXYucatan",
+    "source": "aoe3_companion"
+  },
+  "DERevMexico": {
+    "confidence": "imported",
+    "displayName": "Mexicans",
+    "internalName": "DERevMexico",
+    "source": "aoe3_companion"
+  },
+  "DERevPeru": {
+    "confidence": "imported",
+    "displayName": "Peruvians",
+    "internalName": "DERevPeru",
+    "source": "aoe3_companion"
+  },
+  "DERevRomania": {
+    "confidence": "imported",
+    "displayName": "Romanians",
+    "internalName": "DERevRomania",
+    "source": "aoe3_companion"
+  },
+  "DERevSouthAfrica": {
+    "confidence": "imported",
+    "displayName": "South Africans",
+    "internalName": "DERevSouthAfrica",
+    "source": "aoe3_companion"
+  },
+  "DERevUSA": {
+    "confidence": "imported",
+    "displayName": "United States",
+    "internalName": "DERevUSA",
+    "source": "aoe3_companion"
+  },
+  "DESPCBerbers": {
+    "confidence": "imported",
+    "displayName": "Berbers",
+    "iconKey": "civ.tribal_horseman_portrait",
+    "internalName": "DESPCBerbers",
+    "source": "aoe3_companion"
+  },
+  "DESPCLenape": {
+    "confidence": "imported",
+    "displayName": "Lenape",
+    "iconKey": "civ.cherokee",
+    "internalName": "DESPCLenape",
+    "source": "aoe3_companion"
+  },
+  "DESwedish": {
+    "confidence": "imported",
+    "displayName": "Swedes",
+    "iconKey": "civ.swedish",
+    "internalName": "DESwedish",
+    "source": "aoe3_companion"
+  },
+  "Dutch": {
+    "confidence": "imported",
+    "displayName": "Dutch",
+    "iconKey": "civ.dutch",
+    "internalName": "Dutch",
+    "source": "aoe3_companion"
+  },
+  "French": {
+    "confidence": "imported",
+    "displayName": "French",
+    "iconKey": "civ.french",
+    "internalName": "French",
+    "source": "aoe3_companion"
+  },
+  "Germans": {
+    "confidence": "imported",
+    "displayName": "Germans",
+    "iconKey": "civ.germans",
+    "internalName": "Germans",
+    "source": "aoe3_companion"
+  },
+  "Habsburg": {
+    "confidence": "imported",
+    "displayName": "House of Habsburg",
+    "iconKey": "civ.native_site_habsburg_icon_portrait",
+    "internalName": "Habsburg",
+    "source": "aoe3_companion"
+  },
+  "Hanover": {
+    "confidence": "imported",
+    "displayName": "House of Hanover",
+    "iconKey": "civ.native_site_hanover_icon_portrait",
+    "internalName": "Hanover",
+    "source": "aoe3_companion"
+  },
+  "Hidalgo": {
+    "confidence": "imported",
+    "displayName": "Hidalgo",
+    "internalName": "Hidalgo",
+    "source": "aoe3_companion"
+  },
+  "Huron": {
+    "confidence": "imported",
+    "displayName": "Huron",
+    "iconKey": "civ.huron",
+    "internalName": "Huron",
+    "source": "aoe3_companion"
+  },
+  "Incas": {
+    "confidence": "imported",
+    "displayName": "Quechua",
+    "iconKey": "civ.inca",
+    "internalName": "Incas",
+    "source": "aoe3_companion"
+  },
+  "Indians": {
+    "confidence": "imported",
+    "displayName": "Indians",
+    "iconKey": "civ.india",
+    "internalName": "Indians",
+    "source": "aoe3_companion"
+  },
+  "Iroquois": {
+    "confidence": "imported",
+    "displayName": "Haudenosaunee",
+    "iconKey": "civ.iroquois",
+    "internalName": "Iroquois",
+    "source": "aoe3_companion"
+  },
+  "Jagiellon": {
+    "confidence": "imported",
+    "displayName": "House of Jagiellon",
+    "iconKey": "civ.native_site_jagiellon_icon_portrait",
+    "internalName": "Jagiellon",
+    "source": "aoe3_companion"
+  },
+  "Japanese": {
+    "confidence": "imported",
+    "displayName": "Japanese",
+    "iconKey": "civ.japan",
+    "internalName": "Japanese",
+    "source": "aoe3_companion"
+  },
+  "Jesuit": {
+    "confidence": "imported",
+    "displayName": "Jesuit",
+    "iconKey": "civ.native_jesuit_site_icon_portrait",
+    "internalName": "Jesuit",
+    "source": "aoe3_companion"
+  },
+  "Klamath": {
+    "confidence": "imported",
+    "displayName": "Klamath",
+    "iconKey": "civ.klamath",
+    "internalName": "Klamath",
+    "source": "aoe3_companion"
+  },
+  "Lakota": {
+    "confidence": "imported",
+    "displayName": "Lakota",
+    "iconKey": "civ.sioux",
+    "internalName": "Lakota",
+    "source": "aoe3_companion"
+  },
+  "Louverture": {
+    "confidence": "imported",
+    "displayName": "Louverture",
+    "internalName": "Louverture",
+    "source": "aoe3_companion"
+  },
+  "Mapuche": {
+    "confidence": "imported",
+    "displayName": "Mapuche",
+    "iconKey": "civ.mapuche",
+    "internalName": "Mapuche",
+    "source": "aoe3_companion"
+  },
+  "Maya": {
+    "confidence": "imported",
+    "displayName": "Maya",
+    "iconKey": "civ.maya",
+    "internalName": "Maya",
+    "source": "aoe3_companion"
+  },
+  "NativeAmerican": {
+    "confidence": "imported",
+    "displayName": "Native Americans",
+    "iconKey": "civ.thecircle",
+    "internalName": "NativeAmerican",
+    "source": "aoe3_companion"
+  },
+  "Navajo": {
+    "confidence": "imported",
+    "displayName": "Navajo",
+    "iconKey": "civ.navajo",
+    "internalName": "Navajo",
+    "source": "aoe3_companion"
+  },
+  "Nootka": {
+    "confidence": "imported",
+    "displayName": "Nootka",
+    "iconKey": "civ.nootka",
+    "internalName": "Nootka",
+    "source": "aoe3_companion"
+  },
+  "OHiggins": {
+    "confidence": "imported",
+    "displayName": "OHiggins",
+    "internalName": "OHiggins",
+    "source": "aoe3_companion"
+  },
+  "Oldenburg": {
+    "confidence": "imported",
+    "displayName": "House of Oldenburg",
+    "iconKey": "civ.native_site_oldenburg_icon_portrait",
+    "internalName": "Oldenburg",
+    "source": "aoe3_companion"
+  },
+  "Ottomans": {
+    "confidence": "imported",
+    "displayName": "Ottomans",
+    "iconKey": "civ.ottomans",
+    "internalName": "Ottomans",
+    "source": "aoe3_companion"
+  },
+  "Phanar": {
+    "confidence": "imported",
+    "displayName": "Houses of Phanar",
+    "iconKey": "civ.native_site_phanar_icon_portrait",
+    "internalName": "Phanar",
+    "source": "aoe3_companion"
+  },
+  "Pirate": {
+    "confidence": "imported",
+    "displayName": "Pirates",
+    "iconKey": "civ.pirate",
+    "internalName": "Pirate",
+    "source": "aoe3_companion"
+  },
+  "Portuguese": {
+    "confidence": "imported",
+    "displayName": "Portuguese",
+    "iconKey": "civ.portuguese",
+    "internalName": "Portuguese",
+    "source": "aoe3_companion"
+  },
+  "Russians": {
+    "confidence": "imported",
+    "displayName": "Russians",
+    "iconKey": "civ.russians",
+    "internalName": "Russians",
+    "source": "aoe3_companion"
+  },
+  "SPCAct1": {
+    "confidence": "imported",
+    "displayName": "Knights of Saint John",
+    "iconKey": "civ.spcact1",
+    "internalName": "SPCAct1",
+    "source": "aoe3_companion"
+  },
+  "SPCAct2": {
+    "confidence": "imported",
+    "displayName": "Black's Mercenaries",
+    "iconKey": "civ.spcact2",
+    "internalName": "SPCAct2",
+    "source": "aoe3_companion"
+  },
+  "SPCAct3": {
+    "confidence": "imported",
+    "displayName": "United States",
+    "iconKey": "civ.spc_americans",
+    "internalName": "SPCAct3",
+    "source": "aoe3_companion"
+  },
+  "SPCAmericans": {
+    "confidence": "imported",
+    "displayName": "United States",
+    "iconKey": "civ.spc_americans",
+    "internalName": "SPCAmericans",
+    "source": "aoe3_companion"
+  },
+  "SPCArtilleryDistrict": {
+    "confidence": "imported",
+    "displayName": "Artillery District",
+    "iconKey": "civ.artillery_depot_portrait",
+    "internalName": "SPCArtilleryDistrict",
+    "source": "aoe3_companion"
+  },
+  "SPCBarbaryPirates": {
+    "confidence": "imported",
+    "displayName": "Barbary Pirates",
+    "iconKey": "civ.spc_barbary",
+    "internalName": "SPCBarbaryPirates",
+    "source": "aoe3_companion"
+  },
+  "SPCCanadians": {
+    "confidence": "imported",
+    "displayName": "Canadians",
+    "iconKey": "civ.spc_canadians",
+    "internalName": "SPCCanadians",
+    "source": "aoe3_companion"
+  },
+  "SPCChinese": {
+    "confidence": "imported",
+    "displayName": "Chinese",
+    "iconKey": "civ.china",
+    "internalName": "SPCChinese",
+    "source": "aoe3_companion"
+  },
+  "SPCCityState": {
+    "confidence": "imported",
+    "displayName": "Berbers",
+    "iconKey": "civ.native_berber_site_portrait",
+    "internalName": "SPCCityState",
+    "source": "aoe3_companion"
+  },
+  "SPCCompany": {
+    "confidence": "imported",
+    "displayName": "British",
+    "iconKey": "civ.india_spc_company",
+    "internalName": "SPCCompany",
+    "source": "aoe3_companion"
+  },
+  "SPCEthiopians": {
+    "confidence": "imported",
+    "displayName": "Ethiopians",
+    "iconKey": "civ.spc_ethiopians",
+    "internalName": "SPCEthiopians",
+    "source": "aoe3_companion"
+  },
+  "SPCHoleGang": {
+    "confidence": "imported",
+    "displayName": "Hole in the Wall Gang",
+    "iconKey": "civ.pirate",
+    "internalName": "SPCHoleGang",
+    "source": "aoe3_companion"
+  },
+  "SPCIndians": {
+    "confidence": "imported",
+    "displayName": "Indian",
+    "iconKey": "civ.india",
+    "internalName": "SPCIndians",
+    "source": "aoe3_companion"
+  },
+  "SPCJapanese": {
+    "confidence": "imported",
+    "displayName": "Japanese",
+    "iconKey": "civ.japan",
+    "internalName": "SPCJapanese",
+    "source": "aoe3_companion"
+  },
+  "SPCJapaneseEnemy": {
+    "confidence": "imported",
+    "displayName": "Japanese",
+    "iconKey": "civ.japan_spc_enemy",
+    "internalName": "SPCJapaneseEnemy",
+    "source": "aoe3_companion"
+  },
+  "SPCMarketDistrict": {
+    "confidence": "imported",
+    "displayName": "Market District",
+    "iconKey": "civ.market_portrait",
+    "internalName": "SPCMarketDistrict",
+    "source": "aoe3_companion"
+  },
+  "SPCMilitaryDistrict": {
+    "confidence": "imported",
+    "displayName": "Military District",
+    "iconKey": "civ.barracks_portraits",
+    "internalName": "SPCMilitaryDistrict",
+    "source": "aoe3_companion"
+  },
+  "SPCMoroccans": {
+    "confidence": "imported",
+    "displayName": "Moroccans",
+    "iconKey": "civ.spc_moroccan",
+    "internalName": "SPCMoroccans",
+    "source": "aoe3_companion"
+  },
+  "SPCReligiousDistrict": {
+    "confidence": "imported",
+    "displayName": "Religious District",
+    "iconKey": "civ.church_portrait",
+    "internalName": "SPCReligiousDistrict",
+    "source": "aoe3_companion"
+  },
+  "SPCRenoGang": {
+    "confidence": "imported",
+    "displayName": "Reno Gang",
+    "iconKey": "civ.pirate",
+    "internalName": "SPCRenoGang",
+    "source": "aoe3_companion"
+  },
+  "SPCSomalis": {
+    "confidence": "imported",
+    "displayName": "Somalis",
+    "iconKey": "civ.spc_somalis",
+    "internalName": "SPCSomalis",
+    "source": "aoe3_companion"
+  },
+  "SPCTatars": {
+    "confidence": "imported",
+    "displayName": "Tatars",
+    "iconKey": "civ.spc_tatars",
+    "internalName": "SPCTatars",
+    "source": "aoe3_companion"
+  },
+  "Saltpeter": {
+    "confidence": "imported",
+    "displayName": "Saltpeter",
+    "iconKey": "civ.indian_native_site_icon_portrait",
+    "internalName": "Saltpeter",
+    "source": "aoe3_companion"
+  },
+  "SanMartin": {
+    "confidence": "imported",
+    "displayName": "SanMartin",
+    "internalName": "SanMartin",
+    "source": "aoe3_companion"
+  },
+  "Santander": {
+    "confidence": "imported",
+    "displayName": "Santander",
+    "internalName": "Santander",
+    "source": "aoe3_companion"
+  },
+  "Seminoles": {
+    "confidence": "imported",
+    "displayName": "Seminoles",
+    "iconKey": "civ.seminole",
+    "internalName": "Seminoles",
+    "source": "aoe3_companion"
+  },
+  "Shaolin": {
+    "confidence": "imported",
+    "displayName": "Shaolin",
+    "iconKey": "civ.native_shaolin_site_icon_portrait",
+    "internalName": "Shaolin",
+    "source": "aoe3_companion"
+  },
+  "Somali": {
+    "confidence": "imported",
+    "displayName": "Somali",
+    "iconKey": "civ.native_somali_site_portrait",
+    "internalName": "Somali",
+    "source": "aoe3_companion"
+  },
+  "Spanish": {
+    "confidence": "imported",
+    "displayName": "Spanish",
+    "iconKey": "civ.spanish",
+    "internalName": "Spanish",
+    "source": "aoe3_companion"
+  },
+  "Sudanese": {
+    "confidence": "imported",
+    "displayName": "Sudanese",
+    "iconKey": "civ.native_sudanese_site_portrait",
+    "internalName": "Sudanese",
+    "source": "aoe3_companion"
+  },
+  "Sufi": {
+    "confidence": "imported",
+    "displayName": "Sufi",
+    "iconKey": "civ.native_sufi_site_icon_portrait",
+    "internalName": "Sufi",
+    "source": "aoe3_companion"
+  },
+  "Tengri": {
+    "confidence": "imported",
+    "displayName": "Tengri",
+    "iconKey": "civ.native_tengri_site_icon_portrait",
+    "internalName": "Tengri",
+    "source": "aoe3_companion"
+  },
+  "TheCircle": {
+    "confidence": "imported",
+    "displayName": "The Circle",
+    "iconKey": "civ.thecircle",
+    "internalName": "TheCircle",
+    "source": "aoe3_companion"
+  },
+  "Tupi": {
+    "confidence": "imported",
+    "displayName": "Tupi",
+    "iconKey": "civ.tupi",
+    "internalName": "Tupi",
+    "source": "aoe3_companion"
+  },
+  "Udasi": {
+    "confidence": "imported",
+    "displayName": "Udasi",
+    "iconKey": "civ.native_udasi_site_icon_portrait",
+    "internalName": "Udasi",
+    "source": "aoe3_companion"
+  },
+  "Vasa": {
+    "confidence": "imported",
+    "displayName": "House of Vasa",
+    "iconKey": "civ.native_site_vasa_icon_portrait",
+    "internalName": "Vasa",
+    "source": "aoe3_companion"
+  },
+  "Washington": {
+    "confidence": "imported",
+    "displayName": "Washington",
+    "internalName": "Washington",
+    "source": "aoe3_companion"
+  },
+  "Wettin": {
+    "confidence": "imported",
+    "displayName": "House of Wettin",
+    "iconKey": "civ.native_site_wettin_icon_portrait",
+    "internalName": "Wettin",
+    "source": "aoe3_companion"
+  },
+  "Wittelsbach": {
+    "confidence": "imported",
+    "displayName": "House of Wittelsbach",
+    "iconKey": "civ.native_site_wittelsbach_icon_portrait",
+    "internalName": "Wittelsbach",
+    "source": "aoe3_companion"
+  },
+  "XPAztec": {
+    "confidence": "imported",
+    "displayName": "Aztecs",
+    "iconKey": "civ.aztec",
+    "internalName": "XPAztec",
+    "source": "aoe3_companion"
+  },
+  "XPIroquois": {
+    "confidence": "imported",
+    "displayName": "Haudenosaunee",
+    "iconKey": "civ.iroquois",
+    "internalName": "XPIroquois",
+    "source": "aoe3_companion"
+  },
+  "XPSPC": {
+    "confidence": "imported",
+    "displayName": "Black Family Estate",
+    "iconKey": "civ.usa",
+    "internalName": "XPSPC",
+    "source": "aoe3_companion"
+  },
+  "XPSPCFalcon": {
+    "confidence": "imported",
+    "displayName": "Falcon Company",
+    "iconKey": "civ.american_37star_flag",
+    "internalName": "XPSPCFalcon",
+    "source": "aoe3_companion"
+  },
+  "XPSPCLakota": {
+    "confidence": "imported",
+    "displayName": "Lakota",
+    "iconKey": "civ.sioux",
+    "internalName": "XPSPCLakota",
+    "source": "aoe3_companion"
+  },
+  "XPSioux": {
+    "confidence": "imported",
+    "displayName": "Lakota",
+    "iconKey": "civ.sioux",
+    "internalName": "XPSioux",
+    "source": "aoe3_companion"
+  },
+  "Yoruba": {
+    "confidence": "imported",
+    "displayName": "Yoruba",
+    "iconKey": "civ.native_yoruba_site_portrait",
+    "internalName": "Yoruba",
+    "source": "aoe3_companion"
+  },
+  "Zapotec": {
+    "confidence": "imported",
+    "displayName": "Zapotec",
+    "iconKey": "civ.zapotec",
+    "internalName": "Zapotec",
+    "source": "aoe3_companion"
+  },
+  "Zen": {
+    "confidence": "imported",
+    "displayName": "Zen",
+    "iconKey": "civ.native_zen_site_icon_portrait",
+    "internalName": "Zen",
+    "source": "aoe3_companion"
+  }
+}

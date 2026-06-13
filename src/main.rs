@@ -3,8 +3,11 @@ use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use aoe3de_replay_rust::gamedata::GameData;
 use aoe3de_replay_rust::{parse_all_with_options, ParseOptions};
 use serde_json::{json, Value};
+
+mod import;
 
 fn main() {
     if let Err(err) = run() {
@@ -95,9 +98,56 @@ fn run() -> Result<(), String> {
             let parsed_json = read_json_file(&parsed_path)?;
             dump_decks(&parsed_json, &options)?;
         }
+        Command::ResolveCard { card_id } => {
+            resolve_card(card_id);
+        }
+        Command::ImportAoe3Companion { input, out } => {
+            let stats = import::import_aoe3_companion(&input, &out)?;
+            println!("Imported aoe3-companion data into {}", out.display());
+            println!(
+                "  cards={} techs={} units={} civs={} icons={} (from {} strings)",
+                stats.cards, stats.techs, stats.units, stats.civs, stats.icons, stats.strings
+            );
+        }
     }
 
     Ok(())
+}
+
+fn resolve_card(card_id: i32) {
+    let game_data = GameData::embedded();
+    let card = game_data.resolve_card(card_id);
+    let definition = game_data.card(card_id);
+
+    println!("Card {card_id}");
+    println!("Name: {}", card.display_name);
+    println!(
+        "Internal: {}",
+        definition
+            .and_then(|card| card.internal_name.as_deref())
+            .unwrap_or("(unknown)")
+    );
+    println!("Icon: {}", card.icon_key);
+    if let Some(icon) = game_data.icon(&card.icon_key) {
+        println!("Icon path: {}", icon.path);
+    } else {
+        println!("Icon path: (generic fallback)");
+    }
+    println!(
+        "Source: {}",
+        definition
+            .and_then(|card| card.source.as_deref())
+            .unwrap_or("(none)")
+    );
+    println!(
+        "Confidence: {}",
+        definition
+            .and_then(|card| card.confidence.as_deref())
+            .unwrap_or("(none)")
+    );
+    if !card.known {
+        println!("(card id has no entry in data/cards.json)");
+    }
 }
 
 fn read_json_file(path: &Path) -> Result<Value, String> {
@@ -367,6 +417,60 @@ fn print_actor_deck_candidates(parsed: &Value, commands: &[Value], slot: i32) {
     if !any {
         println!("    none");
     }
+}
+
+fn import_args(args: &[String], start_index: usize) -> Result<(PathBuf, PathBuf), String> {
+    let mut input = None;
+    let mut out = None;
+    let mut index = start_index;
+
+    while index < args.len() {
+        match args[index].as_str() {
+            "--input" => {
+                input = Some(PathBuf::from(value_after(args, index, "--input")?));
+                index += 2;
+            }
+            "--out" => {
+                out = Some(PathBuf::from(value_after(args, index, "--out")?));
+                index += 2;
+            }
+            other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
+        }
+    }
+
+    Ok((
+        input.ok_or_else(|| format!("Missing --input <aoe3-companion path>\n\n{}", usage()))?,
+        out.unwrap_or_else(|| PathBuf::from("data")),
+    ))
+}
+
+fn resolve_card_args(args: &[String], start_index: usize) -> Result<i32, String> {
+    let mut card_id = None;
+    let mut index = start_index;
+
+    while index < args.len() {
+        match args[index].as_str() {
+            "--card-id" => {
+                card_id = Some(parse_i32_arg(args, index, "--card-id")?);
+                index += 2;
+            }
+            other => {
+                // Allow a bare positional id: `resolve-card 1676`.
+                if card_id.is_none() {
+                    card_id = Some(
+                        other
+                            .parse::<i32>()
+                            .map_err(|err| format!("Invalid card id '{other}': {err}"))?,
+                    );
+                    index += 1;
+                } else {
+                    return Err(format!("Unexpected argument '{other}'\n\n{}", usage()));
+                }
+            }
+        }
+    }
+
+    card_id.ok_or_else(|| format!("Missing --card-id <id>\n\n{}", usage()))
 }
 
 fn inspect_card_args(args: &[String], start_index: usize) -> Result<Option<i32>, String> {
@@ -1106,6 +1210,13 @@ enum Command {
         parsed_path: PathBuf,
         options: DumpDecksOptions,
     },
+    ResolveCard {
+        card_id: i32,
+    },
+    ImportAoe3Companion {
+        input: PathBuf,
+        out: PathBuf,
+    },
 }
 
 #[derive(Debug)]
@@ -1153,6 +1264,13 @@ impl Cli {
                     parsed_path: input_path,
                     options: dump_decks_args(&args, 2)?,
                 }
+            }
+            "resolve-card" => Command::ResolveCard {
+                card_id: resolve_card_args(&args, 1)?,
+            },
+            "import-aoe3-companion" => {
+                let (input, out) = import_args(&args, 1)?;
+                Command::ImportAoe3Companion { input, out }
             }
             "parse" => {
                 let input_arg = args.get(1).ok_or_else(usage)?;
@@ -2494,7 +2612,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]".to_string()
 }
 
 #[derive(Default)]

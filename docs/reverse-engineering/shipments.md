@@ -56,9 +56,16 @@ A card send resolves to a card raw id via the **acting slot's own** decks:
 4. `cardId = deck.cards[deckIndexCandidate].rawId`. Out-of-range index, ambiguous
    deck id, or unknown active deck ⇒ `matched=false` with a `reason`.
 
-Verified examples:
+The matched value is a replay **`rawId`**, which is NOT the game data `dbid`
+space the card database is keyed by (see `docs/game-data-layer.md`). The
+arrival-chat correlation that suggested `1676 → Capitalism` is contradicted by the
+authoritative data: Capitalism's `dbid` is `3438`, and `1676` is not a tech
+`dbid` at all. So the resolver reports the numeric `rawId` only and assigns **no
+card name** until the `rawId → dbid` bridge is solved.
 
-- testship slot 2: select deck 0 (built via cmd66), send `deckIndex=0` at 03:00.514 ⇒ card 1676; "Capitalism Shipment has arrived" at 03:40.510.
+Examples (rawId, name NOT asserted):
+
+- testship slot 2: select deck 0 (built via cmd66), send `deckIndex=0` at 03:00.514 ⇒ rawId 1676; "Capitalism Shipment has arrived" at 03:40.510 (chat hint only — 40 s lag, not proof of the name↔id link).
 - malloncheater slot 2 (Italians, deck "team 33"): send `deckIndex=0` at 01:47.009 ⇒ card 735; "TEAM Marco Polo Voyages Shipment has arrived" at 01:51.990 (only Italian player in game).
 - malloncheater slot 6 (Dutch, 6 decks, no selection, no default) ⇒ all sends honestly `matched=false`.
 
@@ -77,7 +84,12 @@ arrival ordering (FIFO queue) has not been verified yet.
 
 ## Open questions
 
-- Card raw id → card display name mapping (needs an external card DB; would also let us cross-check sends against arrival names).
+- **Card `rawId` → `dbid` mapping (the key blocker).** The full game database is
+  now imported (`data/cards.json`, dbid-keyed, ~2.5k cards) but the replay
+  `rawId` space does not match it (Capitalism: rawId 1676 vs dbid 3438; ~32%
+  coincidental overlap on real decks). Solving this bridge — likely via the
+  companion `homecities/*.json` per-civ card order, or a direct game-file
+  extraction exposing both ids — is what unlocks real card names on shipments.
 - Active deck when no `commandId=66` selection exists and several decks are saved (malloncheater slot 6).
 - Whether an in-game deck edit (cmd66 adds) can modify a deck that was also parsed in the header (currently parsed content wins when both agree; conflicting contents are reported as ambiguous).
 - Double-click duplicate sends: collapse window not yet decided; duplicates are currently kept (visible in debug; both rows resolve to the same card).

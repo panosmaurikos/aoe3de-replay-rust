@@ -134,6 +134,7 @@ cargo run -- inspect-commands ".\out\game.debug.json" --command-id 2 --full-hex 
 cargo run -- inspect-card-commands ".\out\game.debug.json" --actor-slot 2
 cargo run -- compare-commands --a ".\out\a.debug.json" --a-offset 123456 --b ".\out\b.debug.json" --b-offset 456789
 cargo run -- dump-decks ".\out\game.debug.json" --card-id 1676
+cargo run -- resolve-card --card-id 1676
 ```
 
 `inspect-card-commands` groups card-related commands per actor: deck selections (`commandId=66` with `cardId=-1`), card sends (`commandId=2` deck index variant) with their `deckMatch` resolution, the actor's known decks, and the system shipment arrival chats (hints only — they do not prove ownership).
@@ -269,3 +270,35 @@ Sources:
 
 - `parsed_player_deck` — replay player block was decoded
 - `debug_command66_deck_setup` — deck reconstructed from in-game `commandId=66` deck edit commands
+
+## Game Data Layer
+
+The parser emits numeric ids only. The game data layer (`data/*.json`, compiled
+into the binary) resolves a game **`dbid`** to a display name / icon key. Data is
+imported from the MIT-licensed [aoe3-companion](https://github.com/VitorRoda/aoe3-companion)
+set (~2.5k cards, ~2.4k units, ~3.1k techs, 126 civs). See
+`docs/game-data-layer.md` and `data/README.md`.
+
+```powershell
+cargo run -- resolve-card --card-id 3438
+cargo run -- import-aoe3-companion --input "path\to\aoe3-companion" --out data
+```
+
+```text
+Card 3438
+Name: Capitalism
+Internal: HCXPCapitalism
+Icon: card.Capitalism
+Icon path: resources/images/icons/techs/native/Capitalism.png
+Source: aoe3_companion
+Confidence: imported
+```
+
+Unknown ids never crash — they resolve to `Unknown Card #<id>` and the generic
+icon.
+
+> **Note — two id spaces.** The data layer is keyed by the game `dbid`. Replay
+> decks and `commandId=2`/`66` use a different `rawId` space (Capitalism is dbid
+> `3438` but rawId `1676`). The `rawId → dbid` bridge is unsolved, so replay
+> shipment / `deckMatch` output stays numeric (no guessed names) for now. This is
+> deliberate — correctness over a plausible-but-wrong name.
