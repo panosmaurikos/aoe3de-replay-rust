@@ -54,16 +54,21 @@ struct SpentTotals {
     wood: f64,
     gold: f64,
     influence: f64,
+    /// (timeMs, cumulative total) recorded at each actual spend.
+    series: Vec<(i32, f64)>,
 }
 
 impl SpentTotals {
-    fn add(&mut self, cost: Option<Cost>) {
-        if let Some(cost) = cost {
-            self.food += cost.food;
-            self.wood += cost.wood;
-            self.gold += cost.gold;
-            self.influence += cost.influence;
-        }
+    fn record(&mut self, time_ms: i32, cost: Option<Cost>) {
+        let Some(cost) = cost.filter(|cost| cost.total() > 0.0) else {
+            return;
+        };
+        self.food += cost.food;
+        self.wood += cost.wood;
+        self.gold += cost.gold;
+        self.influence += cost.influence;
+        self.series
+            .push((time_ms, self.food + self.wood + self.gold + self.influence));
     }
 }
 
@@ -112,7 +117,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     id: tech.id,
                     name: tech.display_name.clone(),
                 });
-                entry.spent.add(tech.cost);
+                entry.spent.record(command.time_ms, tech.cost);
             }
         }
 
@@ -122,7 +127,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                 .entry(unit.id)
                 .or_insert_with(|| (unit.display_name.clone(), 0));
             tally.1 += 1;
-            entry.spent.add(unit.cost); // every train is a real unit
+            entry.spent.record(command.time_ms, unit.cost); // every train is a real unit
         }
 
         if let Some(building) = command.building.as_ref() {
@@ -136,7 +141,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     id: building.id,
                     name: building.display_name.clone(),
                 });
-                entry.spent.add(building.cost);
+                entry.spent.record(command.time_ms, building.cost);
             }
         }
     }
@@ -185,6 +190,11 @@ fn make_state(
         influence: round1(spent.influence),
         total: round1(spent.food + spent.wood + spent.gold + spent.influence),
     };
+    let resources_spent_series = spent
+        .series
+        .iter()
+        .map(|(time_ms, total)| (*time_ms, total.round()))
+        .collect();
 
     PlayerState {
         slot_id,
@@ -201,6 +211,7 @@ fn make_state(
         units_trained,
         buildings_built: accumulator.buildings_built,
         resources_spent,
+        resources_spent_series,
         unavailable: StateUnavailable {
             reason: UNAVAILABLE_REASON.to_string(),
             fields: UNAVAILABLE_FIELDS.to_vec(),

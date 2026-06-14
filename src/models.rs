@@ -373,6 +373,10 @@ pub struct PlayerState {
     /// points, not resources). Not the player's current/net resources.
     #[serde(rename = "resourcesSpent")]
     pub resources_spent: ResourcesSpent,
+    /// Cumulative gross resources spent over time as `[timeMs, total]` points
+    /// (one per spend). For an economy-pace chart. Same caveat as resourcesSpent.
+    #[serde(rename = "resourcesSpentSeries", skip_serializing_if = "Vec::is_empty")]
+    pub resources_spent_series: Vec<(i32, f64)>,
     pub counts: PlayerStateCounts,
     pub unavailable: StateUnavailable,
 }

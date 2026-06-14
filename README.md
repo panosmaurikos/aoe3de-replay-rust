@@ -139,7 +139,14 @@ cargo run -- compare-summaries --a ".\out\control.debug.json" --b ".\out\death.d
 cargo run -- dump-decks ".\out\game.debug.json" --card-id 1676
 cargo run -- player-summary ".\out\game.debug.json"
 cargo run -- resolve-card --card-id 1676
+cargo run --release -- validate-corpus "D:\AGEOFEMPIRE3TEST"
 ```
+
+`validate-corpus <dir>` parses and validates every `.age3Yrec` under a directory
+(recursively) and reports a QA summary — per file: pass/fail, event count, command
+decode coverage, warnings; plus the unclassified command ids across the corpus. It
+never panics on a bad file. The current test corpus (Dutch/Ethiopia/Russia/USA/8-civ,
+2–8 players, up to a 1-hour game) passes at 100% with ~99.9% command coverage.
 
 `player-summary` prints the state engine's per-player command-derived totals
 (shipments sent, techs researched, units trained). It reads `debug.playerStates`,
@@ -215,6 +222,7 @@ brass fittings, heraldic player cards. It includes:
 - player filter, chat/player search, confirmed-shipment toggle
 - filtered view export
 - Build Order tab: per-player age-up / research / train / build / shipment timeline + resources spent
+- Economy tab: cumulative resources-spent-over-time chart, one line per player (economy pace)
 
 It is a single offline HTML file (no web fonts or game assets bundled) and is
 unofficial / fan-made.

@@ -127,6 +127,9 @@ fn run() -> Result<(), String> {
             let building = game_data.resolve_building(building_id);
             print_named_ref("Building", building_id, &building, game_data.unit(building_id));
         }
+        Command::ValidateCorpus { dir } => {
+            validate_corpus(&dir)?;
+        }
         Command::ImportAoe3Companion { input, out } => {
             let stats = import::import_aoe3_companion(&input, &out)?;
             println!("Imported aoe3-companion data into {}", out.display());
@@ -192,6 +195,140 @@ fn print_named_ref(kind: &str, id: i32, named: &NamedRef, definition: Option<&Ca
     if !named.known {
         println!("({} id has no entry in the game data)", kind.to_lowercase());
     }
+}
+
+fn collect_replays(dir: &Path, out: &mut Vec<PathBuf>) {
+    let Ok(entries) = fs::read_dir(dir) else { return };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path.is_dir() {
+            collect_replays(&path, out);
+        } else if path.extension().and_then(|ext| ext.to_str()) == Some("age3Yrec") {
+            out.push(path);
+        }
+    }
+}
+
+/// Parse + validate every `.age3Yrec` under a directory and report a QA summary
+/// (parsed/failed, warnings, decode coverage). Robustness check for a replay
+/// corpus — no panic on a bad file.
+fn validate_corpus(dir: &Path) -> Result<(), String> {
+    let mut replays = Vec::new();
+    collect_replays(dir, &mut replays);
+    replays.sort();
+    if replays.is_empty() {
+        return Err(format!("No .age3Yrec files found under '{}'", dir.display()));
+    }
+
+    let mut passed = 0usize;
+    let mut failed = 0usize;
+    let mut total_warnings = 0usize;
+    let mut unknown_ids: std::collections::BTreeMap<String, usize> = std::collections::BTreeMap::new();
+
+    println!("Validating {} replay(s) under {}\n", replays.len(), dir.display());
+    for path in &replays {
+        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("?");
+        let bytes = match fs::read(path) {
+            Ok(bytes) => bytes,
+            Err(err) => {
+                println!("FAIL  {name}  (read error: {err})");
+                failed += 1;
+                continue;
+            }
+        };
+        let options = ParseOptions {
+            debug_commands: true,
+            experimental_shipments: false,
+            events: true,
+        };
+        let parsed = match parse_all_with_options(&bytes, options) {
+            Ok(parsed) => parsed,
+            Err(err) => {
+                println!("FAIL  {name}  (parse error: {err})");
+                failed += 1;
+                continue;
+            }
+        };
+        let value = serde_json::to_value(&parsed)
+            .map_err(|err| format!("Could not serialize '{name}': {err}"))?;
+        let report = validate_parsed_json(&value);
+
+        let events = value
+            .get("timeline")
+            .and_then(|t| t.get("events"))
+            .and_then(Value::as_array)
+            .map_or(0, Vec::len);
+        let (cmd_total, unknown_total) = corpus_coverage(&value, &mut unknown_ids);
+        let coverage = if cmd_total > 0 {
+            100.0 * (cmd_total - unknown_total) as f64 / cmd_total as f64
+        } else {
+            100.0
+        };
+
+        total_warnings += report.warnings.len();
+        if report.has_errors() {
+            failed += 1;
+            println!(
+                "FAIL  {name}  ({} error(s), {} warning(s))",
+                report.errors.len(),
+                report.warnings.len()
+            );
+            for error in &report.errors {
+                println!("        - {error}");
+            }
+        } else {
+            passed += 1;
+            println!(
+                "OK    {name}  events={events} coverage={coverage:.1}% warnings={}",
+                report.warnings.len()
+            );
+        }
+    }
+
+    println!("\nSummary: {passed} passed, {failed} failed, {total_warnings} warning(s) total");
+    if !unknown_ids.is_empty() {
+        let mut ids = unknown_ids.into_iter().collect::<Vec<_>>();
+        ids.sort_by(|a, b| b.1.cmp(&a.1));
+        let top = ids
+            .iter()
+            .take(8)
+            .map(|(id, count)| format!("{id}:{count}"))
+            .collect::<Vec<_>>()
+            .join(", ");
+        println!("Unclassified commandIds across corpus (id:count): {top}");
+    }
+
+    if failed > 0 {
+        return Err(format!("{failed} replay(s) failed validation"));
+    }
+    Ok(())
+}
+
+fn corpus_coverage(
+    value: &Value,
+    unknown_ids: &mut std::collections::BTreeMap<String, usize>,
+) -> (usize, usize) {
+    let summary = value
+        .get("debug")
+        .and_then(|debug| debug.get("debugSummary"));
+    let sum_map = |key: &str| -> usize {
+        summary
+            .and_then(|s| s.get(key))
+            .and_then(Value::as_object)
+            .map(|map| map.values().filter_map(Value::as_u64).map(|v| v as usize).sum())
+            .unwrap_or(0)
+    };
+    if let Some(unknown) = summary
+        .and_then(|s| s.get("unknownCommandIds"))
+        .and_then(Value::as_object)
+    {
+        for (id, count) in unknown {
+            if let Some(count) = count.as_u64() {
+                *unknown_ids.entry(id.clone()).or_insert(0) += count as usize;
+            }
+        }
+    }
+    (sum_map("commandIds"), sum_map("unknownCommandIds"))
 }
 
 fn read_json_file(path: &Path) -> Result<Value, String> {
@@ -1484,6 +1621,9 @@ enum Command {
         input: PathBuf,
         out: PathBuf,
     },
+    ValidateCorpus {
+        dir: PathBuf,
+    },
 }
 
 #[derive(Debug)]
@@ -1560,6 +1700,15 @@ impl Cli {
             "import-aoe3-companion" => {
                 let (input, out) = import_args(&args, 1)?;
                 Command::ImportAoe3Companion { input, out }
+            }
+            "validate-corpus" => {
+                let input_arg = args.get(1).ok_or_else(usage)?;
+                if args.len() > 2 {
+                    return Err(format!("Unexpected argument '{}'\n\n{}", args[2], usage()));
+                }
+                Command::ValidateCorpus {
+                    dir: PathBuf::from(input_arg.as_str()),
+                }
             }
             "parse" => {
                 let input_arg = args.get(1).ok_or_else(usage)?;
@@ -2924,7 +3073,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>".to_string()
 }
 
 #[derive(Default)]

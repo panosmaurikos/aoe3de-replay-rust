@@ -28,7 +28,8 @@ are not "not yet decoded"; they are not present. The state engine
 | Train unit                         | supported   | normal `train` events (`--events`) | commandId=2 train, prop-filtered; some civs' military still missed |
 | Build building                     | supported   | normal `build` events (`--events`) | commandId=3, building-filtered, deduped |
 | Units trained (totals)             | supported   | `playerStates.unitsTrained` | prop/building-filtered (`units.json` `kind`) |
-| Resources **spent** (gross)        | supported   | `playerStates.resourcesSpent` | trains+builds+research × `cost`; food/wood/gold/influence; shipments excluded (paid in shipment pts). NOT current/net resources |
+| Resources **spent** (gross)        | supported   | `playerStates.resourcesSpent` + `resourcesSpentSeries` | trains+builds+research × `cost`; food/wood/gold/influence; shipments excluded (paid in shipment pts). NOT current/net resources |
+| Economy-pace chart                 | supported   | viewer Economy tab | cumulative resources spent over time per player (from `resourcesSpentSeries`) |
 | Active unit counts                 | impossible* | — | sim state, not in command replay |
 | Units in queue                     | impossible* | — | sim state |
 | Unit death / loss                  | impossible* | — | no "death command" exists; deaths are sim results |
