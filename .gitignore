@@ -5,3 +5,6 @@
 *.age3Yrec
 samples/
 out/
+
+# Raw extracted game data (re-import into data/ instead of vendoring)
+aoe3-companion/

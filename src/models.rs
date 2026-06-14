@@ -8,6 +8,10 @@ pub struct ParsedOutput {
     pub timeline: Timeline,
     pub summary: ParsedSummary,
     pub result: InferredResult,
+    /// Per-player command-derived aggregation (state engine). Present with
+    /// `--events` or `--debug-commands`.
+    #[serde(rename = "playerStates", skip_serializing_if = "Option::is_none")]
+    pub player_states: Option<Vec<PlayerState>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub debug: Option<DebugOutput>,
     pub replay: Replay,
@@ -42,7 +46,7 @@ pub struct Replay {
     pub teams: Vec<Team>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Default, Serialize)]
 pub struct GameSetting {
     #[serde(rename = "gameName")]
     pub game_name: Option<String>,
@@ -170,6 +174,22 @@ pub struct Commands {
     pub resigns: Vec<Resign>,
     #[serde(rename = "cardSends")]
     pub card_sends: Vec<CardSendCandidate>,
+    /// commandId=1 research candidates (tech id = techtree array index).
+    pub research: Vec<ActionCandidate>,
+    /// commandId=2 train candidates (proto id = proto array index).
+    pub trains: Vec<ActionCandidate>,
+    /// commandId=3 build candidates (proto id = proto array index).
+    pub builds: Vec<ActionCandidate>,
+}
+
+/// A raw player action carrying one game id (research tech / train unit / build).
+#[derive(Clone, Debug, Serialize)]
+pub struct ActionCandidate {
+    #[serde(rename = "slotId")]
+    pub slot_id: i32,
+    pub time: i32,
+    #[serde(rename = "rawId")]
+    pub raw_id: i32,
 }
 
 #[derive(Debug, Serialize)]
@@ -199,6 +219,10 @@ pub enum TimelineEventType {
     Chat,
     Resign,
     Shipment,
+    Research,
+    Train,
+    Build,
+    AgeUp,
 }
 
 #[derive(Debug, Serialize)]
@@ -235,12 +259,52 @@ pub enum TimelinePayload {
         card_id: i32,
         #[serde(rename = "deckIndex")]
         deck_index: i32,
+        #[serde(rename = "cardName", skip_serializing_if = "Option::is_none")]
+        card_name: Option<String>,
+        #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
+        icon_key: Option<String>,
         #[serde(rename = "resolvedName", skip_serializing_if = "Option::is_none")]
         resolved_name: Option<String>,
         confidence: String,
         status: String,
         source: String,
         note: String,
+    },
+    Research {
+        #[serde(rename = "techId")]
+        tech_id: i32,
+        name: String,
+        #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
+        icon_key: Option<String>,
+        confidence: String,
+        source: String,
+    },
+    Train {
+        #[serde(rename = "unitId")]
+        unit_id: i32,
+        name: String,
+        #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
+        icon_key: Option<String>,
+        confidence: String,
+        source: String,
+    },
+    Build {
+        #[serde(rename = "buildingId")]
+        building_id: i32,
+        name: String,
+        #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
+        icon_key: Option<String>,
+        confidence: String,
+        source: String,
+    },
+    AgeUp {
+        #[serde(rename = "techId")]
+        tech_id: i32,
+        name: String,
+        #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
+        icon_key: Option<String>,
+        confidence: String,
+        source: String,
     },
 }
 
@@ -291,6 +355,71 @@ pub struct DebugOutput {
 }
 
 #[derive(Debug, Serialize)]
+pub struct PlayerState {
+    #[serde(rename = "slotId")]
+    pub slot_id: i32,
+    pub name: Option<String>,
+    pub civ: Option<String>,
+    #[serde(rename = "shipmentsSent")]
+    pub shipments_sent: Vec<DerivedEvent>,
+    #[serde(rename = "techsResearched")]
+    pub techs_researched: Vec<DerivedEvent>,
+    #[serde(rename = "unitsTrained")]
+    pub units_trained: Vec<UnitTally>,
+    #[serde(rename = "buildingsBuilt")]
+    pub buildings_built: Vec<DerivedEvent>,
+    /// Gross eco resources the player *spent* on trains + builds + research
+    /// (command-derived; no refunds; shipments excluded — they cost shipment
+    /// points, not resources). Not the player's current/net resources.
+    #[serde(rename = "resourcesSpent")]
+    pub resources_spent: ResourcesSpent,
+    pub counts: PlayerStateCounts,
+    pub unavailable: StateUnavailable,
+}
+
+#[derive(Debug, Default, Serialize)]
+pub struct ResourcesSpent {
+    pub food: f64,
+    pub wood: f64,
+    pub gold: f64,
+    pub influence: f64,
+    pub total: f64,
+}
+
+#[derive(Debug, Serialize)]
+pub struct DerivedEvent {
+    #[serde(rename = "timeMs")]
+    pub time_ms: i32,
+    pub id: i32,
+    pub name: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct UnitTally {
+    pub name: String,
+    pub id: i32,
+    pub count: usize,
+}
+
+#[derive(Debug, Serialize)]
+pub struct PlayerStateCounts {
+    #[serde(rename = "shipmentsSent")]
+    pub shipments_sent: usize,
+    #[serde(rename = "techsResearched")]
+    pub techs_researched: usize,
+    #[serde(rename = "unitsTrainedTotal")]
+    pub units_trained_total: usize,
+    #[serde(rename = "buildingsBuilt")]
+    pub buildings_built: usize,
+}
+
+#[derive(Debug, Serialize)]
+pub struct StateUnavailable {
+    pub reason: String,
+    pub fields: Vec<&'static str>,
+}
+
+#[derive(Debug, Serialize)]
 pub struct DebugCommand {
     pub offset: usize,
     #[serde(rename = "timeMs")]
@@ -314,6 +443,15 @@ pub struct DebugCommand {
     pub deck_matches: Vec<DebugDeckMatch>,
     #[serde(rename = "deckMatch", skip_serializing_if = "Option::is_none")]
     pub deck_match: Option<DebugDeckResolution>,
+    /// Resolved train-unit (commandId=2 train variant), from the game data layer.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unit: Option<crate::gamedata::NamedRef>,
+    /// Resolved research tech (commandId=1), from the game data layer.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tech: Option<crate::gamedata::NamedRef>,
+    /// Resolved building (commandId=3 build), from the game data layer.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub building: Option<crate::gamedata::NamedRef>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -347,6 +485,10 @@ pub struct DebugDeckResolution {
     pub confidence: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reason: Option<String>,
+    /// Resolved card from the game data layer (rawId = techtree index), present
+    /// only when matched and the id resolves to a known card.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub card: Option<crate::gamedata::CardRef>,
 }
 
 #[derive(Debug, Serialize)]

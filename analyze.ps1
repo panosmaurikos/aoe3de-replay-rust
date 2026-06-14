@@ -2,12 +2,12 @@
 #
 #   .\analyze.ps1 "D:\AGEOFEMPIRE3TEST\testship.age3Yrec"
 #   .\analyze.ps1 game.age3Yrec -DebugCommands     # also keep command-level debug data in the JSON
-#   .\analyze.ps1 game.age3Yrec -NoShipments       # skip experimental shipment events
+#   .\analyze.ps1 game.age3Yrec -NoEvents          # skip command-derived gameplay events
 #   .\analyze.ps1 game.age3Yrec -NoBrowser         # generate files only
 param(
     [Parameter(Mandatory = $true, Position = 0)]
     [string]$ReplayPath,
-    [switch]$NoShipments,
+    [switch]$NoEvents,
     [switch]$DebugCommands,
     [switch]$NoBrowser
 )
@@ -26,7 +26,7 @@ New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 $jsonPath = Join-Path $outDir "$stem.json"
 
 $flags = @()
-if (-not $NoShipments) { $flags += "--experimental-shipments" }
+if (-not $NoEvents) { $flags += "--events" }
 if ($DebugCommands) { $flags += "--debug-commands" }
 
 Write-Host "Parsing $ReplayPath ..."

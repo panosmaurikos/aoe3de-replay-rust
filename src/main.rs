@@ -3,7 +3,7 @@ use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use aoe3de_replay_rust::gamedata::GameData;
+use aoe3de_replay_rust::gamedata::{CardDefinition, GameData, NamedRef};
 use aoe3de_replay_rust::{parse_all_with_options, ParseOptions};
 use serde_json::{json, Value};
 
@@ -25,6 +25,7 @@ fn run() -> Result<(), String> {
             output_path,
             debug_commands,
             experimental_shipments,
+            events,
         } => {
             let file_bytes = fs::read(&replay_path).map_err(|err| {
                 format!(
@@ -38,6 +39,7 @@ fn run() -> Result<(), String> {
                 ParseOptions {
                     debug_commands,
                     experimental_shipments,
+                    events,
                 },
             )?;
             let json = serde_json::to_string_pretty(&parsed)
@@ -91,6 +93,11 @@ fn run() -> Result<(), String> {
             let b_json = read_json_file(&options.b_path)?;
             compare_commands(&a_json, &b_json, &options)?;
         }
+        Command::CompareSummaries { a_path, b_path } => {
+            let a_json = read_json_file(&a_path)?;
+            let b_json = read_json_file(&b_path)?;
+            compare_summaries(&a_path, &a_json, &b_path, &b_json)?;
+        }
         Command::DumpDecks {
             parsed_path,
             options,
@@ -98,8 +105,27 @@ fn run() -> Result<(), String> {
             let parsed_json = read_json_file(&parsed_path)?;
             dump_decks(&parsed_json, &options)?;
         }
+        Command::PlayerSummary { parsed_path } => {
+            let parsed_json = read_json_file(&parsed_path)?;
+            player_summary(&parsed_json)?;
+        }
         Command::ResolveCard { card_id } => {
             resolve_card(card_id);
+        }
+        Command::ResolveUnit { unit_id } => {
+            let game_data = GameData::embedded();
+            let unit = game_data.resolve_unit(unit_id);
+            print_named_ref("Unit", unit_id, &unit, game_data.unit(unit_id));
+        }
+        Command::ResolveTech { tech_id } => {
+            let game_data = GameData::embedded();
+            let tech = game_data.resolve_tech(tech_id);
+            print_named_ref("Tech", tech_id, &tech, game_data.card(tech_id));
+        }
+        Command::ResolveBuilding { building_id } => {
+            let game_data = GameData::embedded();
+            let building = game_data.resolve_building(building_id);
+            print_named_ref("Building", building_id, &building, game_data.unit(building_id));
         }
         Command::ImportAoe3Companion { input, out } => {
             let stats = import::import_aoe3_companion(&input, &out)?;
@@ -147,6 +173,24 @@ fn resolve_card(card_id: i32) {
     );
     if !card.known {
         println!("(card id has no entry in data/cards.json)");
+    }
+}
+
+fn print_named_ref(kind: &str, id: i32, named: &NamedRef, definition: Option<&CardDefinition>) {
+    println!("{kind} {id}");
+    println!("Name: {}", named.display_name);
+    println!(
+        "Internal: {}",
+        definition
+            .and_then(|def| def.internal_name.as_deref())
+            .unwrap_or("(unknown)")
+    );
+    if let Some(dbid) = definition.and_then(|def| def.dbid) {
+        println!("Dbid: {dbid}");
+    }
+    println!("Icon: {}", named.icon_key);
+    if !named.known {
+        println!("({} id has no entry in the game data)", kind.to_lowercase());
     }
 }
 
@@ -210,6 +254,103 @@ fn inspect_commands(parsed: &Value, options: &InspectOptions) -> Result<(), Stri
     }
 
     Ok(())
+}
+
+fn player_summary(parsed: &Value) -> Result<(), String> {
+    let states = parsed
+        .get("playerStates")
+        .or_else(|| parsed.get("debug").and_then(|debug| debug.get("playerStates")))
+        .and_then(Value::as_array)
+        .ok_or_else(|| {
+            "playerStates is missing. Re-run parse with --events or --debug-commands first."
+                .to_string()
+        })?;
+
+    println!("Command-derived player summary (issued actions only — NOT live game state).");
+    for state in states {
+        let slot = value_i32(state.get("slotId")).unwrap_or(-1);
+        let name = state.get("name").and_then(Value::as_str).unwrap_or("?");
+        let civ = state.get("civ").and_then(Value::as_str).unwrap_or("?");
+        let counts = state.get("counts");
+        let ships = counts
+            .and_then(|counts| value_i32(counts.get("shipmentsSent")))
+            .unwrap_or(0);
+        let techs = counts
+            .and_then(|counts| value_i32(counts.get("techsResearched")))
+            .unwrap_or(0);
+        let units = counts
+            .and_then(|counts| value_i32(counts.get("unitsTrainedTotal")))
+            .unwrap_or(0);
+        let buildings = counts
+            .and_then(|counts| value_i32(counts.get("buildingsBuilt")))
+            .unwrap_or(0);
+        println!("\nslot {slot} {name} [{civ}]  shipments={ships} techs={techs} unitsTrained={units} buildings={buildings}");
+
+        let top_units = state
+            .get("unitsTrained")
+            .and_then(Value::as_array)
+            .map(|tallies| {
+                tallies
+                    .iter()
+                    .take(6)
+                    .filter_map(|tally| {
+                        let name = tally.get("name").and_then(Value::as_str)?;
+                        let count = value_i32(tally.get("count"))?;
+                        Some(format!("{name}x{count}"))
+                    })
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            })
+            .unwrap_or_default();
+        if !top_units.is_empty() {
+            println!("  top units: {top_units}");
+        }
+
+        let ship_names = derived_names(state.get("shipmentsSent"), 6);
+        if !ship_names.is_empty() {
+            println!("  shipments: {ship_names}");
+        }
+        let building_names = derived_names(state.get("buildingsBuilt"), 8);
+        if !building_names.is_empty() {
+            println!("  buildings: {building_names}");
+        }
+        if let Some(spent) = state.get("resourcesSpent") {
+            let res = |key: &str| spent.get(key).and_then(Value::as_f64).unwrap_or(0.0);
+            println!(
+                "  resources spent (gross): food={:.0} wood={:.0} gold={:.0} influence={:.0} total={:.0}",
+                res("food"),
+                res("wood"),
+                res("gold"),
+                res("influence"),
+                res("total")
+            );
+        }
+    }
+
+    if let Some(reason) = states
+        .first()
+        .and_then(|state| state.get("unavailable"))
+        .and_then(|unavailable| unavailable.get("reason"))
+        .and_then(Value::as_str)
+    {
+        println!("\nUnavailable (losses / active counts / resources): {reason}");
+    }
+
+    Ok(())
+}
+
+fn derived_names(value: Option<&Value>, limit: usize) -> String {
+    value
+        .and_then(Value::as_array)
+        .map(|events| {
+            events
+                .iter()
+                .take(limit)
+                .filter_map(|event| event.get("name").and_then(Value::as_str))
+                .collect::<Vec<_>>()
+                .join(", ")
+        })
+        .unwrap_or_default()
 }
 
 fn inspect_card_commands(parsed: &Value, actor_slot: Option<i32>) -> Result<(), String> {
@@ -419,6 +560,31 @@ fn print_actor_deck_candidates(parsed: &Value, commands: &[Value], slot: i32) {
     }
 }
 
+fn compare_summaries_args(args: &[String], start_index: usize) -> Result<(PathBuf, PathBuf), String> {
+    let mut a_path = None;
+    let mut b_path = None;
+    let mut index = start_index;
+
+    while index < args.len() {
+        match args[index].as_str() {
+            "--a" => {
+                a_path = Some(PathBuf::from(value_after(args, index, "--a")?));
+                index += 2;
+            }
+            "--b" => {
+                b_path = Some(PathBuf::from(value_after(args, index, "--b")?));
+                index += 2;
+            }
+            other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
+        }
+    }
+
+    Ok((
+        a_path.ok_or_else(|| "Missing --a <debug-json>".to_string())?,
+        b_path.ok_or_else(|| "Missing --b <debug-json>".to_string())?,
+    ))
+}
+
 fn import_args(args: &[String], start_index: usize) -> Result<(PathBuf, PathBuf), String> {
     let mut input = None;
     let mut out = None;
@@ -444,33 +610,29 @@ fn import_args(args: &[String], start_index: usize) -> Result<(PathBuf, PathBuf)
     ))
 }
 
-fn resolve_card_args(args: &[String], start_index: usize) -> Result<i32, String> {
-    let mut card_id = None;
-    let mut index = start_index;
+/// Parse `resolve-card/unit/tech` args: either `--<flag> <id>` or a bare
+/// positional id (`resolve-card 1676`). `flag` is e.g. `--card-id`.
+fn resolve_id_arg(args: &[String], flag: &str) -> Result<i32, String> {
+    let mut id = None;
+    let mut index = 1;
 
     while index < args.len() {
-        match args[index].as_str() {
-            "--card-id" => {
-                card_id = Some(parse_i32_arg(args, index, "--card-id")?);
-                index += 2;
-            }
-            other => {
-                // Allow a bare positional id: `resolve-card 1676`.
-                if card_id.is_none() {
-                    card_id = Some(
-                        other
-                            .parse::<i32>()
-                            .map_err(|err| format!("Invalid card id '{other}': {err}"))?,
-                    );
-                    index += 1;
-                } else {
-                    return Err(format!("Unexpected argument '{other}'\n\n{}", usage()));
-                }
-            }
+        let arg = args[index].as_str();
+        if arg == flag {
+            id = Some(parse_i32_arg(args, index, flag)?);
+            index += 2;
+        } else if id.is_none() {
+            id = Some(
+                arg.parse::<i32>()
+                    .map_err(|err| format!("Invalid id '{arg}': {err}"))?,
+            );
+            index += 1;
+        } else {
+            return Err(format!("Unexpected argument '{arg}'\n\n{}", usage()));
         }
     }
 
-    card_id.ok_or_else(|| format!("Missing --card-id <id>\n\n{}", usage()))
+    id.ok_or_else(|| format!("Missing {flag} <id>\n\n{}", usage()))
 }
 
 fn inspect_card_args(args: &[String], start_index: usize) -> Result<Option<i32>, String> {
@@ -488,6 +650,67 @@ fn inspect_card_args(args: &[String], start_index: usize) -> Result<Option<i32>,
     }
 
     Ok(actor_slot)
+}
+
+/// Compare two debug JSONs' command-id histograms. For the death-vs-control
+/// experiment: a command id that appears (or jumps) only in the death replay is
+/// a candidate outcome/death event. See docs/reverse-engineering/replay-model.md.
+fn compare_summaries(
+    a_path: &Path,
+    a: &Value,
+    b_path: &Path,
+    b: &Value,
+) -> Result<(), String> {
+    let a_counts = command_id_counts(a)
+        .ok_or_else(|| format!("{}: debug.debugSummary.commandIds missing", a_path.display()))?;
+    let b_counts = command_id_counts(b)
+        .ok_or_else(|| format!("{}: debug.debugSummary.commandIds missing", b_path.display()))?;
+
+    println!("A: {}", a_path.display());
+    println!("B: {}", b_path.display());
+    println!(
+        "A total commands: {}   B total commands: {}",
+        a_counts.values().sum::<i64>(),
+        b_counts.values().sum::<i64>()
+    );
+
+    let mut ids = a_counts.keys().chain(b_counts.keys()).copied().collect::<Vec<_>>();
+    ids.sort_unstable();
+    ids.dedup();
+
+    println!("commandId   A      B      delta(B-A)");
+    let mut only_in_b = Vec::new();
+    for id in ids {
+        let a_count = a_counts.get(&id).copied().unwrap_or(0);
+        let b_count = b_counts.get(&id).copied().unwrap_or(0);
+        let delta = b_count - a_count;
+        println!("  {id:>5}   {a_count:>5}  {b_count:>5}   {delta:>+6}");
+        if a_count == 0 && b_count > 0 {
+            only_in_b.push(id);
+        }
+    }
+
+    if only_in_b.is_empty() {
+        println!("\nNo command id appears only in B. If B is the death replay, that is evidence");
+        println!("there is no explicit death/outcome command (deaths are not logged in-file).");
+    } else {
+        println!("\nCommand ids only in B (candidate outcome events to inspect): {only_in_b:?}");
+    }
+
+    Ok(())
+}
+
+fn command_id_counts(parsed: &Value) -> Option<HashMap<i32, i64>> {
+    parsed
+        .get("debug")
+        .and_then(|debug| debug.get("debugSummary"))
+        .and_then(|summary| summary.get("commandIds"))
+        .and_then(Value::as_object)
+        .map(|map| {
+            map.iter()
+                .filter_map(|(key, value)| Some((key.parse::<i32>().ok()?, value.as_i64()?)))
+                .collect()
+        })
 }
 
 fn compare_commands(a: &Value, b: &Value, options: &CompareOptions) -> Result<(), String> {
@@ -1089,6 +1312,27 @@ fn print_debug_command(command: &Value, full_hex: bool) {
     if let Some(deck_match) = command.get("deckMatch") {
         println!("  deckMatch={}", deck_match_label(deck_match));
     }
+    if let Some(name) = command
+        .get("unit")
+        .and_then(|unit| unit.get("displayName"))
+        .and_then(Value::as_str)
+    {
+        println!("  unit={name}");
+    }
+    if let Some(name) = command
+        .get("tech")
+        .and_then(|tech| tech.get("displayName"))
+        .and_then(Value::as_str)
+    {
+        println!("  tech={name}");
+    }
+    if let Some(name) = command
+        .get("building")
+        .and_then(|building| building.get("displayName"))
+        .and_then(Value::as_str)
+    {
+        println!("  building={name}");
+    }
     if full_hex {
         print_raw_u32_fields(command);
     }
@@ -1116,8 +1360,14 @@ fn deck_match_label(deck_match: &Value) -> String {
             .get("confidence")
             .and_then(Value::as_str)
             .unwrap_or("?");
+        let card_name = deck_match
+            .get("card")
+            .and_then(|card| card.get("displayName"))
+            .and_then(Value::as_str)
+            .map(|name| format!(" card=\"{name}\""))
+            .unwrap_or_default();
         format!(
-            "matched cardId={card_id} deckId={deck_id} deck=\"{deck_name}\" source={source} confidence={confidence}"
+            "matched cardId={card_id}{card_name} deckId={deck_id} deck=\"{deck_name}\" source={source} confidence={confidence}"
         )
     } else {
         let reason = deck_match
@@ -1187,6 +1437,7 @@ enum Command {
         output_path: PathBuf,
         debug_commands: bool,
         experimental_shipments: bool,
+        events: bool,
     },
     Normalize {
         parsed_path: PathBuf,
@@ -1206,12 +1457,28 @@ enum Command {
     CompareCommands {
         options: CompareOptions,
     },
+    CompareSummaries {
+        a_path: PathBuf,
+        b_path: PathBuf,
+    },
     DumpDecks {
         parsed_path: PathBuf,
         options: DumpDecksOptions,
     },
+    PlayerSummary {
+        parsed_path: PathBuf,
+    },
     ResolveCard {
         card_id: i32,
+    },
+    ResolveUnit {
+        unit_id: i32,
+    },
+    ResolveTech {
+        tech_id: i32,
+    },
+    ResolveBuilding {
+        building_id: i32,
     },
     ImportAoe3Companion {
         input: PathBuf,
@@ -1257,6 +1524,10 @@ impl Cli {
             "compare-commands" => Command::CompareCommands {
                 options: compare_args(&args, 1)?,
             },
+            "compare-summaries" => {
+                let (a_path, b_path) = compare_summaries_args(&args, 1)?;
+                Command::CompareSummaries { a_path, b_path }
+            }
             "dump-decks" => {
                 let input_arg = args.get(1).ok_or_else(usage)?;
                 let input_path = PathBuf::from(input_arg.as_str());
@@ -1265,8 +1536,26 @@ impl Cli {
                     options: dump_decks_args(&args, 2)?,
                 }
             }
+            "player-summary" => {
+                let input_arg = args.get(1).ok_or_else(usage)?;
+                if args.len() > 2 {
+                    return Err(format!("Unexpected argument '{}'\n\n{}", args[2], usage()));
+                }
+                Command::PlayerSummary {
+                    parsed_path: PathBuf::from(input_arg.as_str()),
+                }
+            }
             "resolve-card" => Command::ResolveCard {
-                card_id: resolve_card_args(&args, 1)?,
+                card_id: resolve_id_arg(&args, "--card-id")?,
+            },
+            "resolve-unit" => Command::ResolveUnit {
+                unit_id: resolve_id_arg(&args, "--unit-id")?,
+            },
+            "resolve-tech" => Command::ResolveTech {
+                tech_id: resolve_id_arg(&args, "--tech-id")?,
+            },
+            "resolve-building" => Command::ResolveBuilding {
+                building_id: resolve_id_arg(&args, "--building-id")?,
             },
             "import-aoe3-companion" => {
                 let (input, out) = import_args(&args, 1)?;
@@ -1275,13 +1564,14 @@ impl Cli {
             "parse" => {
                 let input_arg = args.get(1).ok_or_else(usage)?;
                 let input_path = PathBuf::from(input_arg.as_str());
-                let (output_path, debug_commands, experimental_shipments) =
+                let (output_path, debug_commands, experimental_shipments, events) =
                     parse_args(&args, 2, default_output_path(command_name, &input_path))?;
                 Command::Parse {
                     replay_path: input_path.clone(),
                     output_path,
                     debug_commands,
                     experimental_shipments,
+                    events,
                 }
             }
             "normalize" => {
@@ -1513,10 +1803,11 @@ fn parse_args(
     args: &[String],
     start_index: usize,
     default_output_path: PathBuf,
-) -> Result<(PathBuf, bool, bool), String> {
+) -> Result<(PathBuf, bool, bool, bool), String> {
     let mut output_path = default_output_path;
     let mut debug_commands = false;
     let mut experimental_shipments = false;
+    let mut events = false;
     let mut index = start_index;
 
     while index < args.len() {
@@ -1536,11 +1827,15 @@ fn parse_args(
                 experimental_shipments = true;
                 index += 1;
             }
+            "--events" => {
+                events = true;
+                index += 1;
+            }
             other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
         }
     }
 
-    Ok((output_path, debug_commands, experimental_shipments))
+    Ok((output_path, debug_commands, experimental_shipments, events))
 }
 
 fn normalize_parsed_json(mut parsed: Value) -> Result<Value, String> {
@@ -2125,6 +2420,8 @@ fn validate_parsed_json(parsed: &Value) -> ValidationReport {
                     Some(_) => {}
                 }
             }
+            // Verified command-derived gameplay events (count toward eventCount).
+            Some("research") | Some("train") | Some("build") | Some("age_up") => {}
             Some(_) | None => unknown_type_count += 1,
         }
 
@@ -2316,6 +2613,21 @@ fn payload_matches_type(event: &Value, event_type: Option<&str>) -> bool {
                     Some("confirmed" | "candidate")
                 )
                 && payload.get("source").and_then(Value::as_str).is_some()
+        }
+        Some("research") | Some("age_up") => {
+            kind == event_type
+                && value_i32(payload.get("techId")).is_some()
+                && payload.get("name").and_then(Value::as_str).is_some()
+        }
+        Some("train") => {
+            kind == Some("train")
+                && value_i32(payload.get("unitId")).is_some()
+                && payload.get("name").and_then(Value::as_str).is_some()
+        }
+        Some("build") => {
+            kind == Some("build")
+                && value_i32(payload.get("buildingId")).is_some()
+                && payload.get("name").and_then(Value::as_str).is_some()
         }
         _ => payload.is_object(),
     }
@@ -2612,7 +2924,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]".to_string()
 }
 
 #[derive(Default)]

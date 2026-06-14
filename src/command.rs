@@ -3,11 +3,21 @@ use crate::binary::{
     read_utf16_string, search,
 };
 use crate::models::{
-    CardSendCandidate, Commands, DebugRawFields, DebugU16Field, DebugU32Field, Message,
-    RawDebugCommand, Resign,
+    ActionCandidate, CardSendCandidate, Commands, DebugRawFields, DebugU16Field, DebugU32Field,
+    Message, RawDebugCommand, Resign,
 };
 use crate::ParseResult;
 use std::collections::BTreeMap;
+
+/// Collects the command candidates emitted while walking the command stream.
+#[derive(Default)]
+struct Sink {
+    resigns: Vec<Resign>,
+    card_sends: Vec<CardSendCandidate>,
+    research: Vec<ActionCandidate>,
+    trains: Vec<ActionCandidate>,
+    builds: Vec<ActionCandidate>,
+}
 
 pub fn parse_command(file_bytes: &[u8]) -> ParseResult<Commands> {
     Ok(parse_command_internal(file_bytes, false)?.commands)
@@ -26,8 +36,7 @@ struct ParsedCommands {
 fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult<ParsedCommands> {
     let data = decompress_replay(file_bytes)?;
     let mut chat = Vec::new();
-    let mut resigns = Vec::new();
-    let mut card_sends = Vec::new();
+    let mut sink = Sink::default();
     let mut debug_commands = Vec::new();
 
     let start_marker = [0x9a, 0x99, 0x99, 0x3d];
@@ -70,13 +79,8 @@ fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult
             };
 
             for _ in 0..commands_count.max(0) {
-                let debug_command = parse_inner_command(
-                    &data,
-                    &mut position,
-                    duration,
-                    &mut resigns,
-                    &mut card_sends,
-                )?;
+                let debug_command =
+                    parse_inner_command(&data, &mut position, duration, &mut sink)?;
                 if collect_debug {
                     debug_commands.push(debug_command);
                 }
@@ -87,8 +91,11 @@ fn parse_command_internal(file_bytes: &[u8], collect_debug: bool) -> ParseResult
     Ok(ParsedCommands {
         commands: Commands {
             chat,
-            resigns,
-            card_sends,
+            resigns: sink.resigns,
+            card_sends: sink.card_sends,
+            research: sink.research,
+            trains: sink.trains,
+            builds: sink.builds,
         },
         debug_commands,
     })
@@ -150,8 +157,7 @@ fn parse_inner_command(
     data: &[u8],
     position: &mut usize,
     duration: i32,
-    resigns: &mut Vec<Resign>,
-    card_sends: &mut Vec<CardSendCandidate>,
+    sink: &mut Sink,
 ) -> ParseResult<RawDebugCommand> {
     let command_start = *position;
     read_u8_advance(data, position)?;
@@ -229,6 +235,11 @@ fn parse_inner_command(
         1 => {
             let tech_id = read_i32_advance(data, position)?;
             decoded_fields.insert("techIdCandidate".to_string(), tech_id);
+            sink.research.push(ActionCandidate {
+                slot_id: player_slot_id,
+                time: duration,
+                raw_id: tech_id,
+            });
         }
         2 => {
             // Two observed variants share one layout:
@@ -248,6 +259,11 @@ fn parse_inner_command(
                 });
             } else if proto_id >= 0 && deck_index == -1 {
                 parsed_as = "train_unit_candidate";
+                sink.trains.push(ActionCandidate {
+                    slot_id: player_slot_id,
+                    time: duration,
+                    raw_id: proto_id,
+                });
             } else {
                 parsed_as = "command2_unclassified";
             }
@@ -259,6 +275,11 @@ fn parse_inner_command(
         3 => {
             let proto_id = read_i32(data, *position)?;
             decoded_fields.insert("protoIdCandidate".to_string(), proto_id);
+            sink.builds.push(ActionCandidate {
+                slot_id: player_slot_id,
+                time: duration,
+                raw_id: proto_id,
+            });
             advance(position, 44, data.len())?;
         }
         4 => advance(position, 25, data.len())?,
@@ -277,7 +298,7 @@ fn parse_inner_command(
             advance(position, 4, data.len())?;
             let resign_slot_id = read_i32_advance(data, position)?;
             decoded_fields.insert("resignSlotId".to_string(), resign_slot_id);
-            resigns.push(Resign {
+            sink.resigns.push(Resign {
                 slot_id: resign_slot_id,
                 time: duration,
             });
@@ -346,7 +367,7 @@ fn parse_inner_command(
 
     let length = position.saturating_sub(command_start);
     if let Some(card_send) = card_send {
-        card_sends.push(card_send);
+        sink.card_sends.push(card_send);
     }
     let raw_fields = raw_fields(data, command_start, length, 128);
 
@@ -370,7 +391,7 @@ fn command_name_for_command_id(command_id: i32) -> &'static str {
         0 => "unit_order_or_action",
         1 => "research_tech_candidate",
         2 => "train_or_card_send",
-        3 => "proto_action_candidate",
+        3 => "build_building_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",
         37 => "command_37_unclassified",
@@ -388,7 +409,7 @@ fn parsed_as_for_command_id(command_id: i32) -> &'static str {
         0 => "order",
         1 => "research_tech_candidate",
         2 => "command2_unclassified",
-        3 => "proto_action_candidate",
+        3 => "build_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",
         37 => "command_37_unclassified",

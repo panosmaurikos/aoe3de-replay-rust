@@ -18,10 +18,9 @@ without touching parser logic.
 
 ## Where the data lives
 
-`data/*.json`, keyed by the game `dbid`. `cards.json` and `icons.json` are
-compiled into the binary with `include_str!`; `techs.json` / `units.json` /
-`civs.json` are reference files. See `data/README.md` for schemas. Editing a data
-file requires `cargo build`.
+`data/*.json`. `cards.json` and `icons.json` are compiled into the binary with
+`include_str!`; `units.json` / `civs.json` are reference files. See
+`data/README.md` for schemas. Editing a data file requires `cargo build`.
 
 The data is generated from the MIT-licensed **aoe3-companion** set
 (`data/THIRD_PARTY_LICENSES.md`):
@@ -33,18 +32,27 @@ cargo run -- import-aoe3-companion --input "path\to\aoe3-companion" --out data
 The importer resolves display names from the in-game English string table and
 derives icon keys from icon paths.
 
-## ⚠️ dbid is not the replay rawId
+## Replay ids are array indices (the bridge)
 
-The data layer is keyed by **`dbid`** (the game's internal id, Capitalism =
-`3438`). Replay decks and `commandId=2`/`66` use a **different** `rawId` space
-(Capitalism shows as `1676` there). The `rawId → dbid` bridge is unsolved (~32%
-coincidental overlap on real decks), so:
+Every replay id space is a **0-based array index** into the companion game data,
+NOT the dbid:
 
-- `resolve-card <dbid>` resolves **game-data** ids.
-- The replay path does **not** feed `rawId` into the data layer — that would
-  produce wrong names. Replay shipment/deckMatch output stays numeric until the
-  bridge is found. This is deliberate (correctness over a plausible-but-wrong
-  name).
+| Replay id                       | Index into            | Resolves via   |
+|---------------------------------|-----------------------|----------------|
+| card `rawId` (decks, cmd 2/66)  | `techtree.tech[]`     | `cards.json`   |
+| research `techIdCandidate` (cmd 1) | `techtree.tech[]`  | `cards.json`   |
+| train `unitProtoIdCandidate` (cmd 2) | `proto.unit[]`   | `units.json`   |
+
+Verified: `tech[1676]` = Capitalism (dbid `3438`); `proto[284]` = Settler,
+`proto[928]` = Villager; `tech[410]` = Placer Mines. Full replay decks and
+trained-unit / researched-tech streams resolve to civ-correct names that match
+the in-game arrival chats across every civilization (Janissaries/Abus
+Gunner→Ottoman, Bersaglieri→Italian, Confucius' Gift→Chinese, Maigadi→Hausa,
+Bank of Rotterdam→Dutch, …). Each entry also carries its `dbid`.
+
+Caveat: the index reflects the array order of the game version that produced the
+companion dump. A replay from a very different patch could drift; the tested
+corpus resolves at ~100% for cards and high for units/techs.
 
 ## Code
 
@@ -66,27 +74,30 @@ coincidental overlap on real decks), so:
 
 ## Where it is used today
 
-| Consumer            | What                                                  |
-|---------------------|-------------------------------------------------------|
-| `resolve-card` CLI  | look up a game `dbid` → name / internal / icon        |
+| Consumer                                   | What                                              |
+|--------------------------------------------|---------------------------------------------------|
+| `resolve-card` / `resolve-unit` / `resolve-tech` CLI | id → name / internal / dbid / icon      |
+| `debug.commands[*].deckMatch.card`         | card send (commandId=2) → resolved card           |
+| `debug.commands[*].unit`                   | train unit (commandId=2) → resolved unit          |
+| `debug.commands[*].tech`                   | research (commandId=1) → resolved tech            |
+| `--experimental-shipments` timeline events | `payload.cardName`, `payload.iconKey`             |
 
-The replay parser is intentionally **not** wired into the data layer yet, because
-its card ids are `rawId`s, not `dbid`s (see above). `deckMatch` and
-`--experimental-shipments` events carry the numeric `rawId` only. Once the
-`rawId → dbid` bridge exists, the same `resolve_card` call will enrich them.
+These are present only when the id resolves to a known entry. Normal JSON (no
+`--experimental-shipments`) still contains **no** shipment / train / research
+events — only the debug layer is enriched by default.
 
 ## Roadmap (data layer)
 
 - **Done:** `import-aoe3-companion` — cards/techs/units/civs/icons from the
   aoe3-companion set, names from the English string table.
-- **Next (blocker for replay enrichment): solve `rawId → dbid`.** Likely via a
-  per-civ home-city card table (the companion `homecities/*.json` decks list card
-  `@dbid` + tech name; the replay deck lists `rawId`s in a parallel order) or a
-  direct game-file extraction that exposes both ids. Until then no replay card
-  gets a name.
-- Phase 6: `resolve-tech` / `resolve-unit` / `resolve-building` CLIs over the
-  already-imported `techs.json` / `units.json` (and future `buildings.json` /
-  `maps.json`).
+- **Done:** all three id→entry bridges (card/tech = techtree index, unit = proto
+  index), wired into `deckMatch`, `unit`, `tech` debug fields + experimental
+  shipments; `resolve-card` / `resolve-unit` / `resolve-tech` CLIs.
+- Next: isolate the commandId=2 train variant from non-train rows (some prop ids
+  leak in) so train events become normal-JSON-safe; confirm commandId=1 actor /
+  timing for `research_tech` events. See `docs/overlay-features.md`.
+- Later: `civilizations` / `age` fields on cards; per-unit resource costs from
+  `protoy` (for military/vill lost value); version-aware index handling.
 
 ## Licensing note
 

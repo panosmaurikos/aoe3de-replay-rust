@@ -56,16 +56,16 @@ A card send resolves to a card raw id via the **acting slot's own** decks:
 4. `cardId = deck.cards[deckIndexCandidate].rawId`. Out-of-range index, ambiguous
    deck id, or unknown active deck ⇒ `matched=false` with a `reason`.
 
-The matched value is a replay **`rawId`**, which is NOT the game data `dbid`
-space the card database is keyed by (see `docs/game-data-layer.md`). The
-arrival-chat correlation that suggested `1676 → Capitalism` is contradicted by the
-authoritative data: Capitalism's `dbid` is `3438`, and `1676` is not a tech
-`dbid` at all. So the resolver reports the numeric `rawId` only and assigns **no
-card name** until the `rawId → dbid` bridge is solved.
+The matched value is a replay **`rawId`**, which is the **0-based index into the
+game's `techtree.tech[]` array** (NOT the dbid — see `docs/game-data-layer.md`).
+The game data layer is keyed by that index, so the resolver attaches a real card
+name/icon: `deckMatch.card` in debug, and `payload.cardName` / `payload.iconKey`
+on experimental shipment events.
 
-Examples (rawId, name NOT asserted):
+Verified examples:
 
-- testship slot 2: select deck 0 (built via cmd66), send `deckIndex=0` at 03:00.514 ⇒ rawId 1676; "Capitalism Shipment has arrived" at 03:40.510 (chat hint only — 40 s lag, not proof of the name↔id link).
+- testship slot 2 (USA, George Washington): send `deckIndex=0` at 03:00.514 ⇒ rawId 1676 ⇒ tech[1676] = **Capitalism**; "Capitalism Shipment has arrived" at 03:40.510 confirms it.
+- malloncheater: every player's resolved sends are civ-correct and match the arrival chats — Janissaries (Ottoman), Bersaglieri (Italian), Confucius' Gift (Chinese), Bank of Rotterdam (Dutch), Lifidi Knights (Hausa), …
 - malloncheater slot 2 (Italians, deck "team 33"): send `deckIndex=0` at 01:47.009 ⇒ card 735; "TEAM Marco Polo Voyages Shipment has arrived" at 01:51.990 (only Italian player in game).
 - malloncheater slot 6 (Dutch, 6 decks, no selection, no default) ⇒ all sends honestly `matched=false`.
 
@@ -84,12 +84,14 @@ arrival ordering (FIFO queue) has not been verified yet.
 
 ## Open questions
 
-- **Card `rawId` → `dbid` mapping (the key blocker).** The full game database is
-  now imported (`data/cards.json`, dbid-keyed, ~2.5k cards) but the replay
-  `rawId` space does not match it (Capitalism: rawId 1676 vs dbid 3438; ~32%
-  coincidental overlap on real decks). Solving this bridge — likely via the
-  companion `homecities/*.json` per-civ card order, or a direct game-file
-  extraction exposing both ids — is what unlocks real card names on shipments.
+- **Solved:** card `rawId` → name. rawId is the techtree array index;
+  `data/cards.json` is keyed by it. Confirmed civ-correct and against arrival
+  chats across all players.
+- Does the system-chat arrival order let us upgrade matched sends from
+  `candidate` to `confirmed` (and add timing)? The names already line up; the
+  per-player FIFO queue ordering is the remaining check.
+- Are `commandId=2` train-unit ids and `commandId=1` tech ids also array indices
+  (proto/tech)? Likely the same pattern — next to verify.
 - Active deck when no `commandId=66` selection exists and several decks are saved (malloncheater slot 6).
 - Whether an in-game deck edit (cmd66 adds) can modify a deck that was also parsed in the header (currently parsed content wins when both agree; conflicting contents are reported as ambiguous).
 - Double-click duplicate sends: collapse window not yet decided; duplicates are currently kept (visible in debug; both rows resolve to the same card).

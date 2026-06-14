@@ -9,616 +9,6 @@
     "path": "resources/images/icons/techs/americans/54th_massachusetts_infantry.png",
     "source": "aoe3_companion"
   },
-  "card.Acupuncture": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Acupuncture.png",
-    "source": "aoe3_companion"
-  },
-  "card.Admiral_Tromp": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Admiral_Tromp.png",
-    "source": "aoe3_companion"
-  },
-  "card.Adoption": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Adoption.png",
-    "source": "aoe3_companion"
-  },
-  "card.AdvancedWhaling": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/AdvancedWhaling.png",
-    "source": "aoe3_companion"
-  },
-  "card.Advanced_Consulate": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Advanced_Consulate.png",
-    "source": "aoe3_companion"
-  },
-  "card.Advanced_Scouts": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Advanced_Scouts.png",
-    "source": "aoe3_companion"
-  },
-  "card.Agrarian Ways": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Agrarian Ways.png",
-    "source": "aoe3_companion"
-  },
-  "card.Artificial_Islands": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Artificial_Islands.png",
-    "source": "aoe3_companion"
-  },
-  "card.Assassins": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Assassins.png",
-    "source": "aoe3_companion"
-  },
-  "card.Aztec_Fortification": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Aztec_Fortification.png",
-    "source": "aoe3_companion"
-  },
-  "card.Aztec_Mining": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Aztec_Mining.png",
-    "source": "aoe3_companion"
-  },
-  "card.Black_Arrow": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Black_Arrow.png",
-    "source": "aoe3_companion"
-  },
-  "card.Blood Brothers": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Blood Brothers.png",
-    "source": "aoe3_companion"
-  },
-  "card.Bombay_Marine": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Bombay_Marine.png",
-    "source": "aoe3_companion"
-  },
-  "card.Camel_Frightening": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Camel_Frightening.png",
-    "source": "aoe3_companion"
-  },
-  "card.Capitalism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Capitalism.png",
-    "source": "aoe3_companion"
-  },
-  "card.Colbertism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Colbertism.png",
-    "source": "aoe3_companion"
-  },
-  "card.Conservative_Tactics": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Conservative_Tactics.png",
-    "source": "aoe3_companion"
-  },
-  "card.Counting_Coup": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Counting_Coup.png",
-    "source": "aoe3_companion"
-  },
-  "card.Dance_Hall": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Dance_Hall.png",
-    "source": "aoe3_companion"
-  },
-  "card.Diplomatic_Intrigue": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Diplomatic_Intrigue.png",
-    "source": "aoe3_companion"
-  },
-  "card.Distributivism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Distributivism.png",
-    "source": "aoe3_companion"
-  },
-  "card.Earth_Bounty": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Earth_Bounty.png",
-    "source": "aoe3_companion"
-  },
-  "card.Economic_Theory": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Economic_Theory.png",
-    "source": "aoe3_companion"
-  },
-  "card.Elephant_Limit": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Elephant_Limit.png",
-    "source": "aoe3_companion"
-  },
-  "card.Elephant_Trampling": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Elephant_Trampling.png",
-    "source": "aoe3_companion"
-  },
-  "card.European_Cannons": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/European_Cannons.png",
-    "source": "aoe3_companion"
-  },
-  "card.Florence_Nightingale": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Florence_Nightingale.png",
-    "source": "aoe3_companion"
-  },
-  "card.Food_of_the_gods": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Food_of_the_gods.png",
-    "source": "aoe3_companion"
-  },
-  "card.Forced_March": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Forced_March.png",
-    "source": "aoe3_companion"
-  },
-  "card.Foreign_Logging": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Foreign_Logging.png",
-    "source": "aoe3_companion"
-  },
-  "card.Fur_Trade": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Fur_Trade.png",
-    "source": "aoe3_companion"
-  },
-  "card.Great_Hunt": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Great_Hunt.png",
-    "source": "aoe3_companion"
-  },
-  "card.Gribeauval_System": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Gribeauval_System.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_ashigaru_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_ashigaru_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_coin_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_coin_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_food_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_food_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_shrine_wagon_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_shrine_wagon_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_villager_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_villager_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_wood_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_wood_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_2X_yumi_shipment_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_2X_yumi_shipment_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_advanced_rice_paddy_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_advanced_rice_paddy_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_call_to_arms_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_call_to_arms_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_cow_icon": {
-    "fallback": false,
-    "path": "resources/art/units/animals/cow/HC_cow_icon.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_farmland_conservation_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/HC_farmland_conservation_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_flatland_castle_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_flatland_castle_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_flooded_parcel_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_flooded_parcel_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_ghurka_aid_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_ghurka_aid_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_hill_castle_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_hill_castle_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_improved_warships_green_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_improved_warships_green_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_indian_goraksha_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_indian_goraksha_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_indian_grazing_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_indian_grazing_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_indian_monk_combat_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_indian_monk_combat_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_indian_sacred_field_healing_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_indian_sacred_field_healing_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_infinite_flying_crow_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_infinite_flying_crow_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_infinite_rattanshield_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_infinite_rattanshield_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_japanese_monk_combat_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_japanese_monk_combat_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_migrants_shipment_spawn_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_migrants_shipment_spawn_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_mountain_castle_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_mountain_castle_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_native_alliance_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_native_alliance_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_native_crafts_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_native_crafts_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_native_learning_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_native_learning_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_pet_bearblack": {
-    "fallback": false,
-    "path": "resources/art/units/HC_pet_bearblack.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_pet_beargrizzly": {
-    "fallback": false,
-    "path": "resources/art/units/HC_pet_beargrizzly.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_pet_cougar": {
-    "fallback": false,
-    "path": "resources/art/units/HC_pet_cougar.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_pet_jaguar": {
-    "fallback": false,
-    "path": "resources/art/units/HC_pet_jaguar.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_pet_wolf": {
-    "fallback": false,
-    "path": "resources/art/units/HC_pet_wolf.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_saiga_shipment_spawn_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_saiga_shipment_spawn_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_sepoy_rebellion_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_sepoy_rebellion_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_ship_fuchuan_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_ship_fuchuan_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_ship_monk_roundhouse_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_ship_monk_roundhouse_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_team_engineering_school_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_team_engineering_school_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_team_fireship_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_team_fireship_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_team_ship_mongol_scout_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_team_ship_mongol_scout_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_team_sumptuary_laws_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_team_sumptuary_laws_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_terraced_hillsides_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_terraced_hillsides_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_town_dance": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/HC_town_dance.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_water_buffalo_ranching_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_water_buffalo_ranching_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_water_dance": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/HC_water_dance.png",
-    "source": "aoe3_companion"
-  },
-  "card.HC_zen_diet_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_zen_diet_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "card.High_Chief": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/High_Chief.png",
-    "source": "aoe3_companion"
-  },
-  "card.High_Chief_IRO": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/High_Chief_IRO.png",
-    "source": "aoe3_companion"
-  },
-  "card.High_Priest_Ixil": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/High_Priest_Ixil.png",
-    "source": "aoe3_companion"
-  },
-  "card.Informants": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Informants.png",
-    "source": "aoe3_companion"
-  },
-  "card.Irregulars": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Irregulars.png",
-    "source": "aoe3_companion"
-  },
-  "card.Kinship_Ties": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Kinship_Ties.png",
-    "source": "aoe3_companion"
-  },
-  "card.Land_Grab": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Land_Grab.png",
-    "source": "aoe3_companion"
-  },
-  "card.Llama_Ranching": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Llama_Ranching.png",
-    "source": "aoe3_companion"
-  },
-  "card.Marauders": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Marauders.png",
-    "source": "aoe3_companion"
-  },
-  "card.Master_Surgeons": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Master_Surgeons.png",
-    "source": "aoe3_companion"
-  },
-  "card.Morning_Star": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Morning_Star.png",
-    "source": "aoe3_companion"
-  },
-  "card.Mughal_Architecture": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Mughal_Architecture.png",
-    "source": "aoe3_companion"
-  },
-  "card.National_Unity": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/National_Unity.png",
-    "source": "aoe3_companion"
-  },
-  "card.New_Ways": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/New_Ways.png",
-    "source": "aoe3_companion"
-  },
-  "card.Nomadic_Expansion": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Nomadic_Expansion.png",
-    "source": "aoe3_companion"
-  },
-  "card.Offshore_Support": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Offshore_Support.png",
-    "source": "aoe3_companion"
-  },
-  "card.Old_Ways": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Old_Ways.png",
-    "source": "aoe3_companion"
-  },
-  "card.Onikare": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Onikare.png",
-    "source": "aoe3_companion"
-  },
-  "card.OutlawBand": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/OutlawBand.png",
-    "source": "aoe3_companion"
-  },
-  "card.Peacetime_Fishing": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Peacetime_Fishing.png",
-    "source": "aoe3_companion"
-  },
-  "card.Ranching": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Ranching.png",
-    "source": "aoe3_companion"
-  },
-  "card.Range_Finding": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Range_Finding.png",
-    "source": "aoe3_companion"
-  },
-  "card.Religious_Unity": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Religious_Unity.png",
-    "source": "aoe3_companion"
-  },
-  "card.Ruthlessness": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Ruthlessness.png",
-    "source": "aoe3_companion"
-  },
-  "card.Scorched_Earth": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Scorched_Earth.png",
-    "source": "aoe3_companion"
-  },
-  "card.Sevastapol": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Sevastapol.png",
-    "source": "aoe3_companion"
-  },
-  "card.Siege_Combat": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Siege_Combat.png",
-    "source": "aoe3_companion"
-  },
-  "card.Siege_Discipline": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Siege_Discipline.png",
-    "source": "aoe3_companion"
-  },
-  "card.Silent_Strike": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Silent_Strike.png",
-    "source": "aoe3_companion"
-  },
-  "card.Smoking_Mirror": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Smoking_Mirror.png",
-    "source": "aoe3_companion"
-  },
-  "card.South_Sea_Bubble": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/South_Sea_Bubble.png",
-    "source": "aoe3_companion"
-  },
-  "card.Spanish_Gold": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Spanish_Gold.png",
-    "source": "aoe3_companion"
-  },
-  "card.Stone_Towers": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Stone_Towers.png",
-    "source": "aoe3_companion"
-  },
-  "card.Sublime_Porte": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Sublime_Porte.png",
-    "source": "aoe3_companion"
-  },
-  "card.Sumptuary_Laws": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Sumptuary_Laws.png",
-    "source": "aoe3_companion"
-  },
-  "card.Tercio_Tactics": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Tercio_Tactics.png",
-    "source": "aoe3_companion"
-  },
-  "card.Thoroughbreds": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Thoroughbreds.png",
-    "source": "aoe3_companion"
-  },
-  "card.Town_Destroyer": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Town_Destroyer.png",
-    "source": "aoe3_companion"
-  },
-  "card.Unction": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Unction.png",
-    "source": "aoe3_companion"
-  },
-  "card.War_Houses": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/War_Houses.png",
-    "source": "aoe3_companion"
-  },
-  "card.War_Hut_Training": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/War_Hut_Training.png",
-    "source": "aoe3_companion"
-  },
-  "card.Wood_Crafting": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Wood_Crafting.png",
-    "source": "aoe3_companion"
-  },
   "card.ability_inspiring_flag_yucatan": {
     "fallback": false,
     "path": "resources/images/icons/abilities/ability_inspiring_flag_yucatan.png",
@@ -637,6 +27,21 @@
   "card.aceh_pepper_exports": {
     "fallback": false,
     "path": "resources/images/icons/techs/revolution/aceh_pepper_exports.png",
+    "source": "aoe3_companion"
+  },
+  "card.acupuncture": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Acupuncture.png",
+    "source": "aoe3_companion"
+  },
+  "card.admiral_tromp": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Admiral_Tromp.png",
+    "source": "aoe3_companion"
+  },
+  "card.adoption": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Adoption.png",
     "source": "aoe3_companion"
   },
   "card.advanced_agriculture": {
@@ -662,6 +67,11 @@
   "card.advanced_commandery": {
     "fallback": false,
     "path": "resources/images/icons/techs/maltese/advanced_commandery.png",
+    "source": "aoe3_companion"
+  },
+  "card.advanced_consulate": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Advanced_Consulate.png",
     "source": "aoe3_companion"
   },
   "card.advanced_farm": {
@@ -709,6 +119,11 @@
     "path": "resources/images/icons/techs/hc_advanced/advanced_saloon.png",
     "source": "aoe3_companion"
   },
+  "card.advanced_scouts": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Advanced_Scouts.png",
+    "source": "aoe3_companion"
+  },
   "card.advanced_tambos": {
     "fallback": false,
     "path": "resources/images/icons/techs/inca/advanced_tambos.png",
@@ -722,6 +137,16 @@
   "card.advanced_town_center": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/advanced_town_center.png",
+    "source": "aoe3_companion"
+  },
+  "card.advancedwhaling": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/AdvancedWhaling.png",
+    "source": "aoe3_companion"
+  },
+  "card.agrarian ways": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Agrarian Ways.png",
     "source": "aoe3_companion"
   },
   "card.air_nomads": {
@@ -814,9 +239,19 @@
     "path": "resources/art/units/asians/spc/arsonist/arsonist_icon_64.png",
     "source": "aoe3_companion"
   },
+  "card.artificial_islands": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Artificial_Islands.png",
+    "source": "aoe3_companion"
+  },
   "card.artillery_hitpoints": {
     "fallback": false,
     "path": "resources/images/icons/techs/hitpoints/artillery_hitpoints.png",
+    "source": "aoe3_companion"
+  },
+  "card.assassins": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Assassins.png",
     "source": "aoe3_companion"
   },
   "card.auberges": {
@@ -832,6 +267,16 @@
   "card.az_war_canoe_icon": {
     "fallback": false,
     "path": "resources/art/units/az_war_canoe_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.aztec_fortification": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Aztec_Fortification.png",
+    "source": "aoe3_companion"
+  },
+  "card.aztec_mining": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Aztec_Mining.png",
     "source": "aoe3_companion"
   },
   "card.bailiff": {
@@ -929,6 +374,11 @@
     "path": "resources/images/icons/techs/italians/company/black.png",
     "source": "aoe3_companion"
   },
+  "card.black_arrow": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Black_Arrow.png",
+    "source": "aoe3_companion"
+  },
   "card.black_mesa": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/black_mesa.png",
@@ -937,6 +387,11 @@
   "card.blackberries": {
     "fallback": false,
     "path": "resources/images/icons/techs/sweden/blackberries.png",
+    "source": "aoe3_companion"
+  },
+  "card.blood brothers": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Blood Brothers.png",
     "source": "aoe3_companion"
   },
   "card.blotahunka": {
@@ -957,6 +412,11 @@
   "card.bolivar_icon": {
     "fallback": false,
     "path": "resources/art/units/spc/bolivar/bolivar_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.bombay_marine": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Bombay_Marine.png",
     "source": "aoe3_companion"
   },
   "card.border_fortress": {
@@ -1024,6 +484,11 @@
     "path": "resources/images/icons/techs/inca/camayos.png",
     "source": "aoe3_companion"
   },
+  "card.camel_frightening": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Camel_Frightening.png",
+    "source": "aoe3_companion"
+  },
   "card.camp_icon": {
     "fallback": false,
     "path": "resources/art/buildings/african_civs/camp_icon.png",
@@ -1052,6 +517,11 @@
   "card.cantinieres": {
     "fallback": false,
     "path": "resources/images/icons/techs/revolution/cantinieres.png",
+    "source": "aoe3_companion"
+  },
+  "card.capitalism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Capitalism.png",
     "source": "aoe3_companion"
   },
   "card.captured_mortar_icon": {
@@ -1329,6 +799,11 @@
     "path": "resources/images/icons/techs/americans/coffee_mill_gun.png",
     "source": "aoe3_companion"
   },
+  "card.colbertism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Colbertism.png",
+    "source": "aoe3_companion"
+  },
   "card.colonial_militia_icon": {
     "fallback": false,
     "path": "resources/art/units/colonial_militia_icon.png",
@@ -1362,6 +837,11 @@
   "card.conscription": {
     "fallback": false,
     "path": "resources/images/icons/techs/conscription/conscription.png",
+    "source": "aoe3_companion"
+  },
+  "card.conservative_tactics": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Conservative_Tactics.png",
     "source": "aoe3_companion"
   },
   "card.constable": {
@@ -1412,6 +892,11 @@
   "card.counter_cav_tactics": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/counter_cav_tactics.png",
+    "source": "aoe3_companion"
+  },
+  "card.counting_coup": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Counting_Coup.png",
     "source": "aoe3_companion"
   },
   "card.coureur_du_bois_icon_64x64": {
@@ -1529,6 +1014,11 @@
     "path": "resources/images/icons/techs/africans/hausa/dambe_wrestling.png",
     "source": "aoe3_companion"
   },
+  "card.dance_hall": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Dance_Hall.png",
+    "source": "aoe3_companion"
+  },
   "card.dane_guns": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/hausa/dane_guns.png",
@@ -1587,6 +1077,16 @@
   "card.dignitaries": {
     "fallback": false,
     "path": "resources/images/icons/techs/maltese/dignitaries.png",
+    "source": "aoe3_companion"
+  },
+  "card.diplomatic_intrigue": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Diplomatic_Intrigue.png",
+    "source": "aoe3_companion"
+  },
+  "card.distributivism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Distributivism.png",
     "source": "aoe3_companion"
   },
   "card.dodo_cult": {
@@ -1649,6 +1149,26 @@
     "path": "resources/images/icons/techs/africans/hausa/early_lifidi.png",
     "source": "aoe3_companion"
   },
+  "card.earth_bounty": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Earth_Bounty.png",
+    "source": "aoe3_companion"
+  },
+  "card.economic_theory": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Economic_Theory.png",
+    "source": "aoe3_companion"
+  },
+  "card.elephant_limit": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Elephant_Limit.png",
+    "source": "aoe3_companion"
+  },
+  "card.elephant_trampling": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Elephant_Trampling.png",
+    "source": "aoe3_companion"
+  },
   "card.elite_cavalry": {
     "fallback": false,
     "path": "resources/images/icons/techs/elite_cavalry/elite_cavalry.png",
@@ -1707,6 +1227,11 @@
   "card.estremoz_field_guns": {
     "fallback": false,
     "path": "resources/images/icons/techs/portuguese/estremoz_field_guns.png",
+    "source": "aoe3_companion"
+  },
+  "card.european_cannons": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/European_Cannons.png",
     "source": "aoe3_companion"
   },
   "card.exploitation": {
@@ -1819,6 +1344,11 @@
     "path": "resources/images/icons/techs/inca/floating_islands.png",
     "source": "aoe3_companion"
   },
+  "card.florence_nightingale": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Florence_Nightingale.png",
+    "source": "aoe3_companion"
+  },
   "card.florentine_financers": {
     "fallback": false,
     "path": "resources/images/icons/techs/italians/florentine_financers.png",
@@ -1842,6 +1372,21 @@
   "card.fodio_tactics": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/hausa/fodio_tactics.png",
+    "source": "aoe3_companion"
+  },
+  "card.food_of_the_gods": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Food_of_the_gods.png",
+    "source": "aoe3_companion"
+  },
+  "card.forced_march": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Forced_March.png",
+    "source": "aoe3_companion"
+  },
+  "card.foreign_logging": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Foreign_Logging.png",
     "source": "aoe3_companion"
   },
   "card.forest_spirit": {
@@ -1902,6 +1447,11 @@
   "card.fune_icon_64": {
     "fallback": false,
     "path": "resources/art/units/asians/naval/fune/fune_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.fur_trade": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Fur_Trade.png",
     "source": "aoe3_companion"
   },
   "card.futa_jallon": {
@@ -2054,6 +1604,11 @@
     "path": "resources/images/icons/techs/native/great_house.png",
     "source": "aoe3_companion"
   },
+  "card.great_hunt": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Great_Hunt.png",
+    "source": "aoe3_companion"
+  },
   "card.great_northern_forests": {
     "fallback": false,
     "path": "resources/images/icons/techs/great_northern_forests.png",
@@ -2072,6 +1627,11 @@
   "card.grenade_launcher": {
     "fallback": false,
     "path": "resources/images/icons/techs/grenade_launcher.png",
+    "source": "aoe3_companion"
+  },
+  "card.gribeauval_system": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Gribeauval_System.png",
     "source": "aoe3_companion"
   },
   "card.gringos": {
@@ -2189,6 +1749,21 @@
     "path": "resources/images/icons/home_city/hc_2_cherry_orchard_rickshaws.png",
     "source": "aoe3_companion"
   },
+  "card.hc_2x_ashigaru_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_ashigaru_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_2x_coin_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_coin_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_2x_food_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_food_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_2x_holcan": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_2x_holcan.png",
@@ -2239,6 +1814,11 @@
     "path": "resources/images/icons/techs/spc/hc_2x_rowboat.png",
     "source": "aoe3_companion"
   },
+  "card.hc_2x_shrine_wagon_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_shrine_wagon_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_2x_sloop": {
     "fallback": false,
     "path": "resources/images/icons/techs/spc/hc_2x_sloop.png",
@@ -2259,9 +1839,24 @@
     "path": "resources/images/icons/techs/spc/hc_2x_us_marine.png",
     "source": "aoe3_companion"
   },
+  "card.hc_2x_villager_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_villager_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_2x_wokou_junk": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_2x_wokou_junk.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_2x_wood_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_wood_shipment_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_2x_yumi_shipment_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_2X_yumi_shipment_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_2x_zapotec": {
@@ -2272,76 +1867,6 @@
   "card.hc_4_missionaries": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_4_missionaries.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Advanced_Wonders": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Advanced_Wonders.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Armed_Fisherman": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Armed_Fisherman.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Ashigaru_Anti_Cavalry_Damage": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Ashigaru_Anti_Cavalry_Damage.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Atonement": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Atonement.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_East_India_Men": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_East_India_Men.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Flaming_Arrow_Cost": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Flaming_Arrow_Cost.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Intervention": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Intervention.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Kwankoba_Bazaar": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Kwankoba_Bazaar.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Land_Reforms": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Land_Reforms.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Naginata_Anti_Infantry_Damage": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Naginata_Anti_Infantry_Damage.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Stone_Castles": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Stone_Castles.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Warring_States": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Warring_States.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Yabusame_Anti_Artillery_Damage": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Yabusame_Anti_Artillery_Damage.png",
-    "source": "aoe3_companion"
-  },
-  "card.hc_Yumi_Range": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/hc_Yumi_Range.png",
     "source": "aoe3_companion"
   },
   "card.hc_abun_icon": {
@@ -2389,14 +1914,29 @@
     "path": "resources/images/icons/techs/hc_advanced_plantation/hc_advanced_plantation.png",
     "source": "aoe3_companion"
   },
+  "card.hc_advanced_rice_paddy_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_advanced_rice_paddy_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_advanced_trading_post": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_advanced_trading_post/hc_advanced_trading_post.png",
     "source": "aoe3_companion"
   },
+  "card.hc_advanced_wonders": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Advanced_Wonders.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_armada": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_armada/hc_armada.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_armed_fisherman": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Armed_Fisherman.png",
     "source": "aoe3_companion"
   },
   "card.hc_armored_pistoleer_icon": {
@@ -2429,6 +1969,11 @@
     "path": "resources/images/icons/techs/hc_team_techs/hc_artillery_hitpoints.png",
     "source": "aoe3_companion"
   },
+  "card.hc_ashigaru_anti_cavalry_damage": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Ashigaru_Anti_Cavalry_Damage.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_askari_icon": {
     "fallback": false,
     "path": "resources/art/units/africans/mercenaries/askari/hc_askari_icon.png",
@@ -2437,6 +1982,11 @@
   "card.hc_atakebune_ship": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_atakebune_ship.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_atonement": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Atonement.png",
     "source": "aoe3_companion"
   },
   "card.hc_az_arrow_knight_icon": {
@@ -2609,6 +2159,11 @@
     "path": "resources/art/units/infantry_ranged/cacadore/hc_cacadore_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_call_to_arms_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_call_to_arms_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_cannon_boat_icon": {
     "fallback": false,
     "path": "resources/art/units/naval/cannon_boat/hc_cannon_boat_icon.png",
@@ -2734,6 +2289,11 @@
     "path": "resources/art/units/hc_coup_rider_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_cow_icon": {
+    "fallback": false,
+    "path": "resources/art/units/animals/cow/HC_cow_icon.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_crossbow_icon": {
     "fallback": false,
     "path": "resources/art/units/infantry_ranged/crossbow/hc_crossbow_icon.png",
@@ -2797,6 +2357,11 @@
   "card.hc_east_india_company_combat": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_east_india_company_combat.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_east_india_men": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_East_India_Men.png",
     "source": "aoe3_companion"
   },
   "card.hc_elephant_combat": {
@@ -2879,6 +2444,11 @@
     "path": "resources/images/icons/techs/hc_falconet_culverin/hc_falconet_culverin.png",
     "source": "aoe3_companion"
   },
+  "card.hc_farmland_conservation_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/HC_farmland_conservation_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_fatter_sheep": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_fatter_sheep/hc_fatter_sheep.png",
@@ -2919,9 +2489,24 @@
     "path": "resources/images/icons/techs/asians/chuck/hc_fishing_boat_shipment.png",
     "source": "aoe3_companion"
   },
+  "card.hc_flaming_arrow_cost": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Flaming_Arrow_Cost.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_flaming_arrow_shipment": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_flaming_arrow_shipment.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_flatland_castle_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_flatland_castle_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_flooded_parcel_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_flooded_parcel_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_fluyt_icon": {
@@ -2992,6 +2577,11 @@
   "card.hc_gatling_camel_icon": {
     "fallback": false,
     "path": "resources/art/units/africans/mercenaries/gatling_camel/hc_gatling_camel_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_ghurka_aid_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_ghurka_aid_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_giant_grenadier_icon": {
@@ -3099,6 +2689,11 @@
     "path": "resources/art/units/mercenaries/highlander/hc_highlander_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_hill_castle_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_hill_castle_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_hire_asian_merc_army_infinite": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_hire_asian_merc_army/hc_hire_asian_merc_army_infinite.png",
@@ -3144,14 +2739,39 @@
     "path": "resources/images/icons/techs/hc_improved_buildings/hc_improved_buildings.png",
     "source": "aoe3_companion"
   },
+  "card.hc_improved_warships_green_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_improved_warships_green_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_indian_goraksha_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_indian_goraksha_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_indian_grazing_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_indian_grazing_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_indian_mercenary_army": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_indian_mercenary_army.png",
     "source": "aoe3_companion"
   },
+  "card.hc_indian_monk_combat_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_indian_monk_combat_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_indian_monk_frighten": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_indian_monk_frighten.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_indian_sacred_field_healing_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_indian_sacred_field_healing_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_infantry_combat": {
@@ -3174,6 +2794,11 @@
     "path": "resources/images/icons/techs/asians/chuck/hc_infinite_chakrams.png",
     "source": "aoe3_companion"
   },
+  "card.hc_infinite_flying_crow_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_infinite_flying_crow_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_infinite_howdah": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_infinite_howdah.png",
@@ -3194,6 +2819,11 @@
     "path": "resources/images/icons/techs/asians/chuck/hc_infinite_naginata_rider.png",
     "source": "aoe3_companion"
   },
+  "card.hc_infinite_rattanshield_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_infinite_rattanshield_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_infinite_samurai": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_infinite_samurai.png",
@@ -3212,6 +2842,11 @@
   "card.hc_insurgente_icon": {
     "fallback": false,
     "path": "resources/art/units/infantry/insurgente/hc_insurgente_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_intervention": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Intervention.png",
     "source": "aoe3_companion"
   },
   "card.hc_irish_brigade_icon": {
@@ -3269,6 +2904,11 @@
     "path": "resources/images/icons/home_city/hc_japanese_mercenary_army.png",
     "source": "aoe3_companion"
   },
+  "card.hc_japanese_monk_combat_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_japanese_monk_combat_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_japanese_monk_scare": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_japanese_monk_scare.png",
@@ -3304,9 +2944,19 @@
     "path": "resources/images/icons/home_city/hc_koxinga.png",
     "source": "aoe3_companion"
   },
+  "card.hc_kwankoba_bazaar": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Kwankoba_Bazaar.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_lancer_icon": {
     "fallback": false,
     "path": "resources/art/units/cavalry/lancer/hc_lancer_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_land_reforms": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Land_Reforms.png",
     "source": "aoe3_companion"
   },
   "card.hc_light_cavalry_icon": {
@@ -3374,6 +3024,11 @@
     "path": "resources/art/units/asians/chinese/meteor_hammer/hc_meteor_hammer_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_migrants_shipment_spawn_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_migrants_shipment_spawn_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_ming_hp": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_ming_hp.png",
@@ -3419,6 +3074,11 @@
     "path": "resources/images/icons/techs/hc_mosque_construction/hc_mosque_construction_team.png",
     "source": "aoe3_companion"
   },
+  "card.hc_mountain_castle_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_mountain_castle_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_mounted_infantry_icon": {
     "fallback": false,
     "path": "resources/art/units/natives/europeans/hc_mounted_infantry_icon.png",
@@ -3444,6 +3104,11 @@
     "path": "resources/art/units/infantry_ranged/musketeer/hc_musketeer_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_naginata_anti_infantry_damage": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Naginata_Anti_Infantry_Damage.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_naginata_rider_shipment": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_naginata_rider_shipment.png",
@@ -3454,6 +3119,16 @@
     "path": "resources/images/icons/techs/asians/chuck/hc_nanban_trade.png",
     "source": "aoe3_companion"
   },
+  "card.hc_native_alliance_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_native_alliance_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_native_crafts_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_native_crafts_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_native_diplomacy1": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_native_diplomacy1/hc_native_diplomacy1.png",
@@ -3462,6 +3137,11 @@
   "card.hc_native_diplomacy3": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_native_diplomacy3/hc_native_diplomacy3.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_native_learning_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_native_learning_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_native_villager_icon": {
@@ -3592,6 +3272,31 @@
   "card.hc_pavisier_icon": {
     "fallback": false,
     "path": "resources/art/units/infantry_ranged/pavisier/hc_pavisier_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_pet_bearblack": {
+    "fallback": false,
+    "path": "resources/art/units/HC_pet_bearblack.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_pet_beargrizzly": {
+    "fallback": false,
+    "path": "resources/art/units/HC_pet_beargrizzly.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_pet_cougar": {
+    "fallback": false,
+    "path": "resources/art/units/HC_pet_cougar.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_pet_jaguar": {
+    "fallback": false,
+    "path": "resources/art/units/HC_pet_jaguar.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_pet_wolf": {
+    "fallback": false,
+    "path": "resources/art/units/HC_pet_wolf.png",
     "source": "aoe3_companion"
   },
   "card.hc_pikeman_icon": {
@@ -3749,6 +3454,11 @@
     "path": "resources/art/units/natives/inca/hc_runner_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_saiga_shipment_spawn_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_saiga_shipment_spawn_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_samurai_shipment": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_samurai_shipment.png",
@@ -3804,7 +3514,12 @@
     "path": "resources/art/units/asians/natives/sepoy/hc_sepoy_icon.png",
     "source": "aoe3_companion"
   },
-  "card.hc_seven_lucky_Gods": {
+  "card.hc_sepoy_rebellion_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_sepoy_rebellion_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_seven_lucky_gods": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_seven_lucky_Gods.png",
     "source": "aoe3_companion"
@@ -3812,6 +3527,16 @@
   "card.hc_ship_covered_wagon_and_villagers": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_ship_covered_wagon_and_villagers.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_ship_fuchuan_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_ship_fuchuan_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_ship_monk_roundhouse_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_ship_monk_roundhouse_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_shock_rider_icon": {
@@ -3922,6 +3647,11 @@
   "card.hc_stockyards": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_stockyards/hc_stockyards.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_stone_castles": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Stone_Castles.png",
     "source": "aoe3_companion"
   },
   "card.hc_stone_masons": {
@@ -4094,6 +3824,11 @@
     "path": "resources/images/icons/techs/hc_team_defenses_bastion/hc_team_defenses.png",
     "source": "aoe3_companion"
   },
+  "card.hc_team_engineering_school_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_team_engineering_school_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_team_envoy": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_team_envoy/hc_team_envoy.png",
@@ -4102,6 +3837,11 @@
   "card.hc_team_explorer_combat": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_team_explorer_combat/hc_team_explorer_combat.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_team_fireship_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_team_fireship_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_team_fish_market": {
@@ -4224,6 +3964,11 @@
     "path": "resources/images/icons/techs/hc_team_settler_wagons/hc_team_settler_wagons.png",
     "source": "aoe3_companion"
   },
+  "card.hc_team_ship_mongol_scout_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_team_ship_mongol_scout_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_team_sohei": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_team_sohei.png",
@@ -4234,6 +3979,11 @@
     "path": "resources/images/icons/techs/hc_team_spice_trade/hc_team_spice_trade.png",
     "source": "aoe3_companion"
   },
+  "card.hc_team_sumptuary_laws_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_team_sumptuary_laws_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_team_warrior_societies": {
     "fallback": false,
     "path": "resources/images/icons/techs/hc_team_native_warrior_societies/hc_team_warrior_societies.png",
@@ -4242,6 +3992,11 @@
   "card.hc_tekkousen_shipment": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/chuck/hc_tekkousen_shipment.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_terraced_hillsides_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_terraced_hillsides_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_textile_mill": {
@@ -4257,6 +4012,11 @@
   "card.hc_totenkopf_hussar_icon": {
     "fallback": false,
     "path": "resources/art/units/natives/europeans/hc_totenkopf_hussar_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_town_dance": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/HC_town_dance.png",
     "source": "aoe3_companion"
   },
   "card.hc_trabant_icon": {
@@ -4329,6 +4089,21 @@
     "path": "resources/art/units/cavalry/war_wagon/hc_war_wagon_icon.png",
     "source": "aoe3_companion"
   },
+  "card.hc_warring_states": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Warring_States.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_water_buffalo_ranching_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_water_buffalo_ranching_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_water_dance": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/HC_water_dance.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_western_refugees": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_western_refugees.png",
@@ -4352,6 +4127,11 @@
   "card.hc_xebec_icon": {
     "fallback": false,
     "path": "resources/art/units/naval/xebec/hc_xebec_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_yabusame_anti_artillery_damage": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Yabusame_Anti_Artillery_Damage.png",
     "source": "aoe3_companion"
   },
   "card.hc_yabusame_shipment": {
@@ -4389,9 +4169,19 @@
     "path": "resources/images/icons/techs/asians/chuck/hc_yojimbo_shipment.png",
     "source": "aoe3_companion"
   },
+  "card.hc_yumi_range": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/hc_Yumi_Range.png",
+    "source": "aoe3_companion"
+  },
   "card.hc_zamburak_icon": {
     "fallback": false,
     "path": "resources/art/units/asians/indians/zamburak/hc_zamburak_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.hc_zen_diet_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_zen_diet_icon_64.png",
     "source": "aoe3_companion"
   },
   "card.hc_zouave_icon": {
@@ -4424,9 +4214,24 @@
     "path": "resources/images/icons/techs/africans/ethiopians/heywat.png",
     "source": "aoe3_companion"
   },
+  "card.high_chief": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/High_Chief.png",
+    "source": "aoe3_companion"
+  },
+  "card.high_chief_iro": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/High_Chief_IRO.png",
+    "source": "aoe3_companion"
+  },
   "card.high_ground": {
     "fallback": false,
     "path": "resources/images/icons/techs/inca/high_ground.png",
+    "source": "aoe3_companion"
+  },
+  "card.high_priest_ixil": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/High_Priest_Ixil.png",
     "source": "aoe3_companion"
   },
   "card.hire_hessian_jaeger_divsion": {
@@ -5339,6 +5144,11 @@
     "path": "resources/images/icons/techs/africans/ethiopians/infinite_zebu.png",
     "source": "aoe3_companion"
   },
+  "card.informants": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Informants.png",
+    "source": "aoe3_companion"
+  },
   "card.iro_priest_icon": {
     "fallback": false,
     "path": "resources/art/units/iro_priest_icon.png",
@@ -5357,6 +5167,11 @@
   "card.ironclad_icon": {
     "fallback": false,
     "path": "resources/art/units/ironclad_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.irregulars": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Irregulars.png",
     "source": "aoe3_companion"
   },
   "card.italian_firearms": {
@@ -5454,6 +5269,11 @@
     "path": "resources/images/icons/techs/africans/hausa/kingslayer.png",
     "source": "aoe3_companion"
   },
+  "card.kinship_ties": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Kinship_Ties.png",
+    "source": "aoe3_companion"
+  },
   "card.knights_bodrum": {
     "fallback": false,
     "path": "resources/images/icons/techs/maltese/knights_bodrum.png",
@@ -5522,6 +5342,11 @@
   "card.lancers_of_texas": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/revolutions/lancers_of_texas.png",
+    "source": "aoe3_companion"
+  },
+  "card.land_grab": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Land_Grab.png",
     "source": "aoe3_companion"
   },
   "card.land_of_burnet": {
@@ -5644,6 +5469,11 @@
     "path": "resources/images/icons/techs/inca/llama_lifestyle.png",
     "source": "aoe3_companion"
   },
+  "card.llama_ranching": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Llama_Ranching.png",
+    "source": "aoe3_companion"
+  },
   "card.lombard_icon": {
     "fallback": false,
     "path": "resources/art/buildings/lombard/lombard_icon.png",
@@ -5704,6 +5534,11 @@
     "path": "resources/images/icons/techs/mexicans/man_of_destiny.png",
     "source": "aoe3_companion"
   },
+  "card.marauders": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Marauders.png",
+    "source": "aoe3_companion"
+  },
   "card.march_revolution": {
     "fallback": false,
     "path": "resources/images/icons/techs/germans/march_revolution.png",
@@ -5717,6 +5552,11 @@
   "card.massina_madrasahs": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/hausa/massina_madrasahs.png",
+    "source": "aoe3_companion"
+  },
+  "card.master_surgeons": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Master_Surgeons.png",
     "source": "aoe3_companion"
   },
   "card.maya_architecture": {
@@ -5849,6 +5689,11 @@
     "path": "resources/images/icons/techs/inca/monumental_architecture.png",
     "source": "aoe3_companion"
   },
+  "card.morning_star": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Morning_Star.png",
+    "source": "aoe3_companion"
+  },
   "card.moroccan_leather": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/alliances/moroccan_leather.png",
@@ -5882,6 +5727,11 @@
   "card.ms_plymouth_settlers": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/federal/ms_plymouth_settlers.png",
+    "source": "aoe3_companion"
+  },
+  "card.mughal_architecture": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Mughal_Architecture.png",
     "source": "aoe3_companion"
   },
   "card.mughal_elephant_armors": {
@@ -5964,6 +5814,11 @@
     "path": "resources/images/icons/techs/spc/national_housing.png",
     "source": "aoe3_companion"
   },
+  "card.national_unity": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/National_Unity.png",
+    "source": "aoe3_companion"
+  },
   "card.native_canoe_icon": {
     "fallback": false,
     "path": "resources/art/units/native_canoe_icon.png",
@@ -5997,6 +5852,11 @@
   "card.new_spain": {
     "fallback": false,
     "path": "resources/images/icons/techs/spanish/new_spain.png",
+    "source": "aoe3_companion"
+  },
+  "card.new_ways": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/New_Ways.png",
     "source": "aoe3_companion"
   },
   "card.nh_french_canadians": {
@@ -6034,6 +5894,11 @@
     "path": "resources/art/buildings/nobles_hut_icon.png",
     "source": "aoe3_companion"
   },
+  "card.nomadic_expansion": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Nomadic_Expansion.png",
+    "source": "aoe3_companion"
+  },
   "card.north_america_trade": {
     "fallback": false,
     "path": "resources/images/icons/techs/native/north_america_trade.png",
@@ -6064,6 +5929,11 @@
     "path": "resources/images/icons/techs/mexicans/observers.png",
     "source": "aoe3_companion"
   },
+  "card.offshore_support": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Offshore_Support.png",
+    "source": "aoe3_companion"
+  },
   "card.oh_putnam": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/federal/oh_putnam.png",
@@ -6079,9 +5949,19 @@
     "path": "resources/images/icons/techs/mexicans/revolutions/old_three_hundred.png",
     "source": "aoe3_companion"
   },
+  "card.old_ways": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Old_Ways.png",
+    "source": "aoe3_companion"
+  },
   "card.oneida_support": {
     "fallback": false,
     "path": "resources/images/icons/techs/oneida_support.png",
+    "source": "aoe3_companion"
+  },
+  "card.onikare": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Onikare.png",
     "source": "aoe3_companion"
   },
   "card.onondaga_support": {
@@ -6117,6 +5997,11 @@
   "card.outlaw_rider_icon_64x64": {
     "fallback": false,
     "path": "resources/art/units/spc/outlaws/outlaw_rider_icon_64x64.png",
+    "source": "aoe3_companion"
+  },
+  "card.outlawband": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/OutlawBand.png",
     "source": "aoe3_companion"
   },
   "card.outpost_icon_64x64": {
@@ -6182,6 +6067,11 @@
   "card.peaceofmuenster": {
     "fallback": false,
     "path": "resources/images/icons/techs/dutch/peaceofmuenster.png",
+    "source": "aoe3_companion"
+  },
+  "card.peacetime_fishing": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Peacetime_Fishing.png",
     "source": "aoe3_companion"
   },
   "card.peasant_drafting": {
@@ -6349,9 +6239,19 @@
     "path": "resources/images/icons/techs/mexicans/rancheros.png",
     "source": "aoe3_companion"
   },
+  "card.ranching": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Ranching.png",
+    "source": "aoe3_companion"
+  },
   "card.ranchos": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/revolutions/ranchos.png",
+    "source": "aoe3_companion"
+  },
+  "card.range_finding": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Range_Finding.png",
     "source": "aoe3_companion"
   },
   "card.rangers": {
@@ -6392,6 +6292,11 @@
   "card.reign_of_robespierre": {
     "fallback": false,
     "path": "resources/images/icons/techs/revolution/reign_of_robespierre.png",
+    "source": "aoe3_companion"
+  },
+  "card.religious_unity": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Religious_Unity.png",
     "source": "aoe3_companion"
   },
   "card.reno_gang": {
@@ -6479,6 +6384,11 @@
     "path": "resources/art/units/spc/russian_cannon/russian_cannon_icon_64.png",
     "source": "aoe3_companion"
   },
+  "card.ruthlessness": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Ruthlessness.png",
+    "source": "aoe3_companion"
+  },
   "card.sale_rovers": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/alliances/sale_rovers.png",
@@ -6559,6 +6469,11 @@
     "path": "resources/images/icons/techs/italians/schiavoni.png",
     "source": "aoe3_companion"
   },
+  "card.scorched_earth": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Scorched_Earth.png",
+    "source": "aoe3_companion"
+  },
   "card.scouts_apache": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/scouts_apache.png",
@@ -6587,6 +6502,11 @@
   "card.settler_wagon_icon": {
     "fallback": false,
     "path": "resources/art/units/villagers/settler_wagon/settler_wagon_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.sevastapol": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Sevastapol.png",
     "source": "aoe3_companion"
   },
   "card.seven_council_fires": {
@@ -6684,9 +6604,14 @@
     "path": "resources/images/icons/techs/hc_yeoman/siege_archery.png",
     "source": "aoe3_companion"
   },
+  "card.siege_combat": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Siege_Combat.png",
+    "source": "aoe3_companion"
+  },
   "card.siege_discipline": {
     "fallback": false,
-    "path": "resources/images/icons/techs/native/siege_discipline.png",
+    "path": "resources/images/icons/techs/native/Siege_Discipline.png",
     "source": "aoe3_companion"
   },
   "card.siege_elephant_icon_64": {
@@ -6697,6 +6622,11 @@
   "card.sierra_madre_republic": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/revolutions/sierra_madre_republic.png",
+    "source": "aoe3_companion"
+  },
+  "card.silent_strike": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Silent_Strike.png",
     "source": "aoe3_companion"
   },
   "card.sister_republics": {
@@ -6712,6 +6642,11 @@
   "card.sl_san_luis_patriots": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/federal/sl_san_luis_patriots.png",
+    "source": "aoe3_companion"
+  },
+  "card.smoking_mirror": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Smoking_Mirror.png",
     "source": "aoe3_companion"
   },
   "card.snaplocks": {
@@ -6774,9 +6709,19 @@
     "path": "resources/images/icons/techs/revolution/south_africa_wagons.png",
     "source": "aoe3_companion"
   },
+  "card.south_sea_bubble": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/South_Sea_Bubble.png",
+    "source": "aoe3_companion"
+  },
   "card.sovnya": {
     "fallback": false,
     "path": "resources/images/icons/techs/russian/sovnya.png",
+    "source": "aoe3_companion"
+  },
+  "card.spanish_gold": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Spanish_Gold.png",
     "source": "aoe3_companion"
   },
   "card.spanish_priest_icon": {
@@ -6834,6 +6779,11 @@
     "path": "resources/images/icons/techs/italians/steel_bolts.png",
     "source": "aoe3_companion"
   },
+  "card.stone_towers": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Stone_Towers.png",
+    "source": "aoe3_companion"
+  },
   "card.strelet_horde_icon_64x64": {
     "fallback": false,
     "path": "resources/images/icons/techs/strelet_horde/strelet_horde_icon_64x64.png",
@@ -6842,6 +6792,11 @@
   "card.stronghold_icon": {
     "fallback": false,
     "path": "resources/art/buildings/stronghold_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.sublime_porte": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Sublime_Porte.png",
     "source": "aoe3_companion"
   },
   "card.sudanese_dervish_icon": {
@@ -6857,6 +6812,11 @@
   "card.suez_canal": {
     "fallback": false,
     "path": "resources/images/icons/techs/revolution/suez_canal.png",
+    "source": "aoe3_companion"
+  },
+  "card.sumptuary_laws": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Sumptuary_Laws.png",
     "source": "aoe3_companion"
   },
   "card.surgeon_icon": {
@@ -7439,6 +7399,11 @@
     "path": "resources/images/icons/techs/spc/tennessee_volunteers.png",
     "source": "aoe3_companion"
   },
+  "card.tercio_tactics": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Tercio_Tactics.png",
+    "source": "aoe3_companion"
+  },
   "card.terrace_farming": {
     "fallback": false,
     "path": "resources/images/icons/techs/inca/terrace_farming.png",
@@ -7477,6 +7442,11 @@
   "card.theaters": {
     "fallback": false,
     "path": "resources/images/icons/techs/tavern/theaters.png",
+    "source": "aoe3_companion"
+  },
+  "card.thoroughbreds": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Thoroughbreds.png",
     "source": "aoe3_companion"
   },
   "card.tiger_claw_icon_64": {
@@ -7552,6 +7522,11 @@
   "card.topkapi": {
     "fallback": false,
     "path": "resources/images/icons/techs/topkapi/topkapi.png",
+    "source": "aoe3_companion"
+  },
+  "card.town_destroyer": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Town_Destroyer.png",
     "source": "aoe3_companion"
   },
   "card.toy_soldiers": {
@@ -7687,6 +7662,11 @@
   "card.uffizi": {
     "fallback": false,
     "path": "resources/images/icons/techs/italians/uffizi.png",
+    "source": "aoe3_companion"
+  },
+  "card.unction": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Unction.png",
     "source": "aoe3_companion"
   },
   "card.unicorne_mortars": {
@@ -7829,9 +7809,19 @@
     "path": "resources/images/icons/techs/revolution/wanderlust.png",
     "source": "aoe3_companion"
   },
+  "card.war_houses": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/War_Houses.png",
+    "source": "aoe3_companion"
+  },
   "card.war_hut_icon": {
     "fallback": false,
     "path": "resources/art/buildings/war_hut_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.war_hut_training": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/War_Hut_Training.png",
     "source": "aoe3_companion"
   },
   "card.war_junk_icon_64": {
@@ -7882,6 +7872,11 @@
   "card.wokou_junk_icon": {
     "fallback": false,
     "path": "resources/art/units/asians/naval/wokou_junk/wokou_junk_icon.png",
+    "source": "aoe3_companion"
+  },
+  "card.wood_crafting": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Wood_Crafting.png",
     "source": "aoe3_companion"
   },
   "card.xhosa_foods": {
@@ -8319,181 +8314,6 @@
     "path": "ui/native_allies/zapotec",
     "source": "aoe3_companion"
   },
-  "tech.CactusUse": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/CactusUse.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Capitalism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Capitalism.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Christian_Schools": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Christian_Schools.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Colbertism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Colbertism.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Craftmanship": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Craftmanship.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Cult_of_the_Dead": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Cult_of_the_Dead.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Dance2": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Dance2.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Dance3": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Dance3.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Dance4": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Dance4.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Dance_Hall": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Dance_Hall.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Distributivism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Distributivism.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Endurance": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Endurance.png",
-    "source": "aoe3_companion"
-  },
-  "tech.European_Cannons": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/European_Cannons.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Fasting": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Fasting.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Fish_Wedding": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Fish_Wedding.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Flying_Buttress": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Flying_Buttress.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Food_of_the_gods": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Food_of_the_gods.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Incendiary_Grenades": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Incendiary_Grenades.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Master_Surgeons": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Master_Surgeons.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Meditation": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Meditation.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Merritocracy": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Merritocracy.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Pilgrimage": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Pilgrimage.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Raiders": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Raiders.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Scorched_Earth": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Scorched_Earth.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Sharia": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Sharia.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Shepherds": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Shepherds.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Smokeless_Powder": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Smokeless_Powder.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Spanish_Gold": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Spanish_Gold.png",
-    "source": "aoe3_companion"
-  },
-  "tech.State_Religion": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/State_Religion.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Strategy": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Strategy.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Sun_Ceremony": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Sun_Ceremony.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Tactics": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Tactics.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Unction": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/native/Unction.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Vegetarianism": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Vegetarianism.png",
-    "source": "aoe3_companion"
-  },
-  "tech.Yoga": {
-    "fallback": false,
-    "path": "resources/images/icons/techs/asians/Yoga.png",
-    "source": "aoe3_companion"
-  },
   "tech.ability_alpine_horns_lrg": {
     "fallback": false,
     "path": "resources/images/icons/abilities/ability_alpine_horns_lrg.png",
@@ -8579,7 +8399,7 @@
     "path": "resources/images/icons/techs/europeans/hanover/acts_of_union.png",
     "source": "aoe3_companion"
   },
-  "tech.ad-Mapu": {
+  "tech.ad-mapu": {
     "fallback": false,
     "path": "resources/images/icons/techs/native/ad-Mapu.png",
     "source": "aoe3_companion"
@@ -8909,6 +8729,11 @@
     "path": "resources/images/icons/techs/europeans/phanar/byzantine_legacy.png",
     "source": "aoe3_companion"
   },
+  "tech.cactususe": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/CactusUse.png",
+    "source": "aoe3_companion"
+  },
   "tech.cadets": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/cadets.png",
@@ -8927,6 +8752,11 @@
   "tech.canoe_hitpoints": {
     "fallback": false,
     "path": "resources/images/icons/techs/native/canoe_hitpoints.png",
+    "source": "aoe3_companion"
+  },
+  "tech.capitalism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Capitalism.png",
     "source": "aoe3_companion"
   },
   "tech.carabinieri": {
@@ -9009,7 +8839,7 @@
     "path": "resources/images/icons/techs/native/champion_siege.png",
     "source": "aoe3_companion"
   },
-  "tech.chinese_SPC_flag_icon_64": {
+  "tech.chinese_spc_flag_icon_64": {
     "fallback": false,
     "path": "resources/images/icons/eso/chinese_SPC_flag_icon_64.png",
     "source": "aoe3_companion"
@@ -9022,6 +8852,11 @@
   "tech.chouannerie": {
     "fallback": false,
     "path": "resources/images/icons/techs/europeans/bourbon/chouannerie.png",
+    "source": "aoe3_companion"
+  },
+  "tech.christian_schools": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Christian_Schools.png",
     "source": "aoe3_companion"
   },
   "tech.church_icon": {
@@ -9062,6 +8897,11 @@
   "tech.coffee_trade": {
     "fallback": false,
     "path": "resources/images/icons/techs/coffee_trade/coffee_trade.png",
+    "source": "aoe3_companion"
+  },
+  "tech.colbertism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Colbertism.png",
     "source": "aoe3_companion"
   },
   "tech.collective_economy": {
@@ -9129,6 +8969,11 @@
     "path": "resources/images/icons/techs/africans/cow_loans.png",
     "source": "aoe3_companion"
   },
+  "tech.craftmanship": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Craftmanship.png",
+    "source": "aoe3_companion"
+  },
   "tech.critical_upgrade": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/critical_upgrade.png",
@@ -9152,6 +8997,31 @@
   "tech.crusader_knights": {
     "fallback": false,
     "path": "resources/images/icons/techs/maltese/crusader_knights.png",
+    "source": "aoe3_companion"
+  },
+  "tech.cult_of_the_dead": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Cult_of_the_Dead.png",
+    "source": "aoe3_companion"
+  },
+  "tech.dance2": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Dance2.png",
+    "source": "aoe3_companion"
+  },
+  "tech.dance3": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Dance3.png",
+    "source": "aoe3_companion"
+  },
+  "tech.dance4": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Dance4.png",
+    "source": "aoe3_companion"
+  },
+  "tech.dance_hall": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Dance_Hall.png",
     "source": "aoe3_companion"
   },
   "tech.deforestation": {
@@ -9229,6 +9099,11 @@
     "path": "resources/images/icons/techs/asians/disciplined_stepperider.png",
     "source": "aoe3_companion"
   },
+  "tech.distributivism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Distributivism.png",
+    "source": "aoe3_companion"
+  },
   "tech.dolores": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/dolores.png",
@@ -9302,6 +9177,16 @@
   "tech.elmeti_icon": {
     "fallback": false,
     "path": "resources/art/units/elmeti_icon.png",
+    "source": "aoe3_companion"
+  },
+  "tech.endurance": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Endurance.png",
+    "source": "aoe3_companion"
+  },
+  "tech.european_cannons": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/European_Cannons.png",
     "source": "aoe3_companion"
   },
   "tech.exalted_arquebusier": {
@@ -9384,6 +9269,11 @@
     "path": "resources/images/icons/techs/asians/faster_shipments.png",
     "source": "aoe3_companion"
   },
+  "tech.fasting": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Fasting.png",
+    "source": "aoe3_companion"
+  },
   "tech.festival_gerewol": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/alliances/festival_gerewol.png",
@@ -9402,6 +9292,11 @@
   "tech.finnhorses": {
     "fallback": false,
     "path": "resources/images/icons/techs/sweden/finnhorses.png",
+    "source": "aoe3_companion"
+  },
+  "tech.fish_wedding": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Fish_Wedding.png",
     "source": "aoe3_companion"
   },
   "tech.fishing_ship_icon_64x64": {
@@ -9469,6 +9364,11 @@
     "path": "resources/images/icons/techs/asians/flume_and_ditching.png",
     "source": "aoe3_companion"
   },
+  "tech.flying_buttress": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Flying_Buttress.png",
+    "source": "aoe3_companion"
+  },
   "tech.folk_heroes": {
     "fallback": false,
     "path": "resources/images/icons/techs/tavern/folk_heroes.png",
@@ -9477,6 +9377,11 @@
   "tech.folwarks": {
     "fallback": false,
     "path": "resources/images/icons/techs/europeans/jagiellon/folwarks.png",
+    "source": "aoe3_companion"
+  },
+  "tech.food_of_the_gods": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Food_of_the_gods.png",
     "source": "aoe3_companion"
   },
   "tech.forest_people": {
@@ -9824,7 +9729,7 @@
     "path": "resources/images/icons/home_city/hc_2x_red_seal_ship.png",
     "source": "aoe3_companion"
   },
-  "tech.hc_Atonement": {
+  "tech.hc_atonement": {
     "fallback": false,
     "path": "resources/images/icons/home_city/hc_Atonement.png",
     "source": "aoe3_companion"
@@ -10204,9 +10109,9 @@
     "path": "resources/images/icons/techs/asians/improved_healing.png",
     "source": "aoe3_companion"
   },
-  "tech.indian_SPC_flag_icon_64": {
+  "tech.incendiary_grenades": {
     "fallback": false,
-    "path": "resources/images/icons/eso/indian_SPC_flag_icon_64.png",
+    "path": "resources/images/icons/techs/native/Incendiary_Grenades.png",
     "source": "aoe3_companion"
   },
   "tech.indian_friendship": {
@@ -10217,6 +10122,11 @@
   "tech.indian_peasant_icon": {
     "fallback": false,
     "path": "resources/art/units/asians/shared/villager/indian_peasant_icon.png",
+    "source": "aoe3_companion"
+  },
+  "tech.indian_spc_flag_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/eso/indian_SPC_flag_icon_64.png",
     "source": "aoe3_companion"
   },
   "tech.indian_technologies": {
@@ -10499,6 +10409,11 @@
     "path": "resources/images/icons/techs/asians/master_lessons.png",
     "source": "aoe3_companion"
   },
+  "tech.master_surgeons": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Master_Surgeons.png",
+    "source": "aoe3_companion"
+  },
   "tech.maya_pyramids": {
     "fallback": false,
     "path": "resources/images/icons/techs/native/maya_pyramids.png",
@@ -10514,6 +10429,11 @@
     "path": "resources/images/icons/techs/spc/historical_battles/medici_patronage.png",
     "source": "aoe3_companion"
   },
+  "tech.meditation": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Meditation.png",
+    "source": "aoe3_companion"
+  },
   "tech.mercantilism": {
     "fallback": false,
     "path": "resources/images/icons/techs/mercantilism/mercantilism.png",
@@ -10522,6 +10442,11 @@
   "tech.mercenary_bounties": {
     "fallback": false,
     "path": "resources/images/icons/techs/spc/historical_battles/mercenary_bounties.png",
+    "source": "aoe3_companion"
+  },
+  "tech.merritocracy": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Merritocracy.png",
     "source": "aoe3_companion"
   },
   "tech.metalworking": {
@@ -10949,6 +10874,11 @@
     "path": "resources/images/icons/techs/spc/historical_battles/pike_shot_drill.png",
     "source": "aoe3_companion"
   },
+  "tech.pilgrimage": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Pilgrimage.png",
+    "source": "aoe3_companion"
+  },
   "tech.pillage": {
     "fallback": false,
     "path": "resources/images/icons/techs/pillage/pillage.png",
@@ -11064,6 +10994,11 @@
     "path": "resources/images/icons/techs/rabauld/rabauld.png",
     "source": "aoe3_companion"
   },
+  "tech.raiders": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Raiders.png",
+    "source": "aoe3_companion"
+  },
   "tech.ransom_explorer_on": {
     "fallback": false,
     "path": "resources/images/icons/command/ransom_explorer_on.png",
@@ -11079,7 +11014,7 @@
     "path": "resources/images/icons/techs/asians/regenerative_forestry.png",
     "source": "aoe3_companion"
   },
-  "tech.reinforced_Gauntlets": {
+  "tech.reinforced_gauntlets": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/reinforced_Gauntlets.png",
     "source": "aoe3_companion"
@@ -11229,6 +11164,11 @@
     "path": "resources/images/icons/techs/sweden/savolax_jaegers.png",
     "source": "aoe3_companion"
   },
+  "tech.scorched_earth": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Scorched_Earth.png",
+    "source": "aoe3_companion"
+  },
   "tech.secret_society": {
     "fallback": false,
     "path": "resources/images/icons/techs/mexicans/secret_society.png",
@@ -11279,6 +11219,16 @@
     "path": "resources/art/buildings/factory/shared_factory_icon.png",
     "source": "aoe3_companion"
   },
+  "tech.sharia": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Sharia.png",
+    "source": "aoe3_companion"
+  },
+  "tech.shepherds": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Shepherds.png",
+    "source": "aoe3_companion"
+  },
   "tech.ship_howitzers": {
     "fallback": false,
     "path": "resources/images/icons/techs/ship_howitzers/ship_howitzers.png",
@@ -11302,6 +11252,11 @@
   "tech.sikh_gurus": {
     "fallback": false,
     "path": "resources/images/icons/techs/asians/sikh_gurus.png",
+    "source": "aoe3_companion"
+  },
+  "tech.smokeless_powder": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Smokeless_Powder.png",
     "source": "aoe3_companion"
   },
   "tech.snares": {
@@ -11389,6 +11344,11 @@
     "path": "resources/art/units/asians/consulate/spanish_expeditionary_company.png",
     "source": "aoe3_companion"
   },
+  "tech.spanish_gold": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Spanish_Gold.png",
+    "source": "aoe3_companion"
+  },
   "tech.spies": {
     "fallback": false,
     "path": "resources/images/icons/techs/spies/spies.png",
@@ -11424,6 +11384,11 @@
     "path": "resources/images/icons/techs/star_fort/star_fort.png",
     "source": "aoe3_companion"
   },
+  "tech.state_religion": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/State_Religion.png",
+    "source": "aoe3_companion"
+  },
   "tech.statehood": {
     "fallback": false,
     "path": "resources/images/icons/techs/americans/statehood.png",
@@ -11442,6 +11407,11 @@
   "tech.strangers_quarters": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/strangers_quarters.png",
+    "source": "aoe3_companion"
+  },
+  "tech.strategy": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Strategy.png",
     "source": "aoe3_companion"
   },
   "tech.strong_warhut": {
@@ -11489,6 +11459,11 @@
     "path": "resources/images/icons/techs/africans/alliances/sudanese_units.png",
     "source": "aoe3_companion"
   },
+  "tech.sun_ceremony": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Sun_Ceremony.png",
+    "source": "aoe3_companion"
+  },
   "tech.surgeon_icon": {
     "fallback": false,
     "path": "resources/art/units/surgeons/surgeon_icon.png",
@@ -11502,6 +11477,11 @@
   "tech.sword_lances": {
     "fallback": false,
     "path": "resources/images/icons/techs/europeans/vasa/sword_lances.png",
+    "source": "aoe3_companion"
+  },
+  "tech.tactics": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Tactics.png",
     "source": "aoe3_companion"
   },
   "tech.taille_royal": {
@@ -11854,9 +11834,19 @@
     "path": "resources/images/icons/techs/trunion/trunion.png",
     "source": "aoe3_companion"
   },
+  "tech.unction": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/native/Unction.png",
+    "source": "aoe3_companion"
+  },
   "tech.vegetable_carbon": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/vegetable_carbon.png",
+    "source": "aoe3_companion"
+  },
+  "tech.vegetarianism": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Vegetarianism.png",
     "source": "aoe3_companion"
   },
   "tech.veteran_archer_infantry": {
@@ -11979,6 +11969,11 @@
     "path": "resources/images/icons/techs/native/work_ethos.png",
     "source": "aoe3_companion"
   },
+  "tech.yoga": {
+    "fallback": false,
+    "path": "resources/images/icons/techs/asians/Yoga.png",
+    "source": "aoe3_companion"
+  },
   "tech.yor_eredo": {
     "fallback": false,
     "path": "resources/images/icons/techs/africans/natives/yor_eredo.png",
@@ -12022,61 +12017,6 @@
   "tech.zweihander_64x64": {
     "fallback": false,
     "path": "resources/images/icons/techs/zweihander/zweihander_64x64.png",
-    "source": "aoe3_companion"
-  },
-  "unit.DancingLion_icon": {
-    "fallback": false,
-    "path": "resources/art/units/events/DancingLion_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.GuardianLion_icon": {
-    "fallback": false,
-    "path": "resources/art/units/events/GuardianLion_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.HC_migrants_shipment_spawn_icon_64": {
-    "fallback": false,
-    "path": "resources/images/icons/home_city/HC_migrants_shipment_spawn_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "unit.IRO_horseman_icon": {
-    "fallback": false,
-    "path": "resources/art/units/IRO_horseman_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.IRO_tomahawk_icon": {
-    "fallback": false,
-    "path": "resources/art/units/IRO_tomahawk_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.IRO_warchief_icon": {
-    "fallback": false,
-    "path": "resources/art/units/IRO_warchief_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.Liontailed_Macaque_icon": {
-    "fallback": false,
-    "path": "resources/art/units/animals/lion_tailed_macaque/Liontailed_Macaque_icon.png",
-    "source": "aoe3_companion"
-  },
-  "unit.Macaque_icon_64": {
-    "fallback": false,
-    "path": "resources/art/units/animals/tibetan_macaque/Macaque_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "unit.SM_asian_guy_icon_64": {
-    "fallback": false,
-    "path": "resources/art/buildings/native_settlement/SM_asian_guy_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "unit.SM_indian_guy_icon_64": {
-    "fallback": false,
-    "path": "resources/art/buildings/native_settlement/SM_indian_guy_icon_64.png",
-    "source": "aoe3_companion"
-  },
-  "unit.White_Pagoda_icon_64": {
-    "fallback": false,
-    "path": "resources/art/buildings/wonders/white_pagoda/White_Pagoda_icon_64.png",
     "source": "aoe3_companion"
   },
   "unit.abun_icon": {
@@ -13069,6 +13009,11 @@
     "path": "resources/art/units/asians/japanese/daimyo_mototada/daimyo_mototada_icon_64.png",
     "source": "aoe3_companion"
   },
+  "unit.dancinglion_icon": {
+    "fallback": false,
+    "path": "resources/art/units/events/DancingLion_icon.png",
+    "source": "aoe3_companion"
+  },
   "unit.death_hussar_icon": {
     "fallback": false,
     "path": "resources/art/units/revolution/death_hussar_icon.png",
@@ -13789,6 +13734,11 @@
     "path": "resources/art/units/natives/europeans/guardian_robber_knight_portrait.png",
     "source": "aoe3_companion"
   },
+  "unit.guardianlion_icon": {
+    "fallback": false,
+    "path": "resources/art/units/events/GuardianLion_icon.png",
+    "source": "aoe3_companion"
+  },
   "unit.gunpowder_stores_icon": {
     "fallback": false,
     "path": "resources/art/buildings/asian_civs/spc/gunpowder_stores/gunpowder_stores_icon.png",
@@ -13862,6 +13812,11 @@
   "unit.hc_berber_salt_camel_icon": {
     "fallback": false,
     "path": "resources/art/units/africans/natives/berber_salt_camel/hc_berber_salt_camel_icon.png",
+    "source": "aoe3_companion"
+  },
+  "unit.hc_migrants_shipment_spawn_icon_64": {
+    "fallback": false,
+    "path": "resources/images/icons/home_city/HC_migrants_shipment_spawn_icon_64.png",
     "source": "aoe3_companion"
   },
   "unit.hc_northern_refugees": {
@@ -14249,6 +14204,11 @@
     "path": "resources/art/units/iro_forrest_runner_icon.png",
     "source": "aoe3_companion"
   },
+  "unit.iro_horseman_icon": {
+    "fallback": false,
+    "path": "resources/art/units/IRO_horseman_icon.png",
+    "source": "aoe3_companion"
+  },
   "unit.iro_house_icon": {
     "fallback": false,
     "path": "resources/art/buildings/iro_house_icon.png",
@@ -14267,6 +14227,16 @@
   "unit.iro_ram_icon": {
     "fallback": false,
     "path": "resources/art/units/iro_ram_icon.png",
+    "source": "aoe3_companion"
+  },
+  "unit.iro_tomahawk_icon": {
+    "fallback": false,
+    "path": "resources/art/units/IRO_tomahawk_icon.png",
+    "source": "aoe3_companion"
+  },
+  "unit.iro_warchief_icon": {
+    "fallback": false,
+    "path": "resources/art/units/IRO_warchief_icon.png",
     "source": "aoe3_companion"
   },
   "unit.iron_flail_icon_64": {
@@ -14509,6 +14479,11 @@
     "path": "resources/art/units/animals/lion/lion_icon_64.png",
     "source": "aoe3_companion"
   },
+  "unit.liontailed_macaque_icon": {
+    "fallback": false,
+    "path": "resources/art/units/animals/lion_tailed_macaque/Liontailed_Macaque_icon.png",
+    "source": "aoe3_companion"
+  },
   "unit.lipka_tatar_icon": {
     "fallback": false,
     "path": "resources/art/units/natives/europeans/lipka_tatar_icon.png",
@@ -14537,6 +14512,11 @@
   "unit.longbow_icon": {
     "fallback": false,
     "path": "resources/art/units/infantry_ranged/longbow/longbow_icon.png",
+    "source": "aoe3_companion"
+  },
+  "unit.macaque_icon_64": {
+    "fallback": false,
+    "path": "resources/art/units/animals/tibetan_macaque/Macaque_icon_64.png",
     "source": "aoe3_companion"
   },
   "unit.macaw_icon_64x64": {
@@ -15584,6 +15564,16 @@
     "path": "resources/art/units/naval/sloop/sloop_icon.png",
     "source": "aoe3_companion"
   },
+  "unit.sm_asian_guy_icon_64": {
+    "fallback": false,
+    "path": "resources/art/buildings/native_settlement/SM_asian_guy_icon_64.png",
+    "source": "aoe3_companion"
+  },
+  "unit.sm_indian_guy_icon_64": {
+    "fallback": false,
+    "path": "resources/art/buildings/native_settlement/SM_indian_guy_icon_64.png",
+    "source": "aoe3_companion"
+  },
   "unit.snow_leopard_icon": {
     "fallback": false,
     "path": "resources/art/units/animals/snow_leopard/snow_leopard_icon.png",
@@ -16322,6 +16312,11 @@
   "unit.whale_humpback_portrait": {
     "fallback": false,
     "path": "resources/art/units/animals/whale/whale_humpback_portrait.png",
+    "source": "aoe3_companion"
+  },
+  "unit.white_pagoda_icon_64": {
+    "fallback": false,
+    "path": "resources/art/buildings/wonders/white_pagoda/White_Pagoda_icon_64.png",
     "source": "aoe3_companion"
   },
   "unit.white_tiger_icon_64": {

@@ -55,11 +55,13 @@ To include command-level debug data for reverse engineering:
 cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o "D:\AGEOFEMPIRE3TEST\malloncheater.debug.json" --debug-commands
 ```
 
-To additionally emit deck-resolved card send events into the normal timeline (experimental, `status=candidate` only):
+To emit verified command-derived gameplay events (shipments, research, train, build, age-up) into the normal timeline:
 
 ```powershell
-cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o ".\malloncheater.exp.json" --experimental-shipments
+cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o ".\malloncheater.json" --events
 ```
+
+Event types: `chat`, `resign`, `shipment`, `research`, `train`, `build`, `age_up`. The drop-zone app and `analyze.ps1` use `--events` by default, so the viewer's **Build Order** tab shows each player's full action timeline. (`--experimental-shipments` still works for shipments only.)
 
 The JSON shape is:
 
@@ -133,9 +135,15 @@ cargo run -- inspect-commands ".\out\game.debug.json" --parsed-as card_send_cand
 cargo run -- inspect-commands ".\out\game.debug.json" --command-id 2 --full-hex --limit 5
 cargo run -- inspect-card-commands ".\out\game.debug.json" --actor-slot 2
 cargo run -- compare-commands --a ".\out\a.debug.json" --a-offset 123456 --b ".\out\b.debug.json" --b-offset 456789
+cargo run -- compare-summaries --a ".\out\control.debug.json" --b ".\out\death.debug.json"
 cargo run -- dump-decks ".\out\game.debug.json" --card-id 1676
+cargo run -- player-summary ".\out\game.debug.json"
 cargo run -- resolve-card --card-id 1676
 ```
+
+`player-summary` prints the state engine's per-player command-derived totals
+(shipments sent, techs researched, units trained). It reads `debug.playerStates`,
+so parse with `--debug-commands` first.
 
 `inspect-card-commands` groups card-related commands per actor: deck selections (`commandId=66` with `cardId=-1`), card sends (`commandId=2` deck index variant) with their `deckMatch` resolution, the actor's known decks, and the system shipment arrival chats (hints only — they do not prove ownership).
 
@@ -198,17 +206,18 @@ Validation passed with 0 warning(s)
 
 Open `viewer/index.html` in a browser and choose a normalized JSON file with **Open JSON**.
 
-The viewer includes:
+The viewer ("Campaign Ledger") is an AoE3-themed UI — wood-framed parchment,
+brass fittings, heraldic player cards. It includes:
 
-- overview metrics
-- players table
-- likely winner and confidence
-- event type filter
-- confirmed shipment toggle
-- player filter
-- chat/player search
-- filtered timeline export
-- build order tab for confirmed/high-confidence gameplay events
+- overview gauges (map, result, per-type event counts)
+- heraldic player cards: civ-color shield, team, home city, and a resource-spent bar
+- event type filter (chat / age-up / research / train / build / shipment / resign)
+- player filter, chat/player search, confirmed-shipment toggle
+- filtered view export
+- Build Order tab: per-player age-up / research / train / build / shipment timeline + resources spent
+
+It is a single offline HTML file (no web fonts or game assets bundled) and is
+unofficial / fan-made.
 
 ## Replay Corpus Loop
 
@@ -274,31 +283,56 @@ Sources:
 ## Game Data Layer
 
 The parser emits numeric ids only. The game data layer (`data/*.json`, compiled
-into the binary) resolves a game **`dbid`** to a display name / icon key. Data is
-imported from the MIT-licensed [aoe3-companion](https://github.com/VitorRoda/aoe3-companion)
-set (~2.5k cards, ~2.4k units, ~3.1k techs, 126 civs). See
+into the binary) resolves a replay card **`rawId`** to a display name / icon key.
+Data is imported from the MIT-licensed
+[aoe3-companion](https://github.com/VitorRoda/aoe3-companion) set. See
 `docs/game-data-layer.md` and `data/README.md`.
 
 ```powershell
-cargo run -- resolve-card --card-id 3438
+cargo run -- resolve-card --card-id 1676
+cargo run -- resolve-unit --unit-id 928
+cargo run -- resolve-tech --tech-id 410
+cargo run -- resolve-building --building-id 926
 cargo run -- import-aoe3-companion --input "path\to\aoe3-companion" --out data
 ```
 
 ```text
-Card 3438
+Card 1676
 Name: Capitalism
 Internal: HCXPCapitalism
-Icon: card.Capitalism
+Icon: card.capitalism
 Icon path: resources/images/icons/techs/native/Capitalism.png
 Source: aoe3_companion
 Confidence: imported
 ```
 
 Unknown ids never crash — they resolve to `Unknown Card #<id>` and the generic
-icon.
+icon. A resolved card is attached to `debug.commands[*].deckMatch.card` and (with
+`--experimental-shipments`) to `payload.cardName` / `payload.iconKey`.
 
-> **Note — two id spaces.** The data layer is keyed by the game `dbid`. Replay
-> decks and `commandId=2`/`66` use a different `rawId` space (Capitalism is dbid
-> `3438` but rawId `1676`). The `rawId → dbid` bridge is unsolved, so replay
-> shipment / `deckMatch` output stays numeric (no guessed names) for now. This is
-> deliberate — correctness over a plausible-but-wrong name.
+> **Replay ids are array indices.** All three replay id spaces are 0-based array
+> indices into the companion game data, not dbids:
+> - card `rawId` / research `techIdCandidate` → `cards.json` (techtree index)
+> - train `unitProtoIdCandidate` → `units.json` (proto index)
+>
+> Verified civ-correct (Capitalism, Janissary→Ottoman, Confucius' Gift→Chinese, …).
+> Each entry also carries its `dbid`.
+
+Debug commands are enriched with `deckMatch.card` (commandId=2 sends), `unit`
+(train), and `tech` (research). By default (no `--experimental-shipments`) the
+normal timeline still contains **no** shipment/train/research events — only the
+debug layer is enriched. See `docs/overlay-features.md` for the feature matrix.
+
+## Scope: file-only vs runtime
+
+`.age3Yrec` is a **command/input replay** — it records what players *did*, not the
+game's simulation state. So deaths, losses, active unit counts, resources, and
+idle villagers are **not in the file** (they are listed `unavailable` in
+`debug.playerStates`, never guessed). See `docs/reverse-engineering/replay-model.md`
+for the evidence and the controlled death-test protocol, and `docs/roadmap.md` for
+the two modes:
+
+- **Mode A — file-only analyzer (current):** shipments, decks/cards, research,
+  train/build commands, build order, state from confirmed commands.
+- **Mode B — runtime-assisted (later):** live game capture for the simulation
+  state a replay file cannot contain (CaptureAge-like).

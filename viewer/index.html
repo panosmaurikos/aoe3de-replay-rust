@@ -3,352 +3,383 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AoE3DE Replay Timeline</title>
+  <title>AoE3DE Replay — Campaign Ledger</title>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f4f2ec;
-      --panel: #ffffff;
-      --ink: #1d242b;
-      --muted: #64707c;
-      --line: #d8dde2;
-      --header: #22313c;
-      --accent: #2f6f73;
-      --accent-soft: #e6f0ef;
-      --danger: #a33a35;
-      --chat: #2c5d9f;
-      --shipment: #7b5b15;
-      --shadow: 0 8px 24px rgba(28, 35, 43, 0.07);
+      --parchment: #e9dcbb;
+      --parchment-deep: #ddcaa0;
+      --parchment-hi: #f4ead0;
+      --ink: #2b2114;
+      --ink-soft: #6a5a3f;
+      --rule: #c3ac79;
+      --wood: #2a1c10;
+      --wood-hi: #4a3a22;
+      --brass: #9c7a3c;
+      --gold: #c2a04e;
+      --gold-hi: #e6cd86;
+      --crimson: #8c2f22;
+      --age_up: #a8761f;
+      --research: #4a6b54;
+      --train: #37536f;
+      --build: #7a5a38;
+      --shipment: #6f5212;
+      --chat: #3a5a7a;
+      --resign: #8c2f22;
+      --food: #b5402f;
+      --woodres: #7a5a32;
+      --coin: #c9a24b;
+      --influence: #8e5aa8;
+      --display: "Trajan Pro", "Cinzel", "Hoefler Text", "Baskerville Old Face", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman", serif;
+      --mono: "Courier New", "Courier", monospace;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--bg);
       color: var(--ink);
-      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font: 15px/1.5 var(--body);
+      background:
+        radial-gradient(120% 90% at 50% 0%, rgba(255,250,235,0.55), rgba(0,0,0,0) 60%),
+        radial-gradient(140% 120% at 50% 100%, rgba(70,45,20,0.30), rgba(0,0,0,0) 55%),
+        linear-gradient(180deg, #20140a, #140d06);
+      min-height: 100vh;
+    }
+
+    /* aged-paper grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     .app {
+      max-width: 1180px;
+      margin: 0 auto;
       min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto auto auto 1fr;
+      background:
+        radial-gradient(130% 80% at 50% -10%, var(--parchment-hi), rgba(0,0,0,0) 55%),
+        radial-gradient(100% 100% at 100% 100%, rgba(120,90,45,0.18), rgba(0,0,0,0) 50%),
+        var(--parchment);
+      border-left: 14px solid var(--wood);
+      border-right: 14px solid var(--wood);
+      box-shadow: 0 0 0 1px #000, 0 24px 80px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    /* inner brass keyline */
+    .app::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid rgba(156,122,60,0.45);
+      pointer-events: none;
     }
 
+    /* ---- Header banner ---- */
     header {
-      background: var(--header);
-      color: white;
-      padding: 16px 20px;
+      background:
+        linear-gradient(180deg, #3a2817, #241407);
+      color: var(--gold-hi);
+      padding: 20px 26px 16px;
+      border-bottom: 3px solid var(--brass);
+      position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
-      gap: 16px;
-    }
-
-    h1,
-    h2 {
-      margin: 0;
-      font-weight: 750;
-      letter-spacing: 0;
-    }
-
-    h1 {
-      font-size: 18px;
-    }
-
-    h2 {
-      font-size: 15px;
-    }
-
-    .toolbar,
-    .filters,
-    .segmented,
-    .check-toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 18px;
       flex-wrap: wrap;
     }
-
-    label.button,
-    button,
-    select,
-    input[type="search"],
-    .check-toggle {
-      min-height: 34px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      color: var(--ink);
-      border-radius: 6px;
-      padding: 0 10px;
-      font: inherit;
+    header::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -3px; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 26px;
+      color: var(--gold-hi);
+      text-shadow: 0 1px 0 #000, 0 0 18px rgba(194,160,78,0.35);
+    }
+    .brand .sub {
+      font-family: var(--body);
+      font-style: italic;
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      color: #c7a86a;
+      margin-top: 3px;
     }
 
-    .check-toggle {
+    .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    label.button, button {
+      font-family: var(--display);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      font-weight: 700;
       cursor: pointer;
-      user-select: none;
+      color: #2a1c10;
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      border: 1px solid #6f5326;
+      border-radius: 3px;
+      padding: 8px 13px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 2px rgba(0,0,0,0.4);
+      display: inline-flex; align-items: center; justify-content: center;
     }
+    button:hover, label.button:hover { filter: brightness(1.06); }
+    button:disabled { opacity: 0.45; cursor: default; }
+    input[type="file"] { display: none; }
 
-    label.button,
-    button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: 650;
-    }
-
-    button.active {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    header label.button,
-    header button {
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
+    /* ---- Summary gauges ---- */
     .summary {
       display: grid;
-      grid-template-columns: repeat(12, minmax(110px, 1fr));
-      gap: 1px;
-      background: var(--line);
-      border-bottom: 1px solid var(--line);
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0;
+      padding: 0 14px;
+      background: linear-gradient(180deg, rgba(120,90,45,0.10), rgba(0,0,0,0));
+      border-bottom: 1px solid var(--rule);
     }
-
     .metric {
-      background: var(--panel);
-      padding: 12px 16px;
-      min-width: 0;
+      padding: 13px 14px 12px;
+      border-right: 1px solid rgba(156,122,60,0.28);
+      position: relative;
     }
-
+    .metric::before {
+      content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 2px;
+      background: linear-gradient(90deg, var(--brass), transparent);
+    }
     .metric span {
       display: block;
-      color: var(--muted);
-      font-size: 12px;
+      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-soft);
     }
-
     .metric strong {
-      display: block;
-      margin-top: 2px;
-      font-size: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: block; margin-top: 4px;
+      font-family: var(--display); font-size: 18px; font-weight: 700;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .players-section {
-      background: #fbfaf7;
-      border-bottom: 1px solid var(--line);
-      padding: 14px 20px 16px;
-      overflow-x: auto;
+    h2 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 15px; color: #43321b;
     }
-
     .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 12px; margin-bottom: 14px;
+    }
+    .section-head::after {
+      /* decorative not used; keep layout */
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
+    .players-section { padding: 22px 24px; border-bottom: 1px solid var(--rule); }
 
-    th,
-    td {
-      text-align: left;
-      padding: 9px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
+    /* ---- Heraldic player cards ---- */
+    .players-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+      gap: 14px;
     }
-
-    th {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      background: #f8f9fa;
+    .pcard {
+      position: relative;
+      background:
+        radial-gradient(120% 100% at 0% 0%, rgba(255,250,235,0.7), rgba(0,0,0,0) 60%),
+        var(--parchment-hi);
+      border: 1px solid var(--rule);
+      border-left: 6px solid var(--pcolor, #777);
+      border-radius: 4px;
+      padding: 12px 13px 13px;
+      box-shadow: 0 2px 5px rgba(60,40,15,0.18), inset 0 0 0 1px rgba(255,255,255,0.35);
     }
-
-    tr:last-child td {
-      border-bottom: 0;
+    .pcard-head { display: flex; align-items: center; gap: 11px; }
+    .shield {
+      width: 38px; height: 42px; flex: 0 0 auto;
+      background: var(--pcolor, #777);
+      color: #fff;
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--display); font-weight: 700; font-size: 14px;
+      letter-spacing: 0.02em;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35), inset 0 -8px 12px rgba(0,0,0,0.25);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
-
-    td {
-      overflow-wrap: anywhere;
+    .pcard-id { min-width: 0; flex: 1; }
+    .pcard-name {
+      font-family: var(--display); font-weight: 700; font-size: 15px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    .pcard-civ { font-size: 12.5px; color: var(--ink-soft); font-style: italic; }
+    .pcard-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px;
+      font-size: 11px; color: var(--ink-soft);
+    }
+    .chip {
+      border: 1px solid var(--rule); border-radius: 999px;
+      padding: 1px 8px; background: rgba(255,255,255,0.4);
+      letter-spacing: 0.03em;
+    }
+    .chip.team { border-color: var(--pcolor, #999); }
 
-    .timeline-section {
-      min-width: 0;
-      padding: 16px 20px 24px;
-      overflow: auto;
+    .resbar { margin-top: 11px; }
+    .resbar-track {
+      display: flex; height: 10px; border-radius: 2px; overflow: hidden;
+      border: 1px solid rgba(120,90,45,0.4); background: rgba(120,90,45,0.12);
+    }
+    .resbar-track i { display: block; height: 100%; }
+    .resbar-legend {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px;
+      font-size: 10.5px; color: var(--ink-soft);
+    }
+    .resbar-legend b { font-weight: 700; color: var(--ink); }
+    .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; vertical-align: baseline; }
+
+    /* ---- Tabs ---- */
+    .timeline-section { padding: 20px 24px 30px; }
+    .view-tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 2px solid var(--brass); }
+    .view-tabs button {
+      background: linear-gradient(180deg, var(--parchment), var(--parchment-deep));
+      color: var(--ink-soft);
+      border: 1px solid var(--rule); border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      text-transform: uppercase; letter-spacing: 0.1em; font-size: 11.5px;
+      padding: 9px 16px;
+      box-shadow: none;
+    }
+    .view-tabs button.active {
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      color: #2a1c10; border-color: #6f5326;
+      transform: translateY(2px);
     }
 
     .timeline-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
     }
-
-    .view-tabs {
-      margin-bottom: 12px;
+    .filters { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .segmented { display: flex; gap: 4px; flex-wrap: wrap; }
+    .segmented button {
+      background: rgba(255,255,255,0.35); color: var(--ink-soft);
+      border: 1px solid var(--rule); border-radius: 3px;
+      padding: 6px 11px; font-size: 11px; box-shadow: none;
     }
-
-    [hidden] {
-      display: none !important;
+    .segmented button.active {
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      color: #2a1c10; border-color: #6f5326;
     }
-
-    .filters input[type="search"] {
-      width: min(420px, 100%);
+    select, input[type="search"], .check-toggle {
+      font: inherit; font-size: 13px;
+      border: 1px solid var(--rule); border-radius: 3px;
+      background: var(--parchment-hi); color: var(--ink);
+      padding: 7px 10px;
     }
+    .check-toggle { display: inline-flex; gap: 7px; align-items: center; cursor: pointer; font-size: 12px; }
+    .filters input[type="search"] { width: min(320px, 100%); }
 
-    .events,
-    .build-order {
-      display: grid;
-      gap: 8px;
-    }
+    [hidden] { display: none !important; }
 
-    .event,
-    .build-player {
-      background: var(--panel);
-      border: 1px solid var(--line);
+    .events, .build-order { display: grid; gap: 8px; }
+
+    /* ---- Event rows ---- */
+    .event {
+      background:
+        linear-gradient(90deg, rgba(255,250,235,0.6), rgba(0,0,0,0) 40%),
+        var(--parchment-hi);
+      border: 1px solid var(--rule);
       border-left: 5px solid var(--chat);
-      border-radius: 6px;
-      padding: 10px 12px;
-      box-shadow: var(--shadow);
+      border-radius: 3px;
+      padding: 9px 13px;
+      box-shadow: 0 1px 2px rgba(60,40,15,0.12);
     }
-
-    .build-player {
-      border-left-color: var(--shipment);
-    }
-
-    .build-player h3 {
-      margin: 0 0 8px;
-      font-size: 14px;
-    }
-
-    .build-row {
-      display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
-      gap: 10px;
-      padding: 7px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .event.resign {
-      border-left-color: var(--danger);
-    }
-
-    .event.shipment {
-      border-left-color: var(--shipment);
-    }
-
-    .event.shipment.candidate {
-      border-left-color: #9aa1a8;
-    }
-
-    .event.system {
-      border-left-color: var(--accent);
-    }
-
-    .event-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
+    .event-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .event-who { display: flex; align-items: baseline; gap: 9px; min-width: 0; }
     .event-type {
-      color: var(--chat);
-      font-weight: 750;
-      text-transform: uppercase;
-      font-size: 12px;
+      font-family: var(--display); font-weight: 700; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #fff; background: var(--chat);
+      padding: 2px 7px; border-radius: 2px; flex: 0 0 auto;
+      box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25);
     }
+    .event-actor { font-weight: 700; overflow-wrap: anywhere; }
+    .event-time { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); flex: 0 0 auto; }
+    .event .message { margin-top: 5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .event-meta { color: var(--ink-soft); font-size: 12px; }
 
-    .event.resign .event-type {
-      color: var(--danger);
+    .event.chat { border-left-color: var(--chat); }     .event.chat .event-type { background: var(--chat); }
+    .event.resign { border-left-color: var(--resign); }  .event.resign .event-type { background: var(--resign); }
+    .event.shipment { border-left-color: var(--shipment); } .event.shipment .event-type { background: var(--shipment); }
+    .event.age_up { border-left-color: var(--age_up); }  .event.age_up .event-type { background: var(--age_up); }
+    .event.research { border-left-color: var(--research); } .event.research .event-type { background: var(--research); }
+    .event.train { border-left-color: var(--train); }    .event.train .event-type { background: var(--train); }
+    .event.build { border-left-color: var(--build); }    .event.build .event-type { background: var(--build); }
+    .event.system { border-left-color: var(--research); }
+
+    /* ---- Build order columns ---- */
+    .build-order { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
+    .build-player {
+      background: var(--parchment-hi);
+      border: 1px solid var(--rule);
+      border-top: 4px solid var(--pcolor, var(--brass));
+      border-radius: 4px;
+      padding: 12px 14px 14px;
+      box-shadow: 0 2px 5px rgba(60,40,15,0.15);
     }
-
-    .event.shipment .event-type {
-      color: var(--shipment);
+    .build-player h3 {
+      margin: 0 0 4px; font-family: var(--display); font-size: 14px;
+      letter-spacing: 0.04em; display: flex; align-items: baseline; gap: 8px;
     }
-
-    .event strong {
-      overflow-wrap: anywhere;
+    .build-player h3 .muted { font-family: var(--body); }
+    .build-list { margin-top: 9px; max-height: 460px; overflow: auto; padding-right: 4px; }
+    .build-row {
+      display: grid; grid-template-columns: 64px 1fr; gap: 9px; align-items: baseline;
+      padding: 5px 0; border-top: 1px dotted var(--rule);
     }
+    .build-row .t { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+    .build-row .event-type { font-size: 9px; padding: 1px 5px; margin-right: 6px; }
 
-    .event-meta,
-    .muted {
-      color: var(--muted);
-    }
-
-    .message {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-
+    .muted { color: var(--ink-soft); }
     .empty {
-      background: var(--panel);
-      border: 1px dashed var(--line);
-      border-radius: 6px;
-      padding: 30px;
-      color: var(--muted);
-      text-align: center;
+      border: 1px dashed var(--rule); border-radius: 4px;
+      padding: 34px; color: var(--ink-soft); text-align: center;
+      background: rgba(255,255,255,0.3);
     }
+    code { font-family: var(--mono); background: rgba(120,90,45,0.15); padding: 1px 5px; border-radius: 3px; }
 
-    @media (max-width: 860px) {
-      header,
-      .timeline-toolbar,
-      .section-head {
-        align-items: stretch;
-        flex-direction: column;
-      }
+    ::-webkit-scrollbar { width: 11px; height: 11px; }
+    ::-webkit-scrollbar-thumb { background: var(--brass); border-radius: 6px; border: 2px solid var(--parchment); }
+    ::-webkit-scrollbar-track { background: transparent; }
 
-      .summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .toolbar,
-      .filters {
-        align-items: stretch;
-      }
-
-      .toolbar > *,
-      .filters > * {
-        flex: 1 1 auto;
-      }
+    @media (max-width: 720px) {
+      .app { border-left-width: 8px; border-right-width: 8px; }
+      header, .timeline-toolbar { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <header>
-      <h1>AoE3DE Replay Timeline</h1>
+      <div class="brand">
+        <h1>Campaign Ledger</h1>
+        <div class="sub">Age of Empires III: Definitive Edition &mdash; replay analysis &middot; unofficial fan tool</div>
+      </div>
       <div class="toolbar">
         <label class="button">
-          Open JSON
+          Open Ledger
           <input id="fileInput" type="file" accept="application/json,.json">
         </label>
-        <button id="exportFiltered" type="button" disabled>Export Filtered</button>
+        <button id="exportFiltered" type="button" disabled>Export View</button>
       </div>
     </header>
 
@@ -374,8 +405,12 @@
             <div class="segmented" aria-label="Event type">
               <button class="active" type="button" data-type="all">All</button>
               <button type="button" data-type="chat">Chat</button>
-              <button type="button" data-type="resign">Resign</button>
+              <button type="button" data-type="age_up">Age Up</button>
+              <button type="button" data-type="research">Research</button>
+              <button type="button" data-type="train">Train</button>
+              <button type="button" data-type="build">Build</button>
               <button type="button" data-type="shipment">Shipment</button>
+              <button type="button" data-type="resign">Resign</button>
             </div>
             <label class="check-toggle">
               <input id="confirmedShipmentsOnly" type="checkbox">
@@ -410,6 +445,12 @@
       activeView: "timeline",
       confirmedShipmentsOnly: false,
     };
+
+    const PLAYER_COLORS = {
+      1: "#2f6fb0", 2: "#b23a2e", 3: "#d6a52a", 4: "#3f7d3a",
+      5: "#2f9d9d", 6: "#b0509a", 7: "#cf7b2a", 8: "#7d52b0",
+    };
+    const RES_COLORS = { food: "#b5402f", wood: "#7a5a32", gold: "#c9a24b", influence: "#8e5aa8" };
 
     const summary = document.querySelector("#summary");
     const players = document.querySelector("#players");
@@ -477,11 +518,7 @@
     }
 
     function renderSummary() {
-      if (!state.data) {
-        summary.innerHTML = "";
-        return;
-      }
-
+      if (!state.data) { summary.innerHTML = ""; return; }
       const replay = state.data.replay ?? {};
       const setting = replay.setting ?? {};
       const counts = countEvents(state.events);
@@ -490,22 +527,26 @@
         metric("Map", setting.mapName ?? "Unknown"),
         metric("Players", String(participants.length)),
         metric("Teams", String(replay.teams?.length ?? 0)),
-        metric("Events", String(state.events.length)),
-        metric("Chat", String(counts.chat)),
-        metric("Resigns", String(counts.resign)),
-        metric("Shipments", String(counts.shipment)),
-        metric("Confirmed", String(counts.shipmentConfirmed)),
-        metric("Candidates", String(counts.shipmentCandidate)),
         metric("Result", formatResult(state.data.result)),
-        metric("Confidence", state.data.result?.confidence ?? "Unknown"),
-        metric("Exe version", String(replay.exeVersion ?? "Unknown")),
+        metric("Confidence", titleCase(state.data.result?.confidence ?? "—")),
+        metric("Events", String(state.events.length)),
+        metric("Shipments", String(counts.shipment)),
+        metric("Research", String(counts.research)),
+        metric("Trained", String(counts.train)),
+        metric("Built", String(counts.build)),
+        metric("Age-ups", String(counts.age_up)),
+        metric("Chat", String(counts.chat)),
       ].join("");
+    }
+
+    function statesBySlot() {
+      return new Map((state.data?.playerStates ?? []).map((s) => [s.slotId, s]));
     }
 
     function renderPlayers() {
       const items = getParticipants();
       const rawPlayerCount = state.data?.replay?.players?.length ?? 0;
-      const source = rawPlayerCount ? "" : " from teams";
+      const source = rawPlayerCount ? "" : " (from teams)";
       playerCount.textContent = `${items.length} participant${items.length === 1 ? "" : "s"}${source}`;
 
       if (!items.length) {
@@ -513,29 +554,50 @@
         return;
       }
 
-      players.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Slot</th>
-              <th>Name</th>
-              <th>Civ</th>
-              <th>Team</th>
-              <th>Home City</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${items.map((player) => `
-              <tr>
-                <td>${escapeHtml(player.slotId ?? "?")}</td>
-                <td>${escapeHtml(player.playerName ?? "")}</td>
-                <td>${escapeHtml(player.civName ?? "Unknown")}</td>
-                <td>${escapeHtml(player.teamLabel ?? "Unknown")}</td>
-                <td>${escapeHtml(player.homecityName ?? "")}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
+      const bySlot = statesBySlot();
+      players.innerHTML = `<div class="players-grid">${
+        items.map((p) => playerCard(p, bySlot.get(p.slotId))).join("")
+      }</div>`;
+    }
+
+    function playerCard(p, st) {
+      const color = PLAYER_COLORS[p.color] ?? "#7a6a52";
+      const initials = (p.civName ?? "?").replace(/[^A-Za-z]/g, "").slice(0, 2) || "?";
+      const meta = [
+        `<span class="chip team" style="--pcolor:${color}">${escapeHtml(p.teamLabel ?? "—")}</span>`,
+        p.homecityName ? `<span class="chip">${escapeHtml(p.homecityName)}</span>` : "",
+        `<span class="chip">slot ${escapeHtml(p.slotId ?? "?")}</span>`,
+      ].filter(Boolean).join("");
+      return `
+        <article class="pcard" style="--pcolor:${color}">
+          <div class="pcard-head">
+            <div class="shield" style="--pcolor:${color}">${escapeHtml(initials)}</div>
+            <div class="pcard-id">
+              <div class="pcard-name">${escapeHtml(p.playerName ?? "")}</div>
+              <div class="pcard-civ">${escapeHtml(p.civName ?? "Unknown")}</div>
+            </div>
+          </div>
+          <div class="pcard-meta">${meta}</div>
+          ${resourceCard(st)}
+        </article>
+      `;
+    }
+
+    function resourceCard(st) {
+      const r = st?.resourcesSpent;
+      if (!r || !r.total) return "";
+      const keys = ["food", "wood", "gold", "influence"];
+      const segs = keys.filter((k) => r[k] > 0).map((k) =>
+        `<i style="width:${(r[k] / r.total * 100).toFixed(1)}%;background:${RES_COLORS[k]}"></i>`
+      ).join("");
+      const legend = keys.filter((k) => r[k] > 0).map((k) =>
+        `<span><span class="swatch" style="background:${RES_COLORS[k]}"></span>${k} <b>${Math.round(r[k])}</b></span>`
+      ).join("");
+      return `
+        <div class="resbar" title="Gross resources spent on trains, buildings and research (not current resources)">
+          <div class="resbar-track">${segs}</div>
+          <div class="resbar-legend">${legend}<span style="margin-left:auto">spent <b>${Math.round(r.total)}</b></span></div>
+        </div>
       `;
     }
 
@@ -557,7 +619,7 @@
 
     function renderEvents() {
       if (!state.data) {
-        renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+        renderEmpty("Open a replay ledger (JSON) to view its timeline.");
         visibleCount.textContent = "0 events";
         return;
       }
@@ -570,15 +632,9 @@
         if (!actorMatchesFilter(event.actor, player)) return false;
         if (!query) return true;
         const text = [
-          actorLabel(event.actor),
-          event.actor?.kind,
-          event.actor?.slotId,
-          event.payload?.message,
-          event.label,
-          event.payload?.resolvedName,
-          event.payload?.confidence,
-          event.payload?.status,
-          event.type,
+          actorLabel(event.actor), event.actor?.kind, event.actor?.slotId,
+          event.payload?.message, event.label, event.payload?.name,
+          event.payload?.resolvedName, event.payload?.confidence, event.payload?.status, event.type,
         ].filter(Boolean).join(" ").toLowerCase();
         return text.includes(query);
       });
@@ -586,56 +642,56 @@
       state.filteredEvents = filtered;
       visibleCount.textContent = `${filtered.length} event${filtered.length === 1 ? "" : "s"}`;
 
-      if (!filtered.length) {
-        renderEmpty("No events match the current filters.");
-        return;
-      }
-
+      if (!filtered.length) { renderEmpty("No events match the current filters."); return; }
       events.innerHTML = filtered.map(renderEvent).join("");
     }
 
     function renderBuildOrder() {
       if (!state.data) {
-        buildOrder.innerHTML = `<div class="empty">Open a normalized replay JSON.</div>`;
+        buildOrder.innerHTML = `<div class="empty">Open a replay ledger.</div>`;
         buildOrderCount.textContent = "0 events";
         return;
       }
 
-      const gameplayEvents = state.events.filter((event) => {
-        if (event.type !== "shipment") return false;
-        return shipmentStatus(event) === "confirmed" || event.payload?.confidence === "high";
-      });
-
+      const buildTypes = new Set(["age_up", "research", "train", "build", "shipment"]);
+      const gameplayEvents = state.events.filter((event) => buildTypes.has(event.type));
       buildOrderCount.textContent = `${gameplayEvents.length} event${gameplayEvents.length === 1 ? "" : "s"}`;
 
       if (!gameplayEvents.length) {
-        buildOrder.innerHTML = `<div class="empty">No confirmed gameplay events found.</div>`;
+        buildOrder.innerHTML = `<div class="empty">No build-order events. Parse with <code>--events</code>.</div>`;
         return;
       }
 
+      const bySlot = statesBySlot();
+      const colorBySlot = new Map(getParticipants().map((p) => [p.slotId, PLAYER_COLORS[p.color] ?? "#7a6a52"]));
       const groups = new Map();
       for (const event of gameplayEvents) {
         const key = event.actor?.slotId ?? actorLabel(event.actor);
         if (!groups.has(key)) {
-          groups.set(key, {
-            name: actorLabel(event.actor),
-            events: [],
-          });
+          groups.set(key, { name: actorLabel(event.actor), slotId: event.actor?.slotId, events: [] });
         }
         groups.get(key).events.push(event);
       }
 
       buildOrder.innerHTML = [...groups.values()].map((group) => `
-        <section class="build-player">
-          <h3>${escapeHtml(group.name)}</h3>
-          ${group.events.map((event) => `
-            <div class="build-row">
-              <span class="event-meta">${formatTime(event.timeMs ?? event.time)}</span>
-              <strong>${escapeHtml(event.label ?? "Confirmed shipment")}</strong>
-            </div>
-          `).join("")}
+        <section class="build-player" style="--pcolor:${colorBySlot.get(group.slotId) ?? "#7a6a52"}">
+          <h3>${escapeHtml(group.name)} <span class="muted">(${group.events.length})</span></h3>
+          ${resourceCard(bySlot.get(group.slotId))}
+          <div class="build-list">
+            ${group.events.map((event) => `
+              <div class="build-row">
+                <span class="t">${formatTime(event.timeMs ?? event.time)}</span>
+                <span><span class="event-type ${escapeHtml(event.type)}">${escapeHtml(event.type.replace("_", " "))}</span>${escapeHtml(eventName(event))}</span>
+              </div>
+            `).join("")}
+          </div>
         </section>
       `).join("");
+    }
+
+    function eventName(event) {
+      const label = event.label ?? event.payload?.name ?? "";
+      return label.replace(/^(Aged up:|Researched:|Trained:|Built:|Sent shipment:|Sent card)\s*/i, "").trim() || label;
     }
 
     function renderEvent(event) {
@@ -644,16 +700,15 @@
       const actorKind = event.actor?.kind ?? "unknown";
       const status = event.type === "shipment" ? shipmentStatus(event) : "";
       const body = eventBody(event, actor);
-      const timeValue = event.timeMs ?? event.time;
 
       return `
         <article class="event ${escapeHtml(type)} ${escapeHtml(actorKind)} ${escapeHtml(status)}">
           <div class="event-head">
-            <div>
-              <span class="event-type">${escapeHtml(type)}</span>
-              <strong>${escapeHtml(actor)}</strong>
+            <div class="event-who">
+              <span class="event-type">${escapeHtml(type.replace("_", " "))}</span>
+              <span class="event-actor">${escapeHtml(actor)}</span>
             </div>
-            <span class="event-meta">${formatTime(timeValue)}</span>
+            <span class="event-time">${formatTime(event.timeMs ?? event.time)}</span>
           </div>
           ${body}
         </article>
@@ -664,26 +719,23 @@
       if (event.type === "chat") {
         return `<div class="message">${escapeHtml(event.payload?.message ?? "")}</div>`;
       }
-
       if (event.type === "shipment") {
         const status = shipmentStatus(event);
         const label = event.label ?? (event.payload?.resolvedName ? `Sent shipment: ${event.payload.resolvedName}` : "Possible shipment/card command");
         const details = [
-          status ? `Status: ${status}` : "",
-          event.payload?.confidence ? `Confidence: ${event.payload.confidence}` : "",
+          status ? `status ${status}` : "",
+          event.payload?.confidence ? `confidence ${event.payload.confidence}` : "",
         ].filter(Boolean).join(" · ");
-        return `
-          <div class="message">${escapeHtml(label)}</div>
-          ${details ? `<div class="event-meta">${escapeHtml(details)}</div>` : ""}
-        `;
+        return `<div class="message">${escapeHtml(label)}</div>${details ? `<div class="event-meta">${escapeHtml(details)}</div>` : ""}`;
       }
-
+      if (["research", "train", "build", "age_up"].includes(event.type)) {
+        return `<div class="message">${escapeHtml(event.label ?? event.payload?.name ?? event.type)}</div>`;
+      }
       return `<div class="message">${escapeHtml(actor)} resigned.</div>`;
     }
 
     function exportFilteredTimeline() {
       if (!state.data) return;
-
       const counts = countEvents(state.filteredEvents);
       const payload = {
         schemaVersion: state.data.schemaVersion ?? 1,
@@ -699,6 +751,7 @@
           teamCount: state.data.replay?.teams?.length ?? 0,
         },
         result: state.data.result ?? null,
+        playerStates: state.data.playerStates ?? null,
         replay: state.data.replay ?? null,
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -722,14 +775,11 @@
       return items.reduce((acc, event) => {
         acc[event.type] = (acc[event.type] ?? 0) + 1;
         if (event.type === "shipment") {
-          if (shipmentStatus(event) === "confirmed") {
-            acc.shipmentConfirmed += 1;
-          } else {
-            acc.shipmentCandidate += 1;
-          }
+          if (shipmentStatus(event) === "confirmed") acc.shipmentConfirmed += 1;
+          else acc.shipmentCandidate += 1;
         }
         return acc;
-      }, { chat: 0, resign: 0, shipment: 0, shipmentConfirmed: 0, shipmentCandidate: 0 });
+      }, { chat: 0, resign: 0, shipment: 0, research: 0, train: 0, build: 0, age_up: 0, shipmentConfirmed: 0, shipmentCandidate: 0 });
     }
 
     function shipmentStatus(event) {
@@ -740,9 +790,7 @@
       if (filter === "all") return true;
       if (filter === "system") return actor?.kind === "system";
       if (filter === "unknown") return actor?.kind === "unknown";
-      if (filter.startsWith("player:")) {
-        return String(actor?.slotId) === filter.slice("player:".length);
-      }
+      if (filter.startsWith("player:")) return String(actor?.slotId) === filter.slice("player:".length);
       return true;
     }
 
@@ -759,13 +807,16 @@
     function formatResult(result) {
       if (!result?.inferred) return "Not inferred";
       const teams = result.winningTeams?.length ? result.winningTeams.join(", ") : "?";
-      return `Likely Team ${teams}`;
+      return `Team ${teams}`;
     }
 
+    function titleCase(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+    let participantCache = null;
     function getParticipants() {
+      if (participantCache && participantCache.data === state.data) return participantCache.list;
       const participants = new Map();
       const teamBySlot = buildTeamBySlot();
-
       for (const player of state.data?.replay?.players ?? []) {
         const slotId = Number(player.slotId);
         if (!Number.isFinite(slotId)) continue;
@@ -773,26 +824,24 @@
           slotId,
           playerName: player.playerName ?? `Slot ${slotId}`,
           civName: player.civInfo?.name ?? "Unknown",
-          teamLabel: teamBySlot.get(slotId)?.label ?? "Unknown",
+          color: player.color,
+          teamLabel: teamBySlot.get(slotId)?.label ?? "—",
           homecityName: player.homecityName ?? "",
         });
       }
-
       for (const team of state.data?.replay?.teams ?? []) {
         for (const member of team.members ?? []) {
           const slotId = Number(member);
           if (!Number.isFinite(slotId) || participants.has(slotId)) continue;
           participants.set(slotId, {
-            slotId,
-            playerName: inferNameFromTeam(team, slotId),
-            civName: "Unknown",
-            teamLabel: displayTeam(team),
-            homecityName: "",
+            slotId, playerName: inferNameFromTeam(team, slotId),
+            civName: "Unknown", color: slotId, teamLabel: displayTeam(team), homecityName: "",
           });
         }
       }
-
-      return [...participants.values()].sort((a, b) => a.slotId - b.slotId);
+      const list = [...participants.values()].sort((a, b) => a.slotId - b.slotId);
+      participantCache = { data: state.data, list };
+      return list;
     }
 
     function participantNameForSlot(slotId) {
@@ -805,11 +854,7 @@
       const map = new Map();
       for (const team of state.data?.replay?.teams ?? []) {
         for (const member of team.members ?? []) {
-          map.set(Number(member), {
-            id: team.id,
-            name: team.name,
-            label: displayTeam(team),
-          });
+          map.set(Number(member), { id: team.id, name: team.name, label: displayTeam(team) });
         }
       }
       return map;
@@ -817,39 +862,32 @@
 
     function displayTeam(team) {
       const id = team.id ?? "?";
-      const name = team.name ?? "";
-      return name ? `${id} - ${name}` : String(id);
+      const name = (team.name ?? "").replace(/^Team\s+/i, "").trim();
+      return name ? `Team ${id} · ${name}` : `Team ${id}`;
     }
 
     function inferNameFromTeam(team, slotId) {
-      const name = team.name ?? "";
-      const cleaned = name.replace(/^Team\s+/i, "").trim();
-      return cleaned || `Slot ${slotId}`;
+      const name = (team.name ?? "").replace(/^Team\s+/i, "").trim();
+      return name || `Slot ${slotId}`;
     }
 
     function formatTime(value) {
       const timeMs = Math.max(0, Number(value) || 0);
       const minutes = Math.floor(timeMs / 60000);
       const seconds = Math.floor((timeMs % 60000) / 1000);
-      const millis = Math.floor(timeMs % 1000);
-      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(millis).padStart(3, "0")}`;
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     }
 
     function escapeHtml(value) {
       return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     }
 
     if (window.__AOE3_DATA__) {
-      // Injected by analyze.ps1 for one-command "parse and open" runs.
       loadData(window.__AOE3_DATA__);
     } else {
-      renderSummary();
-      renderEmpty("Open a normalized replay JSON to view chat and resign events.");
+      renderEmpty("Open a replay ledger (JSON) — or drop a .age3Yrec onto the analyzer app.");
     }
   </script>
 </body>
