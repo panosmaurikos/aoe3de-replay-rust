@@ -24,7 +24,7 @@ are not "not yet decoded"; they are not present. The state engine
 | Resign + inferred winner           | supported   | normal timeline + `result` | from resign vs team membership |
 | Card / shipment **send**           | supported   | normal `shipment` events (`--events`) | rawId→name, actor-deck matched, deduped |
 | Research tech                      | supported   | normal `research` events (`--events`) | commandId=1, name-resolved, deduped |
-| Age up                             | supported   | normal `age_up` events (`--events`) | research with the `AgeUpgrade` flag (politician / Chinese wonder) |
+| Age up                             | supported   | normal `age_up` events (`--events`) + viewer per-player age timings (II/III/IV/V) | research with the `AgeUpgrade` flag (politician / Chinese wonder); ordered per player to label the age |
 | Train unit                         | supported   | normal `train` events (`--events`) | commandId=2 train, prop-filtered; some civs' military still missed |
 | Build building                     | supported   | normal `build` events (`--events`) | commandId=3, building-filtered, deduped |
 | Units trained (totals)             | supported   | `playerStates.unitsTrained` | prop/building-filtered (`units.json` `kind`) |

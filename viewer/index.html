@@ -233,6 +233,19 @@
     }
     .chip.team { border-color: var(--pcolor, #999); }
 
+    .ages {
+      display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px;
+      padding-top: 9px; border-top: 1px dotted var(--rule);
+    }
+    .ages .age {
+      font-size: 11px; color: var(--ink-soft); font-family: var(--mono);
+      letter-spacing: 0.02em;
+    }
+    .ages .age b {
+      font-family: var(--display); color: var(--age_up); font-size: 11.5px;
+      margin-right: 2px; letter-spacing: 0.04em;
+    }
+
     .resbar { margin-top: 11px; }
     .resbar-track {
       display: flex; height: 10px; border-radius: 2px; overflow: hidden;
@@ -646,12 +659,35 @@
       }
 
       const bySlot = statesBySlot();
+      const ageBySlot = ageTimingsBySlot();
       players.innerHTML = `<div class="players-grid">${
-        items.map((p) => playerCard(p, bySlot.get(p.slotId))).join("")
+        items.map((p) => playerCard(p, bySlot.get(p.slotId), ageBySlot.get(p.slotId))).join("")
       }</div>`;
     }
 
-    function playerCard(p, st) {
+    function ageTimingsBySlot() {
+      const map = new Map();
+      for (const e of state.events) {
+        if (e.type !== "age_up") continue;
+        const slot = e.actor?.slotId;
+        if (slot === null || slot === undefined) continue;
+        if (!map.has(slot)) map.set(slot, []);
+        map.get(slot).push({ t: e.timeMs ?? e.time, name: e.payload?.name ?? e.label });
+      }
+      for (const arr of map.values()) arr.sort((a, b) => a.t - b.t);
+      return map;
+    }
+
+    const ROMAN = ["II", "III", "IV", "V", "VI", "VII"];
+    function agesLine(ageEvents) {
+      if (!ageEvents || !ageEvents.length) return "";
+      const parts = ageEvents.map((a, i) =>
+        `<span class="age" title="${escapeHtml(a.name ?? "")}"><b>${ROMAN[i] ?? ("Age " + (i + 2))}</b> ${formatTime(a.t)}</span>`
+      ).join("");
+      return `<div class="ages">${parts}</div>`;
+    }
+
+    function playerCard(p, st, ageEvents) {
       const color = PLAYER_COLORS[p.color] ?? "#7a6a52";
       const initials = (p.civName ?? "?").replace(/[^A-Za-z]/g, "").slice(0, 2) || "?";
       const meta = [
@@ -669,6 +705,7 @@
             </div>
           </div>
           <div class="pcard-meta">${meta}</div>
+          ${agesLine(ageEvents)}
           ${resourceCard(st)}
         </article>
       `;
