@@ -217,7 +217,7 @@ The viewer ("Campaign Ledger") is an AoE3-themed UI — wood-framed parchment,
 brass fittings, heraldic player cards. It includes:
 
 - overview gauges (map, result, per-type event counts)
-- heraldic player cards: civ-color shield, team, home city, age-up timings (II/III/IV/V with the politician), and a resource-spent bar
+- heraldic player cards: civ-color shield, team, home city, age-up timings (II/III/IV/V with the politician), a resource-spent bar, and a military / economy / upgrades spend-split bar
 - event type filter (chat / age-up / research / train / build / shipment / resign)
 - player filter, chat/player search, confirmed-shipment toggle
 - filtered view export

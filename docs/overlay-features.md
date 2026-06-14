@@ -30,6 +30,7 @@ are not "not yet decoded"; they are not present. The state engine
 | Units trained (totals)             | supported   | `playerStates.unitsTrained` | prop/building-filtered (`units.json` `kind`) |
 | Resources **spent** (gross)        | supported   | `playerStates.resourcesSpent` + `resourcesSpentSeries` | trains+builds+research × `cost`; food/wood/gold/influence; shipments excluded (paid in shipment pts). NOT current/net resources |
 | Economy-pace chart                 | supported   | viewer Economy tab | cumulative resources spent over time per player (from `resourcesSpentSeries`) |
+| Military vs economy spend split     | supported   | `playerStates.spentByCategory` + viewer card bar | military units / economy (villagers+buildings) / upgrades (research); from `units.json` `mil`. Reflects only decoded trains (some civs' military arrives as shipments → shows low) |
 | Active unit counts                 | impossible* | — | sim state, not in command replay |
 | Units in queue                     | impossible* | — | sim state |
 | Unit death / loss                  | impossible* | — | no "death command" exists; deaths are sim results |

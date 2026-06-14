@@ -111,6 +111,17 @@ fn cost_object(node: &Value) -> Option<Value> {
     (!map.is_empty()).then(|| Value::Object(map))
 }
 
+/// True for a military population unit (vs villager/economic). Used to split
+/// spend into military vs economy.
+fn is_military_unit(unit: &Value) -> bool {
+    let types = unittype_names(unit);
+    let villager = types.iter().any(|name| name.contains("AbstractVillager"));
+    let military = types.iter().any(|name| {
+        name.contains("LandMilitary") || name.contains("MinimapFilterMilitary") || *name == "Military"
+    });
+    military && !villager
+}
+
 /// `flag` may be a string or an array of strings.
 fn has_flag(node: &Value, flag: &str) -> bool {
     match node.get("flag") {
@@ -305,7 +316,11 @@ pub fn import_aoe3_companion(input: &Path, out: &Path) -> Result<ImportStats, St
         );
         if let Value::Object(map) = &mut entry {
             // `kind` lets the train-unit resolver drop buildings/props.
-            map.insert("kind".to_string(), json!(unit_kind(unit)));
+            let kind = unit_kind(unit);
+            map.insert("kind".to_string(), json!(kind));
+            if kind == "unit" && is_military_unit(unit) {
+                map.insert("mil".to_string(), json!(true));
+            }
             if let Some(cost) = cost_object(unit) {
                 map.insert("cost".to_string(), cost);
             }

@@ -373,6 +373,10 @@ pub struct PlayerState {
     /// points, not resources). Not the player's current/net resources.
     #[serde(rename = "resourcesSpent")]
     pub resources_spent: ResourcesSpent,
+    /// Gross spend split by purpose: military units / economy (villagers +
+    /// buildings) / upgrades (research). Totals across all resource types.
+    #[serde(rename = "spentByCategory")]
+    pub spent_by_category: SpentByCategory,
     /// Cumulative gross resources spent over time as `[timeMs, total]` points
     /// (one per spend). For an economy-pace chart. Same caveat as resourcesSpent.
     #[serde(rename = "resourcesSpentSeries", skip_serializing_if = "Vec::is_empty")]
@@ -388,6 +392,13 @@ pub struct ResourcesSpent {
     pub gold: f64,
     pub influence: f64,
     pub total: f64,
+}
+
+#[derive(Debug, Default, Serialize)]
+pub struct SpentByCategory {
+    pub military: f64,
+    pub economy: f64,
+    pub upgrades: f64,
 }
 
 #[derive(Debug, Serialize)]

@@ -707,8 +707,30 @@
           <div class="pcard-meta">${meta}</div>
           ${agesLine(ageEvents)}
           ${resourceCard(st)}
+          ${categoryBar(st)}
         </article>
       `;
+    }
+
+    const CAT_COLORS = { military: "#8c2f22", economy: "#3f7d3a", upgrades: "#9c7a3c" };
+    const CAT_LABEL = { military: "military", economy: "economy", upgrades: "upgrades" };
+    function categoryBar(st) {
+      const c = st?.spentByCategory;
+      if (!c) return "";
+      const total = (c.military || 0) + (c.economy || 0) + (c.upgrades || 0);
+      if (!total) return "";
+      const keys = ["military", "economy", "upgrades"];
+      const segs = keys.filter((k) => c[k] > 0).map((k) =>
+        `<i style="width:${(c[k] / total * 100).toFixed(1)}%;background:${CAT_COLORS[k]}" title="${CAT_LABEL[k]} ${Math.round(c[k])}"></i>`
+      ).join("");
+      const legend = keys.filter((k) => c[k] > 0).map((k) =>
+        `<span><span class="swatch" style="background:${CAT_COLORS[k]}"></span>${CAT_LABEL[k]} <b>${Math.round(c[k] / total * 100)}%</b></span>`
+      ).join("");
+      return `
+        <div class="resbar" title="How gross spend was split: military units vs economy (villagers + buildings) vs upgrades (research)">
+          <div class="resbar-track">${segs}</div>
+          <div class="resbar-legend">${legend}</div>
+        </div>`;
     }
 
     function resourceCard(st) {

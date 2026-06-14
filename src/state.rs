@@ -11,7 +11,7 @@ use std::collections::BTreeMap;
 use crate::gamedata::Cost;
 use crate::models::{
     DebugCommand, DerivedEvent, PlayerState, PlayerStateCounts, Replay, ResourcesSpent,
-    StateUnavailable, UnitTally,
+    SpentByCategory, StateUnavailable, UnitTally,
 };
 
 /// A repeated card send within this window is treated as a double-click of one
@@ -46,6 +46,13 @@ struct Accumulator {
     units_trained: BTreeMap<i32, (String, usize)>,
     buildings_built: Vec<DerivedEvent>,
     spent: SpentTotals,
+    cat_military: f64,
+    cat_economy: f64,
+    cat_upgrades: f64,
+}
+
+fn cost_total(cost: Option<Cost>) -> f64 {
+    cost.map(|cost| cost.total()).unwrap_or(0.0)
 }
 
 #[derive(Default)]
@@ -118,6 +125,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     name: tech.display_name.clone(),
                 });
                 entry.spent.record(command.time_ms, tech.cost);
+                entry.cat_upgrades += cost_total(tech.cost);
             }
         }
 
@@ -128,6 +136,12 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                 .or_insert_with(|| (unit.display_name.clone(), 0));
             tally.1 += 1;
             entry.spent.record(command.time_ms, unit.cost); // every train is a real unit
+            let value = cost_total(unit.cost);
+            if unit.mil {
+                entry.cat_military += value;
+            } else {
+                entry.cat_economy += value;
+            }
         }
 
         if let Some(building) = command.building.as_ref() {
@@ -142,6 +156,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     name: building.display_name.clone(),
                 });
                 entry.spent.record(command.time_ms, building.cost);
+                entry.cat_economy += cost_total(building.cost);
             }
         }
     }
@@ -195,6 +210,11 @@ fn make_state(
         .iter()
         .map(|(time_ms, total)| (*time_ms, total.round()))
         .collect();
+    let spent_by_category = SpentByCategory {
+        military: round1(accumulator.cat_military),
+        economy: round1(accumulator.cat_economy),
+        upgrades: round1(accumulator.cat_upgrades),
+    };
 
     PlayerState {
         slot_id,
@@ -211,6 +231,7 @@ fn make_state(
         units_trained,
         buildings_built: accumulator.buildings_built,
         resources_spent,
+        spent_by_category,
         resources_spent_series,
         unavailable: StateUnavailable {
             reason: UNAVAILABLE_REASON.to_string(),

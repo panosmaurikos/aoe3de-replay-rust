@@ -482,6 +482,7 @@
     "id": 1035,
     "internalName": "ypWokouWaywardRonin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -508,6 +509,7 @@
     "id": 1037,
     "internalName": "ypWokouArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -522,6 +524,7 @@
     "id": 1038,
     "internalName": "ypMandarinArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -537,6 +540,7 @@
     "id": 1039,
     "internalName": "ypConsulateTercio",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -563,6 +567,7 @@
     "id": 1040,
     "internalName": "ypConsulateRedcoat",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -578,6 +583,7 @@
     "id": 1041,
     "internalName": "ypConsulateLifeGuard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -740,6 +746,7 @@
     "id": 1053,
     "internalName": "ypConsulateJinete",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -810,6 +817,7 @@
     "id": 1059,
     "internalName": "ypSPCArsonist",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -1034,6 +1042,7 @@
     "id": 1076,
     "internalName": "ypConsulateGuerreiros",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -1400,6 +1409,7 @@
     "id": 1103,
     "internalName": "ypConsulateGarrochista",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -1415,6 +1425,7 @@
     "id": 1104,
     "internalName": "ypConsulateCarabineer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -1441,6 +1452,7 @@
     "id": 1106,
     "internalName": "ypConsulateArmySpanish1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -1455,6 +1467,7 @@
     "id": 1107,
     "internalName": "ypThuggee",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3139,6 +3152,7 @@
     "id": 1221,
     "internalName": "ypSepoyMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3154,6 +3168,7 @@
     "id": 1222,
     "internalName": "ypUrumiMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3169,6 +3184,7 @@
     "id": 1223,
     "internalName": "ypRajputMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3184,6 +3200,7 @@
     "id": 1224,
     "internalName": "ypSowarMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3199,6 +3216,7 @@
     "id": 1225,
     "internalName": "ypZamburakMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3214,6 +3232,7 @@
     "id": 1226,
     "internalName": "ypConsulateFalconet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3229,6 +3248,7 @@
     "id": 1227,
     "internalName": "ypConsulateCulverin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3244,6 +3264,7 @@
     "id": 1228,
     "internalName": "ypConsulateMortar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3259,6 +3280,7 @@
     "id": 1229,
     "internalName": "ypConsulateGreatBombard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3284,6 +3306,7 @@
     "id": 1230,
     "internalName": "ypConsulateHorseArtillery",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3295,6 +3318,7 @@
     "id": 1231,
     "internalName": "ypConsulateArmyOttoman1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3306,6 +3330,7 @@
     "id": 1232,
     "internalName": "ypConsulateArmyDutch1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3317,6 +3342,7 @@
     "id": 1233,
     "internalName": "ypConsulateArmyRussian1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3328,6 +3354,7 @@
     "id": 1234,
     "internalName": "ypConsulateArmyFrench1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3343,6 +3370,7 @@
     "id": 1235,
     "internalName": "ypConsulateBestieros",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3354,6 +3382,7 @@
     "id": 1236,
     "internalName": "ypConsulateArmyPortuguese1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3380,6 +3409,7 @@
     "id": 1238,
     "internalName": "ypIrregular",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3395,6 +3425,7 @@
     "id": 1239,
     "internalName": "ypPeasant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3433,6 +3464,7 @@
     "id": 1241,
     "internalName": "ypDaimyoKiyomasa",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3447,6 +3479,7 @@
     "id": 1242,
     "internalName": "ypDaimyoMototada",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3461,6 +3494,7 @@
     "id": 1243,
     "internalName": "ypDaimyoMasamune",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3513,6 +3547,7 @@
     "id": 1247,
     "internalName": "ypConsulateEspadachins",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3528,6 +3563,7 @@
     "id": 1248,
     "internalName": "ypConsulateStadhouders",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3543,6 +3579,7 @@
     "id": 1249,
     "internalName": "ypConsulateTufanciCorps",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3568,6 +3605,7 @@
     "id": 1250,
     "internalName": "ypConsulateGendarmes",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3583,6 +3621,7 @@
     "id": 1251,
     "internalName": "ypConsulateCzapakaUhlan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3598,6 +3637,7 @@
     "id": 1252,
     "internalName": "ypConsulateZweihander",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3613,6 +3653,7 @@
     "id": 1253,
     "internalName": "ypConsulateRogersRanger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3624,6 +3665,7 @@
     "id": 1254,
     "internalName": "ypConsulateArmyOttoman2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3635,6 +3677,7 @@
     "id": 1255,
     "internalName": "ypConsulateArmyOttoman3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3646,6 +3689,7 @@
     "id": 1256,
     "internalName": "ypConsulateArmyPortuguese2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3657,6 +3701,7 @@
     "id": 1257,
     "internalName": "ypConsulateArmyPortuguese3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3668,6 +3713,7 @@
     "id": 1258,
     "internalName": "ypConsulateArmyDutch2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3679,6 +3725,7 @@
     "id": 1259,
     "internalName": "ypConsulateArmyDutch3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3700,6 +3747,7 @@
     "id": 1260,
     "internalName": "ypConsulateArmyRussian2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3711,6 +3759,7 @@
     "id": 1261,
     "internalName": "ypConsulateArmyRussian3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3722,6 +3771,7 @@
     "id": 1262,
     "internalName": "ypConsulateArmyBritish1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3733,6 +3783,7 @@
     "id": 1263,
     "internalName": "ypConsulateArmyBritish2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3744,6 +3795,7 @@
     "id": 1264,
     "internalName": "ypConsulateArmyBritish3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3755,6 +3807,7 @@
     "id": 1265,
     "internalName": "ypConsulateArmySpanish2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3766,6 +3819,7 @@
     "id": 1266,
     "internalName": "ypConsulateArmySpanish3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3777,6 +3831,7 @@
     "id": 1267,
     "internalName": "ypConsulateArmyFrench2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3788,6 +3843,7 @@
     "id": 1268,
     "internalName": "ypConsulateArmyFrench3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3799,6 +3855,7 @@
     "id": 1269,
     "internalName": "ypConsulateArmyGerman1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3820,6 +3877,7 @@
     "id": 1270,
     "internalName": "ypConsulateArmyGerman2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3831,6 +3889,7 @@
     "id": 1271,
     "internalName": "ypConsulateArmyGerman3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3846,6 +3905,7 @@
     "id": 1272,
     "internalName": "ypConsulateCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3861,6 +3921,7 @@
     "id": 1273,
     "internalName": "ypConsulateGardener",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3876,6 +3937,7 @@
     "id": 1274,
     "internalName": "ypConsulateKalmuck",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3891,6 +3953,7 @@
     "id": 1275,
     "internalName": "ypConsulateBashkirPony",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3906,6 +3969,7 @@
     "id": 1276,
     "internalName": "ypConsulatePrussianNeedleGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3921,6 +3985,7 @@
     "id": 1277,
     "internalName": "ypConsulateYoungGarde",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3936,6 +4001,7 @@
     "id": 1278,
     "internalName": "ypHowdahMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3951,6 +4017,7 @@
     "id": 1279,
     "internalName": "ypMahoutMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3976,6 +4043,7 @@
     "id": 1280,
     "internalName": "ypSiegeElephantMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -3991,6 +4059,7 @@
     "id": 1281,
     "internalName": "ypMercFlailiphantMansabdar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4028,6 +4097,7 @@
     "id": 1284,
     "internalName": "ypFlamingArrow",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4043,6 +4113,7 @@
     "id": 1285,
     "internalName": "ypMorutaru",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4122,6 +4193,7 @@
     "id": 1291,
     "internalName": "ypSPCDaimyoKiyomasa",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4136,6 +4208,7 @@
     "id": 1292,
     "internalName": "ypSPCDaimyoMasamune",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4150,6 +4223,7 @@
     "id": 1293,
     "internalName": "ypSPCDaimyoTadaoki",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4179,6 +4253,7 @@
     "id": 1295,
     "internalName": "ypDaimyoRegicide",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4190,6 +4265,7 @@
     "id": 1296,
     "internalName": "ypConsulateArmySPCPortuguese1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4201,6 +4277,7 @@
     "id": 1297,
     "internalName": "ypConsulateArmySPCPortuguese2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4212,6 +4289,7 @@
     "id": 1298,
     "internalName": "ypConsulateArmySPCPortuguese3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4223,6 +4301,7 @@
     "id": 1299,
     "internalName": "ypConsulateArmySPCDutch1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4254,6 +4333,7 @@
     "id": 1300,
     "internalName": "ypConsulateArmySPCDutch2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4265,6 +4345,7 @@
     "id": 1301,
     "internalName": "ypConsulateArmySPCDutch3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4549,6 +4630,7 @@
     "id": 1320,
     "internalName": "ypDojoYumiArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4564,6 +4646,7 @@
     "id": 1321,
     "internalName": "ypDojoAshigaruArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4579,6 +4662,7 @@
     "id": 1322,
     "internalName": "ypDojoKenseiArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4594,6 +4678,7 @@
     "id": 1323,
     "internalName": "ypDojoNaginataRiderArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4609,6 +4694,7 @@
     "id": 1324,
     "internalName": "ypDojoYabusameArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4624,6 +4710,7 @@
     "id": 1325,
     "internalName": "ypConsulateSiberianCossack",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4639,6 +4726,7 @@
     "id": 1326,
     "internalName": "ypStandardArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4654,6 +4742,7 @@
     "id": 1327,
     "internalName": "ypMingArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4720,6 +4809,7 @@
     "id": 1331,
     "internalName": "ypMercArsonist",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4778,6 +4868,7 @@
     "id": 1336,
     "internalName": "ypConsulateNinja",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4789,6 +4880,7 @@
     "id": 1337,
     "internalName": "ypConsulateRonin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4800,6 +4892,7 @@
     "id": 1338,
     "internalName": "ypConsulateShinobi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4811,6 +4904,7 @@
     "id": 1339,
     "internalName": "ypConsulateYamabushi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4873,6 +4967,7 @@
     "id": 1343,
     "internalName": "ypTerritorialArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4888,6 +4983,7 @@
     "id": 1344,
     "internalName": "ypStandardArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4903,6 +4999,7 @@
     "id": 1345,
     "internalName": "ypForbiddenArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4918,6 +5015,7 @@
     "id": 1346,
     "internalName": "ypMingArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4933,6 +5031,7 @@
     "id": 1347,
     "internalName": "ypOldHanArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -4948,6 +5047,7 @@
     "id": 1348,
     "internalName": "ypImperialArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5131,6 +5231,7 @@
     "id": 1360,
     "internalName": "ypSPCIshida",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5234,6 +5335,7 @@
     "id": 1369,
     "internalName": "ypConsulateArmySPCChinese1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5255,6 +5357,7 @@
     "id": 1370,
     "internalName": "ypConsulateArmySPCChinese2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5266,6 +5369,7 @@
     "id": 1371,
     "internalName": "ypConsulateArmySPCChinese3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5277,6 +5381,7 @@
     "id": 1372,
     "internalName": "ypConsulateArmySPCIndian1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5288,6 +5393,7 @@
     "id": 1373,
     "internalName": "ypConsulateArmySPCJapanese1",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5299,6 +5405,7 @@
     "id": 1374,
     "internalName": "ypConsulateArmySPCIndian2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5310,6 +5417,7 @@
     "id": 1375,
     "internalName": "ypConsulateArmySPCJapanese2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5321,6 +5429,7 @@
     "id": 1376,
     "internalName": "ypConsulateArmySPCIndian3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5332,6 +5441,7 @@
     "id": 1377,
     "internalName": "ypConsulateArmySPCJapanese3",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5347,6 +5457,7 @@
     "id": 1378,
     "internalName": "ypBlackFlagArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5362,6 +5473,7 @@
     "id": 1379,
     "internalName": "ypBlackFlagArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5479,6 +5591,7 @@
     "id": 1387,
     "internalName": "ypNatMercGurkhaJemadar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5552,6 +5665,7 @@
     "id": 1392,
     "internalName": "ypSPCArrowKnight",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5597,6 +5711,7 @@
     "id": 1395,
     "internalName": "ypMongolianArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5612,6 +5727,7 @@
     "id": 1396,
     "internalName": "ypMongolianArmySpawn",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5648,6 +5764,7 @@
     "id": 1399,
     "internalName": "ypRepentantBarbaryCorsair",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5683,6 +5800,7 @@
     "id": 1400,
     "internalName": "ypRepentantBlackRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5697,6 +5815,7 @@
     "id": 1401,
     "internalName": "ypRepentantElmeti",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5711,6 +5830,7 @@
     "id": 1402,
     "internalName": "ypRepentantFusilier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5725,6 +5845,7 @@
     "id": 1403,
     "internalName": "ypRepentantGreatCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5739,6 +5860,7 @@
     "id": 1404,
     "internalName": "ypRepentantHackapell",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5753,6 +5875,7 @@
     "id": 1405,
     "internalName": "ypRepentantHighlander",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5767,6 +5890,7 @@
     "id": 1406,
     "internalName": "ypRepentantJaeger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5781,6 +5905,7 @@
     "id": 1407,
     "internalName": "ypRepentantLandsknecht",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5795,6 +5920,7 @@
     "id": 1408,
     "internalName": "ypRepentantMameluke",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5809,6 +5935,7 @@
     "id": 1409,
     "internalName": "ypRepentantManchu",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5833,6 +5960,7 @@
     "id": 1410,
     "internalName": "ypRepentantNinja",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5847,6 +5975,7 @@
     "id": 1411,
     "internalName": "ypRepentantRonin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5861,6 +5990,7 @@
     "id": 1412,
     "internalName": "ypRepentantStradiot",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5875,6 +6005,7 @@
     "id": 1413,
     "internalName": "ypRepentantSwissPikeman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5889,6 +6020,7 @@
     "id": 1414,
     "internalName": "ypRepentantArsonist",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5903,6 +6035,7 @@
     "id": 1415,
     "internalName": "ypRepentantIronTroop",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5917,6 +6050,7 @@
     "id": 1416,
     "internalName": "ypRepentantJatLancer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5931,6 +6065,7 @@
     "id": 1417,
     "internalName": "ypRepentantYojimbo",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5945,6 +6080,7 @@
     "id": 1418,
     "internalName": "ypRepentantOutlawPistol",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5959,6 +6095,7 @@
     "id": 1419,
     "internalName": "ypRepentantOutlawRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5983,6 +6120,7 @@
     "id": 1420,
     "internalName": "ypRepentantOutlawRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -5997,6 +6135,7 @@
     "id": 1421,
     "internalName": "ypRepentantPirate",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6011,6 +6150,7 @@
     "id": 1422,
     "internalName": "ypRepentantDacoit",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6025,6 +6165,7 @@
     "id": 1423,
     "internalName": "ypRepentantThuggee",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6039,6 +6180,7 @@
     "id": 1424,
     "internalName": "ypRepentantBlindMonk",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6053,6 +6195,7 @@
     "id": 1425,
     "internalName": "ypRepentantSmuggler",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6067,6 +6210,7 @@
     "id": 1426,
     "internalName": "ypRepentantWanderingHorseman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6081,6 +6225,7 @@
     "id": 1427,
     "internalName": "ypRepentantWaywardRonin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6351,6 +6496,7 @@
     "id": 1447,
     "internalName": "ypIrregularIndians",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6366,6 +6512,7 @@
     "id": 1448,
     "internalName": "ypPeasantIndians",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6677,6 +6824,7 @@
     "id": 1472,
     "internalName": "dePriestess",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6721,6 +6869,7 @@
     "id": 1475,
     "internalName": "deJungleBowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6736,6 +6885,7 @@
     "id": 1476,
     "internalName": "deIncaSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6751,6 +6901,7 @@
     "id": 1477,
     "internalName": "deIncaRunner",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6781,6 +6932,7 @@
     "id": 1479,
     "internalName": "deBolasWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6806,6 +6958,7 @@
     "id": 1480,
     "internalName": "deSlinger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6821,6 +6974,7 @@
     "id": 1481,
     "internalName": "deMaceman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6921,6 +7075,7 @@
     "id": 1489,
     "internalName": "deBarbaryCorsair",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6978,6 +7133,7 @@
     "id": 1493,
     "internalName": "deNatMercMapucheClubman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -6993,6 +7149,7 @@
     "id": 1494,
     "internalName": "deBarbaryCavalry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7022,6 +7179,7 @@
     "id": 1496,
     "internalName": "deBarbarySpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7037,6 +7195,7 @@
     "id": 1497,
     "internalName": "deBarbaryArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7052,6 +7211,7 @@
     "id": 1498,
     "internalName": "deBedouinHorseArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7067,6 +7227,7 @@
     "id": 1499,
     "internalName": "deBarbarySkirmisher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7246,6 +7407,7 @@
     "id": 1512,
     "internalName": "deSPCUSRegular",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7261,6 +7423,7 @@
     "id": 1513,
     "internalName": "deSPCUSVolunteer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7285,6 +7448,7 @@
     "id": 1515,
     "internalName": "deREVBarbaryWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7300,6 +7464,7 @@
     "id": 1516,
     "internalName": "deNatBolasRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7315,6 +7480,7 @@
     "id": 1517,
     "internalName": "deCarolean",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7344,6 +7510,7 @@
     "id": 1519,
     "internalName": "deSPCShotel",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7369,6 +7536,7 @@
     "id": 1520,
     "internalName": "deSPCHornSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7384,6 +7552,7 @@
     "id": 1521,
     "internalName": "deSPCHornSkirmisher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7410,6 +7579,7 @@
     "id": 1523,
     "internalName": "deSPCGenitour",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7569,6 +7739,7 @@
     "id": 1536,
     "internalName": "deMercHarquebusier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7583,6 +7754,7 @@
     "id": 1537,
     "internalName": "deRepentantHarquebusier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7598,6 +7770,7 @@
     "id": 1538,
     "internalName": "deFinnishRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7613,6 +7786,7 @@
     "id": 1539,
     "internalName": "deNatMercBolasRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7659,6 +7833,7 @@
     "id": 1542,
     "internalName": "deLeatherCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7786,6 +7961,7 @@
     "id": 1552,
     "internalName": "deREVBarbaryMarksman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7811,6 +7987,7 @@
     "id": 1554,
     "internalName": "deREVJavaSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7826,6 +8003,7 @@
     "id": 1555,
     "internalName": "deREVCetbang",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7861,6 +8039,7 @@
     "id": 1558,
     "internalName": "deREVGranadero",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7875,6 +8054,7 @@
     "id": 1559,
     "internalName": "deREVLlanero",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7899,6 +8079,7 @@
     "id": 1560,
     "internalName": "deREVVaquero",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7949,6 +8130,7 @@
     "id": 1564,
     "internalName": "deREVVoluntarioBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7963,6 +8145,7 @@
     "id": 1565,
     "internalName": "deREVPirateBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -7977,6 +8160,7 @@
     "id": 1566,
     "internalName": "deREVJagunco",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8087,6 +8271,7 @@
     "id": 1575,
     "internalName": "deREVGaucho",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8473,6 +8658,7 @@
     "id": 1605,
     "internalName": "deNizam",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8712,6 +8898,7 @@
     "id": 1625,
     "internalName": "deCaroleanBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8748,6 +8935,7 @@
     "id": 1628,
     "internalName": "deEagleScout",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8820,6 +9008,7 @@
     "id": 1633,
     "internalName": "deStateMilitia",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8835,6 +9024,7 @@
     "id": 1634,
     "internalName": "deRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8850,6 +9040,7 @@
     "id": 1635,
     "internalName": "deRegular",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8865,6 +9056,7 @@
     "id": 1636,
     "internalName": "deUSCavalry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8909,6 +9101,7 @@
     "id": 1639,
     "internalName": "deQuakerGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -8934,6 +9127,7 @@
     "id": 1640,
     "internalName": "deMinuteman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9015,6 +9209,7 @@
     "id": 1646,
     "internalName": "deMercCapturedMortar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9106,6 +9301,7 @@
     "id": 1652,
     "internalName": "deMercZouave",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9120,6 +9316,7 @@
     "id": 1653,
     "internalName": "deMercNapoleonGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9145,6 +9342,7 @@
     "id": 1655,
     "internalName": "deFedImmigrantBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9159,6 +9357,7 @@
     "id": 1656,
     "internalName": "deFedStateMilitiaBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9195,6 +9394,7 @@
     "id": 1659,
     "internalName": "deFortStateMilitiaBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9219,6 +9419,7 @@
     "id": 1660,
     "internalName": "deFortRegularBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9233,6 +9434,7 @@
     "id": 1661,
     "internalName": "deFortRiflemanBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9247,6 +9449,7 @@
     "id": 1662,
     "internalName": "deFortHussarBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9261,6 +9464,7 @@
     "id": 1663,
     "internalName": "deFortUSCavalryBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9275,6 +9479,7 @@
     "id": 1664,
     "internalName": "deFortGatlingGunBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9358,6 +9563,7 @@
     "id": 1670,
     "internalName": "deREVUSVolunteer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9405,6 +9611,7 @@
     "id": 1674,
     "internalName": "deFedStateMilitiaBatch2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9420,6 +9627,7 @@
     "id": 1675,
     "internalName": "deLegionDragoon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9435,6 +9643,7 @@
     "id": 1676,
     "internalName": "deLegionMagyarHussar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9449,6 +9658,7 @@
     "id": 1677,
     "internalName": "deFortLegionDragoonBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9463,6 +9673,7 @@
     "id": 1678,
     "internalName": "deFortLegionCzapakaBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9477,6 +9688,7 @@
     "id": 1679,
     "internalName": "deFortLegionMagyarHussarBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9502,6 +9714,7 @@
     "id": 1680,
     "internalName": "deLegionGrenadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9516,6 +9729,7 @@
     "id": 1681,
     "internalName": "deFortLegionGrenadierBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9553,6 +9767,7 @@
     "id": 1684,
     "internalName": "deNatMercSharktoothBowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9568,6 +9783,7 @@
     "id": 1685,
     "internalName": "deNatMercApacheCavalry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9583,6 +9799,7 @@
     "id": 1686,
     "internalName": "deNatMercNavajoRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9734,6 +9951,7 @@
     "id": 1697,
     "internalName": "deFedBisonBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9806,6 +10024,7 @@
     "id": 1701,
     "internalName": "deBowmanLevy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9820,6 +10039,7 @@
     "id": 1702,
     "internalName": "deGunnerLevy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9834,6 +10054,7 @@
     "id": 1703,
     "internalName": "deSpearmanLevy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9849,6 +10070,7 @@
     "id": 1704,
     "internalName": "deGascenya",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9864,6 +10086,7 @@
     "id": 1705,
     "internalName": "deShotelWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9879,6 +10102,7 @@
     "id": 1706,
     "internalName": "deNeftenya",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9894,6 +10118,7 @@
     "id": 1707,
     "internalName": "deOromoWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9909,6 +10134,7 @@
     "id": 1708,
     "internalName": "deJavelinRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9924,6 +10150,7 @@
     "id": 1709,
     "internalName": "deLifidi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9949,6 +10176,7 @@
     "id": 1710,
     "internalName": "deRaider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9963,6 +10191,7 @@
     "id": 1711,
     "internalName": "deMaigadi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -9978,6 +10207,7 @@
     "id": 1712,
     "internalName": "deFulaWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10122,6 +10352,7 @@
     "id": 1722,
     "internalName": "deSebastopolMortar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10175,6 +10406,7 @@
     "id": 1726,
     "internalName": "deAbun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10258,6 +10490,7 @@
     "id": 1731,
     "internalName": "deGriot",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10419,6 +10652,7 @@
     "id": 1744,
     "internalName": "deSPCSultanMalik",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10655,6 +10889,7 @@
     "id": 1763,
     "internalName": "deMercKanuri",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10669,6 +10904,7 @@
     "id": 1764,
     "internalName": "deMercAskari",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10684,6 +10920,7 @@
     "id": 1765,
     "internalName": "deNatAkanMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10699,6 +10936,7 @@
     "id": 1766,
     "internalName": "deNatCamelRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10735,6 +10973,7 @@
     "id": 1769,
     "internalName": "deNatAkanWarchief",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10760,6 +10999,7 @@
     "id": 1770,
     "internalName": "deNatAkanArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10774,6 +11014,7 @@
     "id": 1771,
     "internalName": "deMercCannoneer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10960,6 +11201,7 @@
     "id": 1786,
     "internalName": "deMercGatlingCamel",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -10989,6 +11231,7 @@
     "id": 1788,
     "internalName": "deNatYorubaLegionary",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11065,6 +11308,7 @@
     "id": 1794,
     "internalName": "deNatSomaliDarood",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11080,6 +11324,7 @@
     "id": 1795,
     "internalName": "deNatSomaliJavelineer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11095,6 +11340,7 @@
     "id": 1796,
     "internalName": "deNatSudaneseDervish",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11110,6 +11356,7 @@
     "id": 1797,
     "internalName": "deNatYorubaRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11124,6 +11371,7 @@
     "id": 1798,
     "internalName": "deMercZenata",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11338,6 +11586,7 @@
     "id": 1814,
     "internalName": "deMercSudaneseRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11523,6 +11772,7 @@
     "id": 1829,
     "internalName": "deMercAmazon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11549,6 +11799,7 @@
     "id": 1830,
     "internalName": "deOutlawDesertArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11564,6 +11815,7 @@
     "id": 1831,
     "internalName": "deOutlawDesertWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11640,6 +11892,7 @@
     "id": 1837,
     "internalName": "deNatBerberSultan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11715,6 +11968,7 @@
     "id": 1842,
     "internalName": "deResourceHealingContainer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11741,6 +11995,7 @@
     "id": 1844,
     "internalName": "deOutlawDesertRaider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11766,6 +12021,7 @@
     "id": 1846,
     "internalName": "deNatSomaliAskariProxy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11780,6 +12036,7 @@
     "id": 1847,
     "internalName": "deNatSudaneseAskariProxy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -11794,6 +12051,7 @@
     "id": 1848,
     "internalName": "deNatSudaneseSennarProxy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12228,6 +12486,7 @@
     "id": 1882,
     "internalName": "legacyGatlingCamel",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12838,6 +13097,7 @@
     "id": 1930,
     "internalName": "deNatMercAkanMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12874,6 +13134,7 @@
     "id": 1933,
     "internalName": "deNatMercSomaliDarood",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12889,6 +13150,7 @@
     "id": 1934,
     "internalName": "deNatMercSomaliJavelineer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12904,6 +13166,7 @@
     "id": 1935,
     "internalName": "deNatMercSudaneseDervish",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12919,6 +13182,7 @@
     "id": 1936,
     "internalName": "deNatMercYorubaRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12934,6 +13198,7 @@
     "id": 1937,
     "internalName": "deNatMercYorubaLegionary",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12949,6 +13214,7 @@
     "id": 1938,
     "internalName": "deNatMercCamelRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -12964,6 +13230,7 @@
     "id": 1939,
     "internalName": "deAllegianceBarbaryMarksman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13085,6 +13352,7 @@
     "id": 1949,
     "internalName": "deInsurgente",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13110,6 +13378,7 @@
     "id": 1950,
     "internalName": "deEmboscador",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13125,6 +13394,7 @@
     "id": 1951,
     "internalName": "deSoldado",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13140,6 +13410,7 @@
     "id": 1952,
     "internalName": "deChinaco",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13184,6 +13455,7 @@
     "id": 1955,
     "internalName": "deNatSPCLenapeRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13459,6 +13731,7 @@
     "id": 1976,
     "internalName": "deSpawnBajaCaliforniaTerritoryBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13544,6 +13817,7 @@
     "id": 1982,
     "internalName": "deMXSpanishMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13558,6 +13832,7 @@
     "id": 1983,
     "internalName": "deSaloonDesperado",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13572,6 +13847,7 @@
     "id": 1984,
     "internalName": "deSaloonVaquero",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13586,6 +13862,7 @@
     "id": 1985,
     "internalName": "deSaloonBandido",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13600,6 +13877,7 @@
     "id": 1986,
     "internalName": "deSaloonGunslinger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13614,6 +13892,7 @@
     "id": 1987,
     "internalName": "deSaloonCowboy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13628,6 +13907,7 @@
     "id": 1988,
     "internalName": "deSaloonOwlhoot",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13729,6 +14009,7 @@
     "id": 1996,
     "internalName": "deREVMXMinutemanBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13744,6 +14025,7 @@
     "id": 1997,
     "internalName": "deREVCruzobInfantry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13818,6 +14100,7 @@
     "id": 2000,
     "internalName": "deNatHolcanJavelineer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13833,6 +14116,7 @@
     "id": 2001,
     "internalName": "deNatMercHolcanJavelineer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13847,6 +14131,7 @@
     "id": 2002,
     "internalName": "deREVCalifornio",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13896,6 +14181,7 @@
     "id": 2006,
     "internalName": "deREVFilibuster",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -13922,6 +14208,7 @@
     "id": 2008,
     "internalName": "deNatMercJaguarWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14023,6 +14310,7 @@
     "id": 2016,
     "internalName": "deStealthPetard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14094,6 +14382,7 @@
     "id": 2021,
     "internalName": "deRanger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14206,6 +14495,7 @@
     "id": 2030,
     "internalName": "deConsulateSoldado",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14261,6 +14551,7 @@
     "id": 2034,
     "internalName": "deNMPapalElmetto",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14276,6 +14567,7 @@
     "id": 2035,
     "internalName": "dePavisier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14305,6 +14597,7 @@
     "id": 2037,
     "internalName": "deNatEvzone",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14316,6 +14609,7 @@
     "id": 2038,
     "internalName": "deNMPapalZouave",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14331,6 +14625,7 @@
     "id": 2039,
     "internalName": "deNatRoyalMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14357,6 +14652,7 @@
     "id": 2040,
     "internalName": "deBersagliere",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14371,6 +14667,7 @@
     "id": 2041,
     "internalName": "deSaloonCrabat",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14385,6 +14682,7 @@
     "id": 2042,
     "internalName": "deMercGrenadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14396,6 +14694,7 @@
     "id": 2043,
     "internalName": "dePapalGuard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14647,6 +14946,7 @@
     "id": 2060,
     "internalName": "deSPCCityGuard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14661,6 +14961,7 @@
     "id": 2061,
     "internalName": "deSPCNeutralCityGuard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14675,6 +14976,7 @@
     "id": 2062,
     "internalName": "deMercPandour",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14689,6 +14991,7 @@
     "id": 2063,
     "internalName": "deMercRoyalHorseman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14704,6 +15007,7 @@
     "id": 2064,
     "internalName": "deNatMountedInfantryRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14719,6 +15023,7 @@
     "id": 2065,
     "internalName": "deNatMountedInfantry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14734,6 +15039,7 @@
     "id": 2066,
     "internalName": "deNatLineInfantry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14749,6 +15055,7 @@
     "id": 2067,
     "internalName": "deNatTotenkopf",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14764,6 +15071,7 @@
     "id": 2068,
     "internalName": "deNatMountainTrooper",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14779,6 +15087,7 @@
     "id": 2069,
     "internalName": "deNatRoyalArquebusier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14804,6 +15113,7 @@
     "id": 2070,
     "internalName": "deNatWingedHussar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14819,6 +15129,7 @@
     "id": 2071,
     "internalName": "deNatSaxonCuirassier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14834,6 +15145,7 @@
     "id": 2072,
     "internalName": "deMalteseMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14870,6 +15182,7 @@
     "id": 2075,
     "internalName": "deMercPistoleer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14884,6 +15197,7 @@
     "id": 2076,
     "internalName": "deMercBrigadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14898,6 +15212,7 @@
     "id": 2077,
     "internalName": "deMercMountedRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14927,6 +15242,7 @@
     "id": 2079,
     "internalName": "deNatTrabant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14952,6 +15268,7 @@
     "id": 2080,
     "internalName": "deNatBrunswicker",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14967,6 +15284,7 @@
     "id": 2081,
     "internalName": "deNatChevauleger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -14981,6 +15299,7 @@
     "id": 2082,
     "internalName": "deNatRoyalHunter",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15018,6 +15337,7 @@
     "id": 2085,
     "internalName": "deNatDrummer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15322,6 +15642,7 @@
     "id": 2108,
     "internalName": "deSPCPikemanGuardian",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15376,6 +15697,7 @@
     "id": 2112,
     "internalName": "deNMPandour",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15452,6 +15774,7 @@
     "id": 2119,
     "internalName": "deNMPapalBombard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15513,6 +15836,7 @@
     "id": 2123,
     "internalName": "deNatLipkaTatar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15527,6 +15851,7 @@
     "id": 2124,
     "internalName": "deMercBosniak",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15542,6 +15867,7 @@
     "id": 2125,
     "internalName": "deNatShockRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15616,6 +15942,7 @@
     "id": 2130,
     "internalName": "deSPCStreletGuardian",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15631,6 +15958,7 @@
     "id": 2131,
     "internalName": "deSPCOprichnikGuardian",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15668,6 +15996,7 @@
     "id": 2134,
     "internalName": "deHetmanDamageContainer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15682,6 +16011,7 @@
     "id": 2135,
     "internalName": "deSaloonHajduk",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15697,6 +16027,7 @@
     "id": 2136,
     "internalName": "deSPCOutlawMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15711,6 +16042,7 @@
     "id": 2137,
     "internalName": "deSPCOutlawLandsknecht",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15725,6 +16057,7 @@
     "id": 2138,
     "internalName": "deSaloonOutlawCossack",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -15941,6 +16274,7 @@
     "id": 2153,
     "internalName": "deSPCDelugeCossack",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16010,6 +16344,7 @@
     "id": 2158,
     "internalName": "deSaloonInquisitor",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16024,6 +16359,7 @@
     "id": 2159,
     "internalName": "deMercIrishBrigadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16142,6 +16478,7 @@
     "id": 2169,
     "internalName": "deSaloonHighwaymanRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16166,6 +16503,7 @@
     "id": 2170,
     "internalName": "deSaloonHighwayman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16180,6 +16518,7 @@
     "id": 2171,
     "internalName": "deSaloonOutlawCossackRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16217,6 +16556,7 @@
     "id": 2174,
     "internalName": "deHospitaller",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16477,6 +16817,7 @@
     "id": 2194,
     "internalName": "deNatNorthernMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16769,6 +17110,7 @@
     "id": 2217,
     "internalName": "deNatHungarianGrenadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16849,6 +17191,7 @@
     "id": 2222,
     "internalName": "deSPCJanissaryNoPop",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16864,6 +17207,7 @@
     "id": 2223,
     "internalName": "deSPCGreatBombardNoPop",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -16875,6 +17219,7 @@
     "id": 2224,
     "internalName": "deSPCSiegeForceBatch",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17109,6 +17454,7 @@
     "id": 2245,
     "internalName": "deNatRoyalHorsemanBourbonProxy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17124,6 +17470,7 @@
     "id": 2246,
     "internalName": "deHoopThrower",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17139,6 +17486,7 @@
     "id": 2247,
     "internalName": "deConsulateCacadore",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17154,6 +17502,7 @@
     "id": 2248,
     "internalName": "deConsulateLongbowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17235,6 +17584,7 @@
     "id": 2254,
     "internalName": "deOldenburgAutoGatherContainer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17408,6 +17758,7 @@
     "id": 2268,
     "internalName": "deNatBoyar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17474,6 +17825,7 @@
     "id": 2273,
     "internalName": "deConsulateOprichnik",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17665,6 +18017,7 @@
     "id": 2288,
     "internalName": "deNatRoyalDragoon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17680,6 +18033,7 @@
     "id": 2289,
     "internalName": "deSacredBand",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17728,6 +18082,7 @@
     "id": 2292,
     "internalName": "deNatMercEvzone",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17743,6 +18098,7 @@
     "id": 2293,
     "internalName": "deNatMercTotenkopf",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17758,6 +18114,7 @@
     "id": 2294,
     "internalName": "deNatMercRoyalMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17773,6 +18130,7 @@
     "id": 2295,
     "internalName": "deNatMercMountedInfantryRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17788,6 +18146,7 @@
     "id": 2296,
     "internalName": "deNatMercMountedInfantry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17803,6 +18162,7 @@
     "id": 2297,
     "internalName": "deNatMercBoyar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17818,6 +18178,7 @@
     "id": 2298,
     "internalName": "deNatMercLipkaTatar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17833,6 +18194,7 @@
     "id": 2299,
     "internalName": "deNatMercWingedHussar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17869,6 +18231,7 @@
     "id": 2300,
     "internalName": "deNatMercChevauleger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17937,6 +18300,7 @@
     "id": 2305,
     "internalName": "deNatMercMountainTrooper",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17981,6 +18345,7 @@
     "id": 2308,
     "internalName": "deNatQizilbash",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -17996,6 +18361,7 @@
     "id": 2309,
     "internalName": "deNatTatarArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18356,6 +18722,7 @@
     "id": 2338,
     "internalName": "deNatMercLenapeRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18370,6 +18737,7 @@
     "id": 2339,
     "internalName": "deSaloonOutlawAfricanSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18395,6 +18763,7 @@
     "id": 2340,
     "internalName": "deSaloonOutlawKnifeThrower",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18409,6 +18778,7 @@
     "id": 2341,
     "internalName": "deSaloonOutlawColoRifle",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18423,6 +18793,7 @@
     "id": 2342,
     "internalName": "deSaloonOutlawBlowgunner",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18437,6 +18808,7 @@
     "id": 2343,
     "internalName": "deSaloonOutlawArsonist",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18451,6 +18823,7 @@
     "id": 2344,
     "internalName": "deSaloonOutlawBuccaneer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18477,6 +18850,7 @@
     "id": 2346,
     "internalName": "deAzap",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18503,6 +18877,7 @@
     "id": 2348,
     "internalName": "deNatMercRoyalDragoon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18551,6 +18926,7 @@
     "id": 2351,
     "internalName": "deTotenkopf",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18566,6 +18942,7 @@
     "id": 2352,
     "internalName": "deNatMercLineInfantry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18580,6 +18957,7 @@
     "id": 2353,
     "internalName": "deNatMercNorthernMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18594,6 +18972,7 @@
     "id": 2354,
     "internalName": "deNatMercRoyalHunter",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18609,6 +18988,7 @@
     "id": 2355,
     "internalName": "deNatMercBrunswicker",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18624,6 +19004,7 @@
     "id": 2356,
     "internalName": "deNatMercDrummer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18639,6 +19020,7 @@
     "id": 2357,
     "internalName": "deNatMercTrabant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18654,6 +19036,7 @@
     "id": 2358,
     "internalName": "deNatMercSaxonCuirassier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18691,6 +19074,7 @@
     "id": 2360,
     "internalName": "deLandwehr",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18717,6 +19101,7 @@
     "id": 2362,
     "internalName": "deChevauleger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18732,6 +19117,7 @@
     "id": 2363,
     "internalName": "deDeli",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18747,6 +19133,7 @@
     "id": 2364,
     "internalName": "deHumbaraci",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18762,6 +19149,7 @@
     "id": 2365,
     "internalName": "deNatMercRoyalArquebusier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18777,6 +19165,7 @@
     "id": 2366,
     "internalName": "deNatMercTatarArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18792,6 +19181,7 @@
     "id": 2367,
     "internalName": "deNatMercQizilbash",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18807,6 +19197,7 @@
     "id": 2368,
     "internalName": "deNatMercShockRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -18855,6 +19246,7 @@
     "id": 2371,
     "internalName": "deConsulateRocket",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19588,6 +19980,7 @@
     "id": 285,
     "internalName": "Pikeman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19603,6 +19996,7 @@
     "id": 286,
     "internalName": "Musketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19853,6 +20247,7 @@
     "id": 302,
     "internalName": "Rodelero",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19868,6 +20263,7 @@
     "id": 303,
     "internalName": "Crossbowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19883,6 +20279,7 @@
     "id": 304,
     "internalName": "Uhlan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19898,6 +20295,7 @@
     "id": 305,
     "internalName": "Cannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19913,6 +20311,7 @@
     "id": 306,
     "internalName": "Halberdier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19928,6 +20327,7 @@
     "id": 307,
     "internalName": "CavalryArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19943,6 +20343,7 @@
     "id": 308,
     "internalName": "Hussar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19958,6 +20359,7 @@
     "id": 309,
     "internalName": "Culverin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19983,6 +20385,7 @@
     "id": 310,
     "internalName": "Falconet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -19997,6 +20400,7 @@
     "id": 311,
     "internalName": "Priest",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20012,6 +20416,7 @@
     "id": 312,
     "internalName": "Skirmisher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20027,6 +20432,7 @@
     "id": 313,
     "internalName": "Grenadier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20042,6 +20448,7 @@
     "id": 314,
     "internalName": "Dragoon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20096,6 +20503,7 @@
     "id": 318,
     "internalName": "Mortar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20111,6 +20519,7 @@
     "id": 319,
     "internalName": "Longbowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20136,6 +20545,7 @@
     "id": 320,
     "internalName": "Cuirassier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20173,6 +20583,7 @@
     "id": 323,
     "internalName": "NatJaguarWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20188,6 +20599,7 @@
     "id": 324,
     "internalName": "NatEagleWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20203,6 +20615,7 @@
     "id": 325,
     "internalName": "NatHorseArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20272,6 +20685,7 @@
     "id": 330,
     "internalName": "NatSharktoothBowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20287,6 +20701,7 @@
     "id": 331,
     "internalName": "NatTomahawk",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20327,6 +20742,7 @@
     "id": 334,
     "internalName": "Cossack",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20342,6 +20758,7 @@
     "id": 335,
     "internalName": "Strelet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20357,6 +20774,7 @@
     "id": 336,
     "internalName": "NatMantlet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20400,6 +20818,7 @@
     "id": 339,
     "internalName": "Spahi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20425,6 +20844,7 @@
     "id": 340,
     "internalName": "Janissary",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20440,6 +20860,7 @@
     "id": 341,
     "internalName": "GreatBombard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20454,6 +20875,7 @@
     "id": 342,
     "internalName": "Minuteman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20480,6 +20902,7 @@
     "id": 344,
     "internalName": "Dopplesoldner",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20495,6 +20918,7 @@
     "id": 345,
     "internalName": "OrganGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20510,6 +20934,7 @@
     "id": 346,
     "internalName": "Ruyter",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20525,6 +20950,7 @@
     "id": 347,
     "internalName": "Cacadore",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20555,6 +20981,7 @@
     "id": 349,
     "internalName": "Rocket",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20580,6 +21007,7 @@
     "id": 350,
     "internalName": "WarWagon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20595,6 +21023,7 @@
     "id": 351,
     "internalName": "Oprichnik",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20610,6 +21039,7 @@
     "id": 352,
     "internalName": "Lancer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20625,6 +21055,7 @@
     "id": 353,
     "internalName": "NatBlowgunWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20640,6 +21071,7 @@
     "id": 354,
     "internalName": "NatRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20655,6 +21087,7 @@
     "id": 355,
     "internalName": "NatTracker",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20670,6 +21103,7 @@
     "id": 356,
     "internalName": "NatHuaminca",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20685,6 +21119,7 @@
     "id": 357,
     "internalName": "NatBolasWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20700,6 +21135,7 @@
     "id": 358,
     "internalName": "NatHolcanSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20715,6 +21151,7 @@
     "id": 359,
     "internalName": "NatClubman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20740,6 +21177,7 @@
     "id": 360,
     "internalName": "NatAxeRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20755,6 +21193,7 @@
     "id": 361,
     "internalName": "NatBlackwoodArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20809,6 +21248,7 @@
     "id": 366,
     "internalName": "MercLandsknecht",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20823,6 +21263,7 @@
     "id": 367,
     "internalName": "MercSwissPikeman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -20891,6 +21332,7 @@
     "id": 372,
     "internalName": "MercHighlander",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21028,6 +21470,7 @@
     "id": 382,
     "internalName": "MercMameluke",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21042,6 +21485,7 @@
     "id": 383,
     "internalName": "MercStradiot",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21056,6 +21500,7 @@
     "id": 384,
     "internalName": "MercBlackRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21070,6 +21515,7 @@
     "id": 385,
     "internalName": "MercManchu",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21084,6 +21530,7 @@
     "id": 386,
     "internalName": "MercRonin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21098,6 +21545,7 @@
     "id": 387,
     "internalName": "MercJaeger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21112,6 +21560,7 @@
     "id": 388,
     "internalName": "MercHackapell",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21585,6 +22034,7 @@
     "id": 424,
     "internalName": "Surgeon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21599,6 +22049,7 @@
     "id": 425,
     "internalName": "Imam",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -21774,6 +22225,7 @@
     "id": 439,
     "internalName": "MercBarbaryCorsair",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -22018,6 +22470,7 @@
     "id": 457,
     "internalName": "Boneguard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -22660,6 +23113,7 @@
     "id": 508,
     "internalName": "NatAxeRiderDogSoldier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -22751,6 +23205,7 @@
     "id": 514,
     "internalName": "RussianCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -22780,6 +23235,7 @@
     "id": 516,
     "internalName": "AbusGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -23370,6 +23826,7 @@
     "id": 562,
     "internalName": "SPCHoopThrowers",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -23462,6 +23919,7 @@
     "id": 569,
     "internalName": "BoneguardAge2",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -23571,6 +24029,7 @@
     "id": 577,
     "internalName": "NatClubmanLoyal",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -23597,6 +24056,7 @@
     "id": 579,
     "internalName": "NatBlowgunAmbusher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -23686,6 +24146,7 @@
     "id": 586,
     "internalName": "SPCAztecChief",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24207,6 +24668,7 @@
     "id": 623,
     "internalName": "SPCBuccaneer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24420,6 +24882,7 @@
     "id": 640,
     "internalName": "IGCJaeger",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24544,6 +25007,7 @@
     "id": 650,
     "internalName": "IGCMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24559,6 +25023,7 @@
     "id": 651,
     "internalName": "IGCCrossbowman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24598,6 +25063,7 @@
     "id": 654,
     "internalName": "NatMedicineMan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24609,6 +25075,7 @@
     "id": 655,
     "internalName": "SPCBucCaptain",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -24720,6 +25187,7 @@
     "id": 664,
     "internalName": "OutlawMusketeer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25106,6 +25574,7 @@
     "id": 693,
     "internalName": "MediocreBombard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25253,6 +25722,7 @@
     "id": 704,
     "internalName": "xpTomahawk",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25267,6 +25737,7 @@
     "id": 705,
     "internalName": "xpAenna",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25282,6 +25753,7 @@
     "id": 706,
     "internalName": "xpMusketWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25297,6 +25769,7 @@
     "id": 707,
     "internalName": "xpHorseman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25312,6 +25785,7 @@
     "id": 708,
     "internalName": "xpMusketRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25327,6 +25801,7 @@
     "id": 709,
     "internalName": "xpRam",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25352,6 +25827,7 @@
     "id": 710,
     "internalName": "xpMantlet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25367,6 +25843,7 @@
     "id": 711,
     "internalName": "xpLightCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25530,6 +26007,7 @@
     "id": 722,
     "internalName": "NatLightningWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25566,6 +26044,7 @@
     "id": 725,
     "internalName": "xpMedicineMan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25639,6 +26118,7 @@
     "id": 730,
     "internalName": "NatKlamathRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25653,6 +26133,7 @@
     "id": 731,
     "internalName": "MercElmeti",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25668,6 +26149,7 @@
     "id": 732,
     "internalName": "NatCheyenneRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25683,6 +26165,7 @@
     "id": 733,
     "internalName": "NatHuronMantlet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25697,6 +26180,7 @@
     "id": 734,
     "internalName": "MercNinja",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25712,6 +26196,7 @@
     "id": 735,
     "internalName": "NatApacheCavalry",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25727,6 +26212,7 @@
     "id": 736,
     "internalName": "NatNavajoRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25753,6 +26239,7 @@
     "id": 738,
     "internalName": "xpWarClub",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25768,6 +26255,7 @@
     "id": 739,
     "internalName": "xpWarBow",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25818,6 +26306,7 @@
     "id": 742,
     "internalName": "xpRifleRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25843,6 +26332,7 @@
     "id": 744,
     "internalName": "xpCoyoteMan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25858,6 +26348,7 @@
     "id": 745,
     "internalName": "xpMacehualtin",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25873,6 +26364,7 @@
     "id": 746,
     "internalName": "xpWarRifle",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -25995,6 +26487,7 @@
     "id": 755,
     "internalName": "xpEagleKnight",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26010,6 +26503,7 @@
     "id": 756,
     "internalName": "xpJaguarKnight",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26025,6 +26519,7 @@
     "id": 757,
     "internalName": "xpArrowKnight",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26040,6 +26535,7 @@
     "id": 758,
     "internalName": "xpPumaMan",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26054,6 +26550,7 @@
     "id": 759,
     "internalName": "xpSkullKnight",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26114,6 +26611,7 @@
     "id": 763,
     "internalName": "MercFusilier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26128,6 +26626,7 @@
     "id": 764,
     "internalName": "xpColonialMilitia",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26154,6 +26653,7 @@
     "id": 766,
     "internalName": "xpAxeRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26168,6 +26668,7 @@
     "id": 767,
     "internalName": "xpDogSoldier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26183,6 +26684,7 @@
     "id": 768,
     "internalName": "xpCoupRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26241,6 +26743,7 @@
     "id": 772,
     "internalName": "xpPetard",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26256,6 +26759,7 @@
     "id": 773,
     "internalName": "NatMapucheClubman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26271,6 +26775,7 @@
     "id": 774,
     "internalName": "xpGatlingGun",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26427,6 +26932,7 @@
     "id": 787,
     "internalName": "xpSPCColonialMilitia",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26507,6 +27013,7 @@
     "id": 792,
     "internalName": "IGCXPMilitia",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26822,6 +27329,7 @@
     "id": 814,
     "internalName": "SaloonOutlawPistol",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26836,6 +27344,7 @@
     "id": 815,
     "internalName": "SaloonOutlawRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26850,6 +27359,7 @@
     "id": 816,
     "internalName": "SaloonOutlawRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -26864,6 +27374,7 @@
     "id": 817,
     "internalName": "SaloonPirate",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27008,6 +27519,7 @@
     "id": 827,
     "internalName": "xpBowRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27033,6 +27545,7 @@
     "id": 829,
     "internalName": "xpSpy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27093,6 +27606,7 @@
     "id": 833,
     "internalName": "MercGreatCannon",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27219,6 +27733,7 @@
     "id": 842,
     "internalName": "xpHorseArtillery",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27487,6 +28002,7 @@
     "id": 861,
     "internalName": "xpPetardNitro",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27586,6 +28102,7 @@
     "id": 869,
     "internalName": "NatMercHolcanSpearman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27611,6 +28128,7 @@
     "id": 870,
     "internalName": "NatMercLightningWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27626,6 +28144,7 @@
     "id": 871,
     "internalName": "NatMercRifleman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27641,6 +28160,7 @@
     "id": 872,
     "internalName": "NatMercTracker",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27656,6 +28176,7 @@
     "id": 873,
     "internalName": "NatMercBlackwoodArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27671,6 +28192,7 @@
     "id": 874,
     "internalName": "NatMercClubman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27686,6 +28208,7 @@
     "id": 875,
     "internalName": "NatMercCheyenneRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27701,6 +28224,7 @@
     "id": 876,
     "internalName": "NatMercHorseArcher",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27716,6 +28240,7 @@
     "id": 877,
     "internalName": "NatMercHuronMantlet",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27767,6 +28292,7 @@
     "id": 880,
     "internalName": "NatMercBlowgunWarrior",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27938,6 +28464,7 @@
     "id": 894,
     "internalName": "ypKensei",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27953,6 +28480,7 @@
     "id": 895,
     "internalName": "ypYabusame",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27968,6 +28496,7 @@
     "id": 896,
     "internalName": "ypYumi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27983,6 +28512,7 @@
     "id": 897,
     "internalName": "ypNaginataRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -27998,6 +28528,7 @@
     "id": 898,
     "internalName": "ypAshigaru",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28065,6 +28596,7 @@
     "id": 901,
     "internalName": "ypShogunTokugawa",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28080,6 +28612,7 @@
     "id": 902,
     "internalName": "ypSowar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28095,6 +28628,7 @@
     "id": 903,
     "internalName": "ypZamburak",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28110,6 +28644,7 @@
     "id": 904,
     "internalName": "ypMahout",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28125,6 +28660,7 @@
     "id": 905,
     "internalName": "ypHowdah",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28140,6 +28676,7 @@
     "id": 906,
     "internalName": "ypRajput",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28155,6 +28692,7 @@
     "id": 907,
     "internalName": "ypUrumi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28183,6 +28721,7 @@
     "id": 909,
     "internalName": "ypChuKoNu",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28208,6 +28747,7 @@
     "id": 910,
     "internalName": "ypArquebusier",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28222,6 +28762,7 @@
     "id": 911,
     "internalName": "ypQiangPikeman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28236,6 +28777,7 @@
     "id": 912,
     "internalName": "ypChangdao",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28250,6 +28792,7 @@
     "id": 913,
     "internalName": "ypSteppeRider",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28264,6 +28807,7 @@
     "id": 914,
     "internalName": "ypKeshik",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28278,6 +28822,7 @@
     "id": 915,
     "internalName": "ypIronFlail",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28293,6 +28838,7 @@
     "id": 916,
     "internalName": "ypHandMortar",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28308,6 +28854,7 @@
     "id": 917,
     "internalName": "ypFlyingCrow",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28511,6 +29058,7 @@
     "id": 930,
     "internalName": "ypFlameThrower",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28652,6 +29200,7 @@
     "id": 940,
     "internalName": "ypMercIronTroop",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28667,6 +29216,7 @@
     "id": 941,
     "internalName": "ypMercFlailiphant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28682,6 +29232,7 @@
     "id": 942,
     "internalName": "ypNatRattanShield",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28697,6 +29248,7 @@
     "id": 943,
     "internalName": "ypYamabushi",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28712,6 +29264,7 @@
     "id": 944,
     "internalName": "ypNatTigerClaw",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28727,6 +29280,7 @@
     "id": 945,
     "internalName": "ypNatConquistador",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28742,6 +29296,7 @@
     "id": 946,
     "internalName": "ypSepoy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28757,6 +29312,7 @@
     "id": 947,
     "internalName": "ypNatChakram",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28772,6 +29328,7 @@
     "id": 948,
     "internalName": "ypNatWarElephant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28786,6 +29343,7 @@
     "id": 949,
     "internalName": "ypMercYojimbo",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -28951,6 +29509,7 @@
     "id": 961,
     "internalName": "ypNatMercGurkha",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29017,6 +29576,7 @@
     "id": 966,
     "internalName": "ypNatMercChakram",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29032,6 +29592,7 @@
     "id": 967,
     "internalName": "ypNatMercConquistador",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29047,6 +29608,7 @@
     "id": 968,
     "internalName": "ypNatMercRattanShield",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29062,6 +29624,7 @@
     "id": 969,
     "internalName": "ypNatMercTigerClaw",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29087,6 +29650,7 @@
     "id": 970,
     "internalName": "ypNatMercWarElephant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29143,6 +29707,7 @@
     "id": 974,
     "internalName": "ypWokouWanderingHorseman",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29179,6 +29744,7 @@
     "id": 977,
     "internalName": "ypWokouBlindMonk",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29243,6 +29809,7 @@
     "id": 981,
     "internalName": "ypSiegeElephant",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29302,6 +29869,7 @@
     "id": 986,
     "internalName": "ypShinobiHorse",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29316,6 +29884,7 @@
     "id": 987,
     "internalName": "ypWokouPirate",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29330,6 +29899,7 @@
     "id": 988,
     "internalName": "ypMeteorHammer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29345,6 +29915,7 @@
     "id": 989,
     "internalName": "ypOldHanArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29370,6 +29941,7 @@
     "id": 990,
     "internalName": "ypImperialArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29385,6 +29957,7 @@
     "id": 991,
     "internalName": "ypForbiddenArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29400,6 +29973,7 @@
     "id": 992,
     "internalName": "ypTerritorialArmy",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29428,6 +30002,7 @@
     "id": 994,
     "internalName": "ypMercJatLancer",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },
@@ -29453,6 +30028,7 @@
     "id": 996,
     "internalName": "ypDacoit",
     "kind": "unit",
+    "mil": true,
     "source": "aoe3_companion",
     "type": "unit"
   },

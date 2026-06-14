@@ -59,6 +59,9 @@ pub struct CardDefinition {
     /// For techs: `true` when this research advances the age (politician / wonder).
     #[serde(rename = "ageUp", default, skip_serializing_if = "Option::is_none")]
     pub age_up: Option<bool>,
+    /// For units: `true` for a military unit (vs villager/economic).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub mil: Option<bool>,
     /// Eco-resource cost to train/build/research this entry.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cost: Option<Cost>,
@@ -109,6 +112,13 @@ pub struct NamedRef {
     pub known: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cost: Option<Cost>,
+    /// True for a military unit (only meaningful for train-unit refs).
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub mil: bool,
+}
+
+fn is_false(value: &bool) -> bool {
+    !*value
 }
 
 #[derive(Debug, Default)]
@@ -245,6 +255,7 @@ fn named_ref(
                 .unwrap_or_else(|| generic_icon.to_string()),
             known: true,
             cost: def.cost,
+            mil: def.mil.unwrap_or(false),
         },
         None => NamedRef {
             id,
@@ -252,6 +263,7 @@ fn named_ref(
             icon_key: generic_icon.to_string(),
             known: false,
             cost: None,
+            mil: false,
         },
     }
 }

@@ -128,6 +128,7 @@ aggregation of **command-derived** data only — what each player issued:
   "unitsTrained":    [{ "name": "Janissary", "id": 1234, "count": 13 }],
   "buildingsBuilt":  [{ "timeMs": 200000, "id": 296, "name": "Barracks" }],
   "resourcesSpent":  { "food": 5795, "wood": 2650, "gold": 3700, "influence": 0, "total": 12145 },
+  "spentByCategory": { "military": 2395, "economy": 1950, "upgrades": 7800 },
   "resourcesSpentSeries": [[31914, 150], [33000, 250], "..."],
   "counts": { "shipmentsSent": 9, "techsResearched": 12, "unitsTrainedTotal": 19, "buildingsBuilt": 14 },
   "unavailable": {
