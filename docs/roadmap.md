@@ -3,7 +3,15 @@
 The project has two distinct capability modes. They differ in **data source**,
 which decides what is even possible (`docs/replay-format.md`).
 
-## Mode A — File-only replay analyzer (current focus)
+## Mode A — File-only replay analyzer (feature-complete)
+
+Status: the file-only analyzer is feature-complete. Parser decodes the command
+stream at 100% coverage; the viewer has Timeline / Build Order (with per-action
+costs) / Economy (Total + military/economy/upgrades metrics) / Snapshot (time
+scrubber) tabs, player cards with APM + ages + spend split, JSON + stats-CSV
+export, a native Tauri desktop app, and the unofficial-tool disclaimer. Further
+work here is polish; new *capabilities* (map, losses, live state) require Mode B.
+
 
 Input: a `.age3Yrec` file. Source: recorded **player commands** only.
 
@@ -71,13 +79,14 @@ subset of Mode B.
 ## Milestones (file-only)
 
 1. Correct shipments with names/icons — done
-2. Build order from shipments/resign/chat + playerStates — in progress
-3. Research tech events (normal) — next
-4. Train + build events (normal) — next
-5. Resources spent / military produced (derived from costs)
-6. State timeline slider
-7. AoE3-style UI (Mode A data)
-8. Mode B (runtime-assisted) — future
+2. Build order from shipments/resign/chat + playerStates — done
+3. Research tech events (normal) — done
+4. Train + build events (normal) — done
+5. Resources spent / military produced (derived from costs) — done
+6. State timeline slider — done (Snapshot tab)
+7. AoE3-style UI (Mode A data) — done (Campaign Ledger viewer + Tauri desktop app)
+8. APM + stats CSV export + unofficial disclaimer — done
+9. Mode B (runtime-assisted) — future (deferred; "Mode A now, Mode B later")
 
 ## Commercial / community rules
 

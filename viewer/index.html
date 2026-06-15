@@ -433,6 +433,10 @@
     .snap-recent .r { display: flex; justify-content: space-between; gap: 8px; }
     .snap-recent .r b { font-weight: 600; color: var(--ink); }
 
+    .app-footer {
+      margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--rule);
+      color: var(--ink-soft); font-size: 11px; line-height: 1.6; text-align: center;
+    }
     .muted { color: var(--ink-soft); }
     .empty {
       border: 1px dashed var(--rule); border-radius: 4px;
@@ -465,6 +469,7 @@
           <input id="fileInput" type="file" accept="application/json,.json">
         </label>
         <button id="exportFiltered" type="button" disabled>Export View</button>
+        <button id="exportStats" type="button" disabled>Stats CSV</button>
       </div>
     </header>
 
@@ -548,6 +553,12 @@
         <div id="snapshot" class="snapshot-grid"></div>
       </div>
     </section>
+
+    <footer class="app-footer">
+      Unofficial fan-made tool — not affiliated with, endorsed by, or sponsored by
+      Microsoft or World's Edge. "Age of Empires" is a trademark of Microsoft.
+      All stats are derived from the replay's recorded player commands only.
+    </footer>
   </div>
 
   <script>
@@ -588,6 +599,7 @@
     const confirmedShipmentsOnly = document.querySelector("#confirmedShipmentsOnly");
     const visibleCount = document.querySelector("#visibleCount");
     const exportFiltered = document.querySelector("#exportFiltered");
+    const exportStats = document.querySelector("#exportStats");
 
     document.querySelector("#fileInput").addEventListener("change", async (event) => {
       const file = event.target.files[0];
@@ -631,6 +643,7 @@
       renderEvents();
     });
     exportFiltered.addEventListener("click", exportFilteredTimeline);
+    exportStats.addEventListener("click", exportStatsCsv);
 
     function loadData(data) {
       state.data = data;
@@ -642,6 +655,7 @@
       renderPlayerFilter();
       renderActiveView();
       exportFiltered.disabled = false;
+      exportStats.disabled = false;
     }
 
     function renderActiveView() {
@@ -762,8 +776,9 @@
         const ages = (ageBySlot.get(p.slotId) ?? []).filter((a) => a.t <= t).length;
         const ageLabel = ROMAN_FULL[ages] ?? ("Age " + (ages + 1));
 
-        // Counts as of T, from the per-event timeline (deduped where the
-        // timeline dedupes: builds/research/shipments; trains are per-unit).
+        // Counts as of T, from the per-event timeline. One event per command
+        // (builds/research/shipments are double-click-deduped upstream; trains
+        // are one-per-command), so these match the player card / CSV totals.
         const mine = state.events.filter((e) => e.actor?.slotId === p.slotId && (e.timeMs ?? e.time) <= t);
         const c = { train: 0, build: 0, research: 0, shipment: 0 };
         for (const e of mine) if (e.type in c) c[e.type]++;
@@ -1099,13 +1114,53 @@
         playerStates: state.data.playerStates ?? null,
         replay: state.data.replay ?? null,
       };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
+      downloadBlob(JSON.stringify(payload, null, 2), "application/json", "filtered-timeline.json");
+    }
+
+    function downloadBlob(content, type, filename) {
+      const url = URL.createObjectURL(new Blob([content], { type }));
       const link = document.createElement("a");
       link.href = url;
-      link.download = "filtered-timeline.json";
+      link.download = filename;
       link.click();
       URL.revokeObjectURL(url);
+    }
+
+    function csvCell(value) {
+      const s = value === null || value === undefined ? "" : String(value);
+      return /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
+    }
+
+    // One row per player: the headline Mode-A stats, all command-derived.
+    function exportStatsCsv() {
+      if (!state.data) return;
+      const bySlot = statesBySlot();
+      const ageBySlot = ageTimingsBySlot();
+      const headers = [
+        "slot", "player", "civ", "team", "apm", "commandsTotal",
+        "shipments", "techs", "unitsTrained", "buildings",
+        "spentTotal", "spentFood", "spentWood", "spentGold", "spentInfluence",
+        "spentMilitary", "spentEconomy", "spentUpgrades",
+        "ageII", "ageIII", "ageIV", "ageV",
+      ];
+      const rows = getParticipants().map((p) => {
+        const st = bySlot.get(p.slotId) ?? {};
+        const r = st.resourcesSpent ?? {};
+        const c = st.spentByCategory ?? {};
+        const ages = (ageBySlot.get(p.slotId) ?? []).map((a) => formatTime(a.t));
+        return [
+          p.slotId, p.playerName ?? "", p.civName ?? "", p.teamLabel ?? "",
+          st.apm ?? 0, st.commandsTotal ?? 0,
+          st.counts?.shipmentsSent ?? 0, st.counts?.techsResearched ?? 0,
+          st.counts?.unitsTrainedTotal ?? 0, st.counts?.buildingsBuilt ?? 0,
+          Math.round(r.total ?? 0), Math.round(r.food ?? 0), Math.round(r.wood ?? 0),
+          Math.round(r.gold ?? 0), Math.round(r.influence ?? 0),
+          Math.round(c.military ?? 0), Math.round(c.economy ?? 0), Math.round(c.upgrades ?? 0),
+          ages[0] ?? "", ages[1] ?? "", ages[2] ?? "", ages[3] ?? "",
+        ].map(csvCell).join(",");
+      });
+      const csv = [headers.join(","), ...rows].join("\r\n");
+      downloadBlob("﻿" + csv, "text/csv;charset=utf-8", "player-stats.csv");
     }
 
     function renderEmpty(message) {
