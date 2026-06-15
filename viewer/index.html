@@ -650,6 +650,7 @@
       state.events = data.timeline?.events ?? [];
       state.filteredEvents = state.events;
       state.snapshotT = null;
+      snapCache = null;
       renderSummary();
       renderPlayers();
       renderPlayerFilter();
@@ -690,8 +691,8 @@
         return;
       }
 
-      const colorBySlot = new Map(getParticipants().map((p) => [p.slotId, PLAYER_COLORS[p.color] ?? "#7a6a52"]));
-      const nameBySlot = new Map(getParticipants().map((p) => [p.slotId, p.playerName]));
+      const colors = colorBySlot();
+      const names = nameBySlot();
       const maxT = Math.max(...series.flatMap((s) => s.points.map((p) => p[0])));
       const maxV = Math.max(...series.flatMap((s) => s.points.map((p) => p[1])), 1);
 
@@ -715,8 +716,8 @@
 
       const lines = series.map((s) => {
         const pts = s.points.map((p) => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ");
-        const color = colorBySlot.get(s.slotId) ?? "#7a6a52";
-        return `<polyline class="line" points="${pts}" stroke="${color}"><title>${escapeHtml(nameBySlot.get(s.slotId) ?? "")}</title></polyline>`;
+        const color = colors.get(s.slotId) ?? DEFAULT_PCOLOR;
+        return `<polyline class="line" points="${pts}" stroke="${color}"><title>${escapeHtml(names.get(s.slotId) ?? "")}</title></polyline>`;
       }).join("");
 
       economy.innerHTML = `
@@ -729,15 +730,15 @@
         </svg>`;
 
       economyLegend.innerHTML = series.map((s) => {
-        const color = colorBySlot.get(s.slotId) ?? "#7a6a52";
+        const color = colors.get(s.slotId) ?? DEFAULT_PCOLOR;
         const total = s.points.at(-1)?.[1] ?? 0;
-        return `<span><i style="background:${color}"></i>${escapeHtml(nameBySlot.get(s.slotId) ?? ("Slot " + s.slotId))} <b>${kfmt(total)}</b></span>`;
+        return `<span><i style="background:${color}"></i>${escapeHtml(names.get(s.slotId) ?? ("Slot " + s.slotId))} <b>${kfmt(total)}</b></span>`;
       }).join("");
     }
 
     // Max event time across the replay (scrubber upper bound).
     function maxEventTime() {
-      return state.events.reduce((m, e) => Math.max(m, e.timeMs ?? e.time ?? 0), 0);
+      return state.events.reduce((m, e) => Math.max(m, eventTime(e)), 0);
     }
 
     // Cumulative value of a [time, ...cols] series at time T: the last point
@@ -751,53 +752,72 @@
       return value;
     }
 
+    // Per-replay precompute for the Snapshot tab, rebuilt only when the data
+    // changes — so the slider's per-tick drawSnapshot does no full event scans.
+    const SNAP_TYPES = ["train", "build", "research", "age_up", "shipment"];
+    let snapCache = null;
+    function buildSnapCache() {
+      const eventsBySlot = new Map();
+      for (const e of state.events) {
+        if (!SNAP_TYPES.includes(e.type)) continue;
+        const slot = e.actor?.slotId;
+        if (slot === null || slot === undefined) continue;
+        if (!eventsBySlot.has(slot)) eventsBySlot.set(slot, []);
+        eventsBySlot.get(slot).push(e);
+      }
+      for (const arr of eventsBySlot.values()) arr.sort((a, b) => eventTime(a) - eventTime(b));
+      return {
+        maxT: maxEventTime(),
+        states: statesBySlot(),
+        ages: ageTimingsBySlot(),
+        eventsBySlot,
+      };
+    }
+
     function renderSnapshot() {
       if (!state.data || !getParticipants().length) {
         snapshot.innerHTML = `<div class="empty">No player data.</div>`;
         return;
       }
-      const maxT = maxEventTime();
-      snapshotSlider.max = String(maxT);
-      if (state.snapshotT === null || state.snapshotT > maxT) state.snapshotT = maxT;
+      snapCache ??= buildSnapCache();
+      snapshotSlider.max = String(snapCache.maxT);
+      if (state.snapshotT === null || state.snapshotT > snapCache.maxT) state.snapshotT = snapCache.maxT;
       snapshotSlider.value = String(state.snapshotT);
       drawSnapshot();
     }
 
     function drawSnapshot() {
-      const t = state.snapshotT ?? maxEventTime();
+      const cache = (snapCache ??= buildSnapCache());
+      const t = state.snapshotT ?? cache.maxT;
       snapshotTime.textContent = formatTime(t);
-      const bySlot = statesBySlot();
-      const ageBySlot = ageTimingsBySlot();
-      const ROMAN_FULL = ["I", "II", "III", "IV", "V", "VI", "VII"];
 
       snapshot.innerHTML = getParticipants().map((p) => {
-        const color = PLAYER_COLORS[p.color] ?? "#7a6a52";
-        const st = bySlot.get(p.slotId) ?? {};
-        const ages = (ageBySlot.get(p.slotId) ?? []).filter((a) => a.t <= t).length;
-        const ageLabel = ROMAN_FULL[ages] ?? ("Age " + (ages + 1));
+        const st = cache.states.get(p.slotId) ?? {};
+        const ageUps = (cache.ages.get(p.slotId) ?? []).filter((a) => a.t <= t).length;
 
-        // Counts as of T, from the per-event timeline. One event per command
-        // (builds/research/shipments are double-click-deduped upstream; trains
-        // are one-per-command), so these match the player card / CSV totals.
-        const mine = state.events.filter((e) => e.actor?.slotId === p.slotId && (e.timeMs ?? e.time) <= t);
+        // Walk this slot's pre-sorted gameplay events once, up to T: tally the
+        // counted types and keep the last few for the "recent" list. One event
+        // per command, so counts match the player card / CSV totals.
         const c = { train: 0, build: 0, research: 0, shipment: 0 };
-        for (const e of mine) if (e.type in c) c[e.type]++;
+        const recentEvents = [];
+        for (const e of cache.eventsBySlot.get(p.slotId) ?? []) {
+          if (eventTime(e) > t) break;
+          if (e.type in c) c[e.type]++;
+          recentEvents.push(e);
+        }
+        const recent = recentEvents.slice(-3).reverse()
+          .map((e) => `<div class="r"><b>${escapeHtml(eventName(e))}</b><span>${formatTime(eventTime(e))}</span></div>`)
+          .join("") || `<div class="r"><span>no actions yet</span></div>`;
 
         const spent = seriesAt(st.resourcesSpentSeries, t, 1);
         const mil = seriesAt(st.spentByCategorySeries, t, 1);
         const eco = seriesAt(st.spentByCategorySeries, t, 2);
 
-        const recent = mine
-          .filter((e) => ["train", "build", "research", "age_up", "shipment"].includes(e.type))
-          .slice(-3).reverse()
-          .map((e) => `<div class="r"><b>${escapeHtml(eventName(e))}</b><span>${formatTime(e.timeMs ?? e.time)}</span></div>`)
-          .join("") || `<div class="r"><span>no actions yet</span></div>`;
-
         return `
-          <article class="snap" style="--pcolor:${color}">
+          <article class="snap" style="--pcolor:${playerColor(p)}">
             <div class="snap-head">
               <span class="snap-name">${escapeHtml(p.playerName ?? "")}</span>
-              <span class="snap-age" title="Age">${escapeHtml(ageLabel)}</span>
+              <span class="snap-age" title="Age">${escapeHtml(ageLabel(ageUps))}</span>
             </div>
             <div class="snap-civ">${escapeHtml(p.civName ?? "Unknown")}</div>
             <div class="snap-stats">
@@ -844,6 +864,15 @@
       return new Map((state.data?.playerStates ?? []).map((s) => [s.slotId, s]));
     }
 
+    // Shared per-participant lookups (one source of truth for player color/name).
+    const DEFAULT_PCOLOR = "#7a6a52";
+    function playerColor(p) { return PLAYER_COLORS[p.color] ?? DEFAULT_PCOLOR; }
+    function colorBySlot() { return new Map(getParticipants().map((p) => [p.slotId, playerColor(p)])); }
+    function nameBySlot() { return new Map(getParticipants().map((p) => [p.slotId, p.playerName])); }
+
+    // An event's time, tolerating the legacy `time` field.
+    function eventTime(e) { return e.timeMs ?? e.time ?? 0; }
+
     function renderPlayers() {
       const items = getParticipants();
       const rawPlayerCount = state.data?.replay?.players?.length ?? 0;
@@ -869,23 +898,25 @@
         const slot = e.actor?.slotId;
         if (slot === null || slot === undefined) continue;
         if (!map.has(slot)) map.set(slot, []);
-        map.get(slot).push({ t: e.timeMs ?? e.time, name: e.payload?.name ?? e.label });
+        map.get(slot).push({ t: eventTime(e), name: e.payload?.name ?? e.label });
       }
       for (const arr of map.values()) arr.sort((a, b) => a.t - b.t);
       return map;
     }
 
-    const ROMAN = ["II", "III", "IV", "V", "VI", "VII"];
+    // Age labels indexed by completed age-ups: 0 = starting age I, 1 = II, ...
+    const AGES = ["I", "II", "III", "IV", "V", "VI", "VII"];
+    function ageLabel(ageUps) { return AGES[ageUps] ?? ("Age " + (ageUps + 1)); }
     function agesLine(ageEvents) {
       if (!ageEvents || !ageEvents.length) return "";
       const parts = ageEvents.map((a, i) =>
-        `<span class="age" title="${escapeHtml(a.name ?? "")}"><b>${ROMAN[i] ?? ("Age " + (i + 2))}</b> ${formatTime(a.t)}</span>`
+        `<span class="age" title="${escapeHtml(a.name ?? "")}"><b>${ageLabel(i + 1)}</b> ${formatTime(a.t)}</span>`
       ).join("");
       return `<div class="ages">${parts}</div>`;
     }
 
     function playerCard(p, st, ageEvents) {
-      const color = PLAYER_COLORS[p.color] ?? "#7a6a52";
+      const color = playerColor(p);
       const initials = (p.civName ?? "?").replace(/[^A-Za-z]/g, "").slice(0, 2) || "?";
       const meta = [
         `<span class="chip team" style="--pcolor:${color}">${escapeHtml(p.teamLabel ?? "—")}</span>`,
@@ -1011,7 +1042,7 @@
       }
 
       const bySlot = statesBySlot();
-      const colorBySlot = new Map(getParticipants().map((p) => [p.slotId, PLAYER_COLORS[p.color] ?? "#7a6a52"]));
+      const colors = colorBySlot();
       const groups = new Map();
       for (const event of gameplayEvents) {
         const key = event.actor?.slotId ?? actorLabel(event.actor);
@@ -1022,13 +1053,13 @@
       }
 
       buildOrder.innerHTML = [...groups.values()].map((group) => `
-        <section class="build-player" style="--pcolor:${colorBySlot.get(group.slotId) ?? "#7a6a52"}">
+        <section class="build-player" style="--pcolor:${colors.get(group.slotId) ?? DEFAULT_PCOLOR}">
           <h3>${escapeHtml(group.name)} <span class="muted">(${group.events.length})</span></h3>
           ${resourceCard(bySlot.get(group.slotId))}
           <div class="build-list">
             ${group.events.map((event) => `
               <div class="build-row">
-                <span class="t">${formatTime(event.timeMs ?? event.time)}</span>
+                <span class="t">${formatTime(eventTime(event))}</span>
                 <span><span class="event-type ${escapeHtml(event.type)}">${escapeHtml(event.type.replace("_", " "))}</span>${escapeHtml(eventName(event))}${costBadges(event)}</span>
               </div>
             `).join("")}
@@ -1068,7 +1099,7 @@
               <span class="event-type">${escapeHtml(type.replace("_", " "))}</span>
               <span class="event-actor">${escapeHtml(actor)}</span>
             </div>
-            <span class="event-time">${formatTime(event.timeMs ?? event.time)}</span>
+            <span class="event-time">${formatTime(eventTime(event))}</span>
           </div>
           ${body}
         </article>
