@@ -46,13 +46,20 @@ struct Accumulator {
     units_trained: BTreeMap<i32, (String, usize)>,
     buildings_built: Vec<DerivedEvent>,
     spent: SpentTotals,
-    cat_military: f64,
-    cat_economy: f64,
-    cat_upgrades: f64,
+    /// Every command this player issued (the basis for APM). A command is one
+    /// game action — a move/train/build/research/etc. — so this is an honest
+    /// actions count, not an input/click count (the file has no raw inputs).
+    command_count: usize,
+    first_command_ms: Option<i32>,
+    last_command_ms: i32,
 }
 
-fn cost_total(cost: Option<Cost>) -> f64 {
-    cost.map(|cost| cost.total()).unwrap_or(0.0)
+/// What a spend was for, so cumulative spend can be split over time.
+#[derive(Clone, Copy)]
+enum Category {
+    Military,
+    Economy,
+    Upgrades,
 }
 
 #[derive(Default)]
@@ -61,12 +68,18 @@ struct SpentTotals {
     wood: f64,
     gold: f64,
     influence: f64,
+    // Cumulative spend by purpose (totals across resource types).
+    military: f64,
+    economy: f64,
+    upgrades: f64,
     /// (timeMs, cumulative total) recorded at each actual spend.
     series: Vec<(i32, f64)>,
+    /// (timeMs, cumulative military, economy, upgrades) at each actual spend.
+    category_series: Vec<(i32, f64, f64, f64)>,
 }
 
 impl SpentTotals {
-    fn record(&mut self, time_ms: i32, cost: Option<Cost>) {
+    fn record(&mut self, time_ms: i32, cost: Option<Cost>, category: Category) {
         let Some(cost) = cost.filter(|cost| cost.total() > 0.0) else {
             return;
         };
@@ -74,8 +87,15 @@ impl SpentTotals {
         self.wood += cost.wood;
         self.gold += cost.gold;
         self.influence += cost.influence;
+        match category {
+            Category::Military => self.military += cost.total(),
+            Category::Economy => self.economy += cost.total(),
+            Category::Upgrades => self.upgrades += cost.total(),
+        }
         self.series
             .push((time_ms, self.food + self.wood + self.gold + self.influence));
+        self.category_series
+            .push((time_ms, self.military, self.economy, self.upgrades));
     }
 }
 
@@ -92,6 +112,11 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
             continue;
         };
         let entry = by_slot.entry(slot_id).or_default();
+
+        // Count every command for APM, and track the player's active span.
+        entry.command_count += 1;
+        entry.first_command_ms.get_or_insert(command.time_ms);
+        entry.last_command_ms = entry.last_command_ms.max(command.time_ms);
 
         // Card/shipment send: only deck-matched sends with a resolved card.
         if let Some(card) = command
@@ -124,8 +149,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     id: tech.id,
                     name: tech.display_name.clone(),
                 });
-                entry.spent.record(command.time_ms, tech.cost);
-                entry.cat_upgrades += cost_total(tech.cost);
+                entry.spent.record(command.time_ms, tech.cost, Category::Upgrades);
             }
         }
 
@@ -135,13 +159,14 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                 .entry(unit.id)
                 .or_insert_with(|| (unit.display_name.clone(), 0));
             tally.1 += 1;
-            entry.spent.record(command.time_ms, unit.cost); // every train is a real unit
-            let value = cost_total(unit.cost);
-            if unit.mil {
-                entry.cat_military += value;
+            // Every train is a real unit (no dedup). Military units feed the
+            // military split; villagers/wagons/etc. count as economy.
+            let category = if unit.mil {
+                Category::Military
             } else {
-                entry.cat_economy += value;
-            }
+                Category::Economy
+            };
+            entry.spent.record(command.time_ms, unit.cost, category);
         }
 
         if let Some(building) = command.building.as_ref() {
@@ -155,8 +180,7 @@ pub fn build_player_states(replay: &Replay, commands: &[DebugCommand]) -> Vec<Pl
                     id: building.id,
                     name: building.display_name.clone(),
                 });
-                entry.spent.record(command.time_ms, building.cost);
-                entry.cat_economy += cost_total(building.cost);
+                entry.spent.record(command.time_ms, building.cost, Category::Economy);
             }
         }
     }
@@ -210,10 +234,26 @@ fn make_state(
         .iter()
         .map(|(time_ms, total)| (*time_ms, total.round()))
         .collect();
+    let spent_by_category_series = spent
+        .category_series
+        .iter()
+        .map(|(time_ms, mil, eco, upg)| (*time_ms, mil.round(), eco.round(), upg.round()))
+        .collect();
     let spent_by_category = SpentByCategory {
-        military: round1(accumulator.cat_military),
-        economy: round1(accumulator.cat_economy),
-        upgrades: round1(accumulator.cat_upgrades),
+        military: round1(spent.military),
+        economy: round1(spent.economy),
+        upgrades: round1(spent.upgrades),
+    };
+    // APM over the player's active span (first→last command). 0 when there is
+    // no measurable span (a single command, or none).
+    let span_ms = accumulator
+        .first_command_ms
+        .map(|first| accumulator.last_command_ms - first)
+        .unwrap_or(0);
+    let apm = if span_ms > 0 && accumulator.command_count > 1 {
+        round1(accumulator.command_count as f64 / (span_ms as f64 / 60_000.0))
+    } else {
+        0.0
     };
 
     PlayerState {
@@ -233,6 +273,9 @@ fn make_state(
         resources_spent,
         spent_by_category,
         resources_spent_series,
+        spent_by_category_series,
+        commands_total: accumulator.command_count,
+        apm,
         unavailable: StateUnavailable {
             reason: UNAVAILABLE_REASON.to_string(),
             fields: UNAVAILABLE_FIELDS.to_vec(),

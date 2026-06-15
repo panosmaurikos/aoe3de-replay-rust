@@ -276,6 +276,8 @@ pub enum TimelinePayload {
         name: String,
         #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
         icon_key: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        cost: Option<crate::gamedata::Cost>,
         confidence: String,
         source: String,
     },
@@ -285,6 +287,8 @@ pub enum TimelinePayload {
         name: String,
         #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
         icon_key: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        cost: Option<crate::gamedata::Cost>,
         confidence: String,
         source: String,
     },
@@ -294,6 +298,8 @@ pub enum TimelinePayload {
         name: String,
         #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
         icon_key: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        cost: Option<crate::gamedata::Cost>,
         confidence: String,
         source: String,
     },
@@ -303,6 +309,8 @@ pub enum TimelinePayload {
         name: String,
         #[serde(rename = "iconKey", skip_serializing_if = "Option::is_none")]
         icon_key: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        cost: Option<crate::gamedata::Cost>,
         confidence: String,
         source: String,
     },
@@ -381,6 +389,17 @@ pub struct PlayerState {
     /// (one per spend). For an economy-pace chart. Same caveat as resourcesSpent.
     #[serde(rename = "resourcesSpentSeries", skip_serializing_if = "Vec::is_empty")]
     pub resources_spent_series: Vec<(i32, f64)>,
+    /// Cumulative spend split by purpose over time as `[timeMs, military,
+    /// economy, upgrades]` points (one per spend). Lets the economy chart show
+    /// *when* a player committed to army vs economy. Same caveat as resourcesSpent.
+    #[serde(rename = "spentByCategorySeries", skip_serializing_if = "Vec::is_empty")]
+    pub spent_by_category_series: Vec<(i32, f64, f64, f64)>,
+    /// Total commands (game actions) this player issued — the basis for `apm`.
+    #[serde(rename = "commandsTotal")]
+    pub commands_total: usize,
+    /// Actions per minute over the player's active span (first→last command).
+    /// Honest action count from the command stream, not raw clicks/inputs.
+    pub apm: f64,
     pub counts: PlayerStateCounts,
     pub unavailable: StateUnavailable,
 }

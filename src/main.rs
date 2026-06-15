@@ -1956,7 +1956,9 @@ fn parse_args(
     let mut output_path = default_output_path;
     let mut debug_commands = false;
     let mut experimental_shipments = false;
-    let mut events = false;
+    // Verified gameplay events (research/train/build/age-up + playerStates) are
+    // emitted by default. `--no-events` opts out for a minimal chat+resign JSON.
+    let mut events = true;
     let mut index = start_index;
 
     while index < args.len() {
@@ -1978,6 +1980,10 @@ fn parse_args(
             }
             "--events" => {
                 events = true;
+                index += 1;
+            }
+            "--no-events" => {
+                events = false;
                 index += 1;
             }
             other => return Err(format!("Unexpected argument '{other}'\n\n{}", usage())),
@@ -3073,7 +3079,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--no-events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>".to_string()
 }
 
 #[derive(Default)]

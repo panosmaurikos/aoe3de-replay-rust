@@ -26,7 +26,7 @@ New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 $jsonPath = Join-Path $outDir "$stem.json"
 
 $flags = @()
-if (-not $NoEvents) { $flags += "--events" }
+if ($NoEvents) { $flags += "--no-events" }
 if ($DebugCommands) { $flags += "--debug-commands" }
 
 Write-Host "Parsing $ReplayPath ..."

@@ -34,7 +34,8 @@ Player actors must resolve to a known slot (validator checks this).
 
 - `chat`: `{ "kind": "chat", "toId": int, "message": string }`
 - `resign`: `{ "kind": "resign" }`
-- gameplay events (only with `--events`): `research` / `age_up` (`{ kind, techId, name, iconKey?, confidence, source }`), `train` (`unitId`), `build` (`buildingId`). All carry `name` + `iconKey` resolved via the game data layer. `age_up` = a research whose tech has the `AgeUpgrade` flag.
+- gameplay events (emitted **by default**; suppress with `--no-events`): `research` / `age_up` (`{ kind, techId, name, iconKey?, cost?, confidence, source }`), `train` (`unitId`), `build` (`buildingId`). All carry `name` + `iconKey` resolved via the game data layer. `age_up` = a research whose tech has the `AgeUpgrade` flag.
+  - `cost` (optional) is the eco-resource cost of that single action: `{ food?, wood?, gold?, influence? }` (zero amounts omitted; the whole object omitted when unknown). Same source as `playerStates.resourcesSpent` (`units.json`/`cards.json`), so per-event costs sum to the player's gross spend.
 - `shipment` (only with `--experimental-shipments`, always `status: "candidate"`):
 
 ```json
@@ -130,6 +131,8 @@ aggregation of **command-derived** data only — what each player issued:
   "resourcesSpent":  { "food": 5795, "wood": 2650, "gold": 3700, "influence": 0, "total": 12145 },
   "spentByCategory": { "military": 2395, "economy": 1950, "upgrades": 7800 },
   "resourcesSpentSeries": [[31914, 150], [33000, 250], "..."],
+  "spentByCategorySeries": [[31914, 0, 150, 0], [33000, 100, 150, 0], "..."],
+  "commandsTotal": 6558, "apm": 283.6,
   "counts": { "shipmentsSent": 9, "techsResearched": 12, "unitsTrainedTotal": 19, "buildingsBuilt": 14 },
   "unavailable": {
     "reason": "Not present in a command-only replay ...",
@@ -147,3 +150,14 @@ trainable units (buildings/props dropped via `units.json` `kind`) and
 still missed (see `docs/overlay-features.md`). The `unavailable` fields (losses /
 active counts / resources) are **not derivable** from a command replay
 (`docs/replay-format.md`) and are honestly listed rather than guessed.
+
+`resourcesSpentSeries` is cumulative gross spend as `[timeMs, total]` points (one
+per spend); `spentByCategorySeries` is the same timeline split by purpose as
+`[timeMs, military, economy, upgrades]` (cumulative). The last point of each
+matches `resourcesSpent.total` / `spentByCategory`; the viewer's Economy tab plots
+either, so you can see *when* a player committed to army vs economy.
+
+`commandsTotal` is every game action the player issued; `apm` is actions per
+minute over their active span (first→last command). These come from the **full
+command stream**, so they count real game actions (move/train/build/…), not raw
+clicks or camera moves (the file has no raw inputs). 0 when there is no span.

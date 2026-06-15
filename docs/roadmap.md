@@ -31,12 +31,23 @@ Honesty rule: normal JSON carries only confirmed events; candidates stay in
 ### Near-term file-only tasks
 
 1. Filter `unitsTrained` to real trainable units (drop props/buildings via
-   `protoy` unit types) and de-duplicate double-click trains.
+   `protoy` unit types) and de-duplicate double-click trains. — done
 2. Promote research/train to verified normal events once 1-command = 1-event is
-   confirmed (incl. the controlled test for ordering).
-3. Resources-spent / military-value-produced from costs.
-4. Buildings (commandId=3) + age-up.
-5. Build-order tab + per-timestamp state slider over issued events.
+   confirmed (incl. the controlled test for ordering). — done; `--events` is now
+   the **default** (opt out with `--no-events`).
+3. Resources-spent / military-value-produced from costs. — done, incl. a
+   military/economy/upgrades split and **per-event `cost`** in each
+   research/train/build/age-up payload.
+4. Buildings (commandId=3) + age-up. — done.
+5. Build-order tab + per-timestamp state slider over issued events. — done
+   (Build Order tab + Snapshot tab with a time scrubber showing each player's
+   issued state as of T; Economy tab has a Total/Military/Economy/Upgrades
+   metric toggle backed by `spentByCategorySeries`).
+6. Command coverage: cmd79 layout resolved (no event emitted; verb unconfirmed),
+   corpus validator at 100% decode coverage. — done.
+7. Native desktop app (Tauri) wrapping the parser + viewer. — scaffolded and
+   compiling (`src-tauri/`, `desktop.ps1`); installer bundling via `cargo tauri
+   build` once the Tauri CLI is installed.
 
 ## Mode B — Runtime-assisted (CaptureAge-like, later)
 

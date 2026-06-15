@@ -75,6 +75,25 @@ Strong but provisional (pending the controlled test):
 Provisional conclusion: **command/input replay; no in-file death/outcome events.**
 The controlled test is the remaining gold-standard confirmation.
 
+### Command id 79 (resolved layout, unconfirmed verb)
+
+`command_id == 79` appears rarely (6 in `dutch_imperial`, 21 in
+`dutch_vs_russia…`, absent from `dutch_vs_ethiopia`). It is always **player
+slot-attributed** with the generic unit-selection header (`selectedCount == 1`,
+`variableBlockCount == 0`) and carries **no command-specific payload**: the
+generic header (length 75) consumes the whole frame. This was confirmed
+structurally — wherever a cmd79 is immediately followed by another command in the
+same tick block, the next command starts exactly 75 bytes later and parses
+cleanly (a misaligned cmd79 would corrupt every following command in the block).
+The corpus validator is now at **100 % decode coverage** with cmd79 handled.
+
+We label it `unit_command_79_unconfirmed` / `parsedAs = unit_command_unconfirmed`
+and emit **no gameplay event** for it — the byte layout is resolved, but the
+exact in-game verb (a stance, rally, or ability toggle) would need a controlled
+capture to pin down. (`command_id == 78` is referenced in older notes but does
+not appear in any current corpus replay, so it is intentionally left to the
+generic `unknown_command_id` fallback rather than guessed at.)
+
 ## Consequence (enforced in code)
 
 We do **not** emit `unit_died`, `military_lost`, `villager_lost`,

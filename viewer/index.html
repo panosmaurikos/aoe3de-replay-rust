@@ -232,6 +232,10 @@
       letter-spacing: 0.03em;
     }
     .chip.team { border-color: var(--pcolor, #999); }
+    .chip.apm {
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      color: #2a1c10; border-color: #6f5326; font-family: var(--mono); font-weight: 700;
+    }
 
     .ages {
       display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px;
@@ -362,6 +366,18 @@
     .build-row .t { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
     .build-row .event-type { font-size: 9px; padding: 1px 5px; margin-right: 6px; }
 
+    /* ---- Per-event cost badges ---- */
+    .cost { display: inline-flex; gap: 4px; margin-left: 7px; vertical-align: baseline; }
+    .cost .res {
+      font-family: var(--mono); font-size: 10.5px; line-height: 1.4;
+      padding: 0 4px; border-radius: 3px; color: #f3ead2;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25);
+    }
+    .cost .res.food { background: var(--food); }
+    .cost .res.wood { background: var(--woodres); }
+    .cost .res.gold { background: var(--coin); color: #2a1c10; }
+    .cost .res.influence { background: var(--influence); }
+
     /* ---- Economy chart ---- */
     .chart {
       width: 100%; height: auto;
@@ -382,6 +398,40 @@
     }
     .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
     .chart-legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+    .metric-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .metric-tabs button {
+      background: rgba(255,255,255,0.35); color: var(--ink-soft);
+      border: 1px solid var(--rule); border-radius: 3px;
+      padding: 6px 13px; font-size: 11px; box-shadow: none; cursor: pointer;
+    }
+    .metric-tabs button.active {
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      color: #2a1c10; border-color: #6f5326;
+    }
+
+    /* ---- Snapshot scrubber ---- */
+    .scrubber { display: flex; align-items: center; gap: 14px; margin: 4px 0 16px; }
+    .scrubber input[type="range"] { flex: 1; accent-color: var(--brass); height: 4px; }
+    .scrubber-time { font-family: var(--mono); font-size: 14px; color: var(--gold-hi);
+      min-width: 70px; text-align: right; }
+    .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .snap {
+      border: 1px solid var(--rule); border-left: 4px solid var(--pcolor, var(--brass));
+      border-radius: 4px; padding: 11px 13px; background: var(--parchment-hi);
+    }
+    .snap-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .snap-name { font-weight: 700; }
+    .snap-age { font-family: var(--mono); font-size: 12px; color: #2a1c10;
+      background: linear-gradient(180deg, var(--gold-hi), var(--brass));
+      border-radius: 3px; padding: 1px 7px; }
+    .snap-civ { font-size: 11.5px; color: var(--ink-soft); }
+    .snap-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 12px; margin-top: 9px; font-size: 12.5px; }
+    .snap-stats .k { color: var(--ink-soft); }
+    .snap-stats .v { text-align: right; font-family: var(--mono); }
+    .snap-recent { margin-top: 9px; border-top: 1px dotted var(--rule); padding-top: 7px;
+      font-size: 11.5px; color: var(--ink-soft); }
+    .snap-recent .r { display: flex; justify-content: space-between; gap: 8px; }
+    .snap-recent .r b { font-weight: 600; color: var(--ink); }
 
     .muted { color: var(--ink-soft); }
     .empty {
@@ -409,6 +459,7 @@
         <div class="sub">Age of Empires III: Definitive Edition &mdash; replay analysis &middot; unofficial fan tool</div>
       </div>
       <div class="toolbar">
+        <button id="openReplay" class="button" type="button" hidden>Open Replay</button>
         <label class="button">
           Open Ledger
           <input id="fileInput" type="file" accept="application/json,.json">
@@ -432,6 +483,7 @@
         <button class="active" type="button" data-view="timeline">Timeline</button>
         <button type="button" data-view="buildOrder">Build Order</button>
         <button type="button" data-view="economy">Economy</button>
+        <button type="button" data-view="snapshot">Snapshot</button>
       </div>
 
       <div id="timelinePanel">
@@ -474,8 +526,26 @@
           <h2>Economy Pace</h2>
           <span class="muted">cumulative resources <em>spent</em> (not current resources)</span>
         </div>
+        <div class="metric-tabs" id="economyMetrics">
+          <button type="button" data-metric="total" class="active">Total</button>
+          <button type="button" data-metric="military">Military</button>
+          <button type="button" data-metric="economy">Economy</button>
+          <button type="button" data-metric="upgrades">Upgrades</button>
+        </div>
         <div id="economy"></div>
         <div id="economyLegend" class="chart-legend"></div>
+      </div>
+
+      <div id="snapshotPanel" hidden>
+        <div class="section-head">
+          <h2>Snapshot</h2>
+          <span class="muted">each player's issued state <em>as of</em> the selected time</span>
+        </div>
+        <div class="scrubber">
+          <input id="snapshotSlider" type="range" min="0" max="100" value="100" step="1">
+          <span id="snapshotTime" class="scrubber-time">—</span>
+        </div>
+        <div id="snapshot" class="snapshot-grid"></div>
       </div>
     </section>
   </div>
@@ -487,6 +557,8 @@
       filteredEvents: [],
       activeType: "all",
       activeView: "timeline",
+      economyMetric: "total",
+      snapshotT: null,
       confirmedShipmentsOnly: false,
     };
 
@@ -507,6 +579,10 @@
     const timelinePanel = document.querySelector("#timelinePanel");
     const buildOrderPanel = document.querySelector("#buildOrderPanel");
     const economyPanel = document.querySelector("#economyPanel");
+    const snapshotPanel = document.querySelector("#snapshotPanel");
+    const snapshot = document.querySelector("#snapshot");
+    const snapshotSlider = document.querySelector("#snapshotSlider");
+    const snapshotTime = document.querySelector("#snapshotTime");
     const search = document.querySelector("#search");
     const playerFilter = document.querySelector("#playerFilter");
     const confirmedShipmentsOnly = document.querySelector("#confirmedShipmentsOnly");
@@ -535,6 +611,19 @@
       });
     });
 
+    document.querySelectorAll("[data-metric]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.economyMetric = button.dataset.metric;
+        document.querySelectorAll("[data-metric]").forEach((item) => item.classList.toggle("active", item === button));
+        renderEconomy();
+      });
+    });
+
+    snapshotSlider.addEventListener("input", () => {
+      state.snapshotT = Number(snapshotSlider.value);
+      drawSnapshot();
+    });
+
     search.addEventListener("input", renderEvents);
     playerFilter.addEventListener("change", renderEvents);
     confirmedShipmentsOnly.addEventListener("change", () => {
@@ -547,6 +636,7 @@
       state.data = data;
       state.events = data.timeline?.events ?? [];
       state.filteredEvents = state.events;
+      state.snapshotT = null;
       renderSummary();
       renderPlayers();
       renderPlayerFilter();
@@ -558,24 +648,38 @@
       timelinePanel.hidden = state.activeView !== "timeline";
       buildOrderPanel.hidden = state.activeView !== "buildOrder";
       economyPanel.hidden = state.activeView !== "economy";
+      snapshotPanel.hidden = state.activeView !== "snapshot";
       if (state.activeView === "buildOrder") renderBuildOrder();
       else if (state.activeView === "economy") renderEconomy();
+      else if (state.activeView === "snapshot") renderSnapshot();
       else renderEvents();
     }
 
+    // Each metric maps a player state to a [timeMs, value] cumulative series.
+    // "total" uses resourcesSpentSeries; the rest pull a column from
+    // spentByCategorySeries ([t, military, economy, upgrades]).
+    const ECONOMY_METRICS = {
+      total:    { label: "resources spent (gross)", series: (s) => s.resourcesSpentSeries ?? [] },
+      military: { label: "military spend",          series: (s) => (s.spentByCategorySeries ?? []).map((p) => [p[0], p[1]]) },
+      economy:  { label: "economy spend",           series: (s) => (s.spentByCategorySeries ?? []).map((p) => [p[0], p[2]]) },
+      upgrades: { label: "upgrade spend",           series: (s) => (s.spentByCategorySeries ?? []).map((p) => [p[0], p[3]]) },
+    };
+
     function renderEconomy() {
+      const metric = ECONOMY_METRICS[state.economyMetric] ?? ECONOMY_METRICS.total;
       const series = (state.data?.playerStates ?? [])
-        .filter((s) => (s.resourcesSpentSeries ?? []).length > 1);
+        .map((s) => ({ slotId: s.slotId, points: metric.series(s) }))
+        .filter((s) => s.points.length > 1);
       if (!series.length) {
-        economy.innerHTML = `<div class="empty">No economy data. Parse with <code>--events</code>.</div>`;
+        economy.innerHTML = `<div class="empty">No economy data. Parse without <code>--no-events</code>.</div>`;
         economyLegend.innerHTML = "";
         return;
       }
 
       const colorBySlot = new Map(getParticipants().map((p) => [p.slotId, PLAYER_COLORS[p.color] ?? "#7a6a52"]));
       const nameBySlot = new Map(getParticipants().map((p) => [p.slotId, p.playerName]));
-      const maxT = Math.max(...series.flatMap((s) => s.resourcesSpentSeries.map((p) => p[0])));
-      const maxV = Math.max(...series.flatMap((s) => s.resourcesSpentSeries.map((p) => p[1])));
+      const maxT = Math.max(...series.flatMap((s) => s.points.map((p) => p[0])));
+      const maxV = Math.max(...series.flatMap((s) => s.points.map((p) => p[1])), 1);
 
       const W = 960, H = 460, padL = 64, padR = 18, padT = 18, padB = 40;
       const x = (t) => padL + (t / (maxT || 1)) * (W - padL - padR);
@@ -596,7 +700,7 @@
       }
 
       const lines = series.map((s) => {
-        const pts = s.resourcesSpentSeries.map((p) => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ");
+        const pts = s.points.map((p) => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ");
         const color = colorBySlot.get(s.slotId) ?? "#7a6a52";
         return `<polyline class="line" points="${pts}" stroke="${color}"><title>${escapeHtml(nameBySlot.get(s.slotId) ?? "")}</title></polyline>`;
       }).join("");
@@ -606,14 +710,92 @@
           ${grid}
           <line class="axis" x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}"/>
           <line class="axis" x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}"/>
-          <text class="axis-title" x="${padL}" y="${padT - 4}">resources spent (gross)</text>
+          <text class="axis-title" x="${padL}" y="${padT - 4}">${escapeHtml(metric.label)}</text>
           ${lines}
         </svg>`;
 
       economyLegend.innerHTML = series.map((s) => {
         const color = colorBySlot.get(s.slotId) ?? "#7a6a52";
-        const total = s.resourcesSpentSeries.at(-1)?.[1] ?? 0;
+        const total = s.points.at(-1)?.[1] ?? 0;
         return `<span><i style="background:${color}"></i>${escapeHtml(nameBySlot.get(s.slotId) ?? ("Slot " + s.slotId))} <b>${kfmt(total)}</b></span>`;
+      }).join("");
+    }
+
+    // Max event time across the replay (scrubber upper bound).
+    function maxEventTime() {
+      return state.events.reduce((m, e) => Math.max(m, e.timeMs ?? e.time ?? 0), 0);
+    }
+
+    // Cumulative value of a [time, ...cols] series at time T: the last point
+    // whose time <= T (0 before the first spend).
+    function seriesAt(series, t, col) {
+      let value = 0;
+      for (const p of series ?? []) {
+        if (p[0] > t) break;
+        value = p[col];
+      }
+      return value;
+    }
+
+    function renderSnapshot() {
+      if (!state.data || !getParticipants().length) {
+        snapshot.innerHTML = `<div class="empty">No player data.</div>`;
+        return;
+      }
+      const maxT = maxEventTime();
+      snapshotSlider.max = String(maxT);
+      if (state.snapshotT === null || state.snapshotT > maxT) state.snapshotT = maxT;
+      snapshotSlider.value = String(state.snapshotT);
+      drawSnapshot();
+    }
+
+    function drawSnapshot() {
+      const t = state.snapshotT ?? maxEventTime();
+      snapshotTime.textContent = formatTime(t);
+      const bySlot = statesBySlot();
+      const ageBySlot = ageTimingsBySlot();
+      const ROMAN_FULL = ["I", "II", "III", "IV", "V", "VI", "VII"];
+
+      snapshot.innerHTML = getParticipants().map((p) => {
+        const color = PLAYER_COLORS[p.color] ?? "#7a6a52";
+        const st = bySlot.get(p.slotId) ?? {};
+        const ages = (ageBySlot.get(p.slotId) ?? []).filter((a) => a.t <= t).length;
+        const ageLabel = ROMAN_FULL[ages] ?? ("Age " + (ages + 1));
+
+        // Counts as of T, from the per-event timeline (deduped where the
+        // timeline dedupes: builds/research/shipments; trains are per-unit).
+        const mine = state.events.filter((e) => e.actor?.slotId === p.slotId && (e.timeMs ?? e.time) <= t);
+        const c = { train: 0, build: 0, research: 0, shipment: 0 };
+        for (const e of mine) if (e.type in c) c[e.type]++;
+
+        const spent = seriesAt(st.resourcesSpentSeries, t, 1);
+        const mil = seriesAt(st.spentByCategorySeries, t, 1);
+        const eco = seriesAt(st.spentByCategorySeries, t, 2);
+
+        const recent = mine
+          .filter((e) => ["train", "build", "research", "age_up", "shipment"].includes(e.type))
+          .slice(-3).reverse()
+          .map((e) => `<div class="r"><b>${escapeHtml(eventName(e))}</b><span>${formatTime(e.timeMs ?? e.time)}</span></div>`)
+          .join("") || `<div class="r"><span>no actions yet</span></div>`;
+
+        return `
+          <article class="snap" style="--pcolor:${color}">
+            <div class="snap-head">
+              <span class="snap-name">${escapeHtml(p.playerName ?? "")}</span>
+              <span class="snap-age" title="Age">${escapeHtml(ageLabel)}</span>
+            </div>
+            <div class="snap-civ">${escapeHtml(p.civName ?? "Unknown")}</div>
+            <div class="snap-stats">
+              <span class="k">Trained</span><span class="v">${c.train}</span>
+              <span class="k">Built</span><span class="v">${c.build}</span>
+              <span class="k">Researched</span><span class="v">${c.research}</span>
+              <span class="k">Shipments</span><span class="v">${c.shipment}</span>
+              <span class="k">Spent</span><span class="v">${kfmt(spent)}</span>
+              <span class="k">Mil / Eco</span><span class="v">${kfmt(mil)} / ${kfmt(eco)}</span>
+              <span class="k">APM <span class="muted">(game)</span></span><span class="v">${st.apm ? Math.round(st.apm) : "—"}</span>
+            </div>
+            <div class="snap-recent">${recent}</div>
+          </article>`;
       }).join("");
     }
 
@@ -694,6 +876,7 @@
         `<span class="chip team" style="--pcolor:${color}">${escapeHtml(p.teamLabel ?? "—")}</span>`,
         p.homecityName ? `<span class="chip">${escapeHtml(p.homecityName)}</span>` : "",
         `<span class="chip">slot ${escapeHtml(p.slotId ?? "?")}</span>`,
+        st?.apm > 0 ? `<span class="chip apm" title="Actions per minute over the player's active span (${st.commandsTotal} commands). Honest action count from the command stream, not raw clicks.">${Math.round(st.apm)} APM</span>` : "",
       ].filter(Boolean).join("");
       return `
         <article class="pcard" style="--pcolor:${color}">
@@ -831,7 +1014,7 @@
             ${group.events.map((event) => `
               <div class="build-row">
                 <span class="t">${formatTime(event.timeMs ?? event.time)}</span>
-                <span><span class="event-type ${escapeHtml(event.type)}">${escapeHtml(event.type.replace("_", " "))}</span>${escapeHtml(eventName(event))}</span>
+                <span><span class="event-type ${escapeHtml(event.type)}">${escapeHtml(event.type.replace("_", " "))}</span>${escapeHtml(eventName(event))}${costBadges(event)}</span>
               </div>
             `).join("")}
           </div>
@@ -842,6 +1025,18 @@
     function eventName(event) {
       const label = event.label ?? event.payload?.name ?? "";
       return label.replace(/^(Aged up:|Researched:|Trained:|Built:|Sent shipment:|Sent card)\s*/i, "").trim() || label;
+    }
+
+    // Compact resource badges for an event's per-action cost, e.g. "50 w  50 g".
+    // Returns "" when the payload has no cost (shipments, unknown costs).
+    const RES_SHORT = { food: "f", wood: "w", gold: "g", influence: "i" };
+    function costBadges(event) {
+      const cost = event.payload?.cost;
+      if (!cost) return "";
+      const parts = ["food", "wood", "gold", "influence"]
+        .filter((k) => cost[k] > 0)
+        .map((k) => `<span class="res ${k}">${Math.round(cost[k])}${RES_SHORT[k]}</span>`);
+      return parts.length ? `<span class="cost">${parts.join("")}</span>` : "";
     }
 
     function renderEvent(event) {
@@ -879,7 +1074,7 @@
         return `<div class="message">${escapeHtml(label)}</div>${details ? `<div class="event-meta">${escapeHtml(details)}</div>` : ""}`;
       }
       if (["research", "train", "build", "age_up"].includes(event.type)) {
-        return `<div class="message">${escapeHtml(event.label ?? event.payload?.name ?? event.type)}</div>`;
+        return `<div class="message">${escapeHtml(event.label ?? event.payload?.name ?? event.type)}${costBadges(event)}</div>`;
       }
       return `<div class="message">${escapeHtml(actor)} resigned.</div>`;
     }
@@ -1034,11 +1229,56 @@
         .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     }
 
+    // Desktop (Tauri) bootstrap: when running inside the native app, parse a
+    // dropped or opened .age3Yrec straight through the bundled Rust parser.
+    // Uses the global Tauri API (withGlobalTauri) so the viewer stays a plain,
+    // build-step-free HTML file that also works standalone in a browser.
+    function initTauri() {
+      const T = window.__TAURI__;
+      if (!T) return false;
+      const invoke = T.core.invoke;
+
+      async function analyze(path) {
+        if (!path || !/\.age3Yrec$/i.test(path)) {
+          renderEmpty("Drop a .age3Yrec replay file to analyze it.");
+          return;
+        }
+        renderEmpty(`Parsing ${path.split(/[\\/]/).pop()} …`);
+        try {
+          loadData(await invoke("parse_replay", { path }));
+        } catch (err) {
+          renderEmpty(`Could not parse replay: ${err}`);
+        }
+      }
+
+      // Native file drag-and-drop onto the window.
+      T.event.listen("tauri://drag-drop", (event) => {
+        const paths = event.payload?.paths ?? [];
+        if (paths.length) analyze(paths[0]);
+      });
+
+      // "Open replay" button → native file dialog.
+      const openBtn = document.querySelector("#openReplay");
+      if (openBtn && T.dialog) {
+        openBtn.hidden = false;
+        openBtn.addEventListener("click", async () => {
+          const path = await T.dialog.open({
+            multiple: false,
+            filters: [{ name: "AoE3 DE replay", extensions: ["age3Yrec"] }],
+          });
+          if (path) analyze(path);
+        });
+      }
+
+      renderEmpty("Drop a .age3Yrec replay onto this window — or use Open replay.");
+      return true;
+    }
+
     if (window.__AOE3_DATA__) {
       loadData(window.__AOE3_DATA__);
-    } else {
+    } else if (!initTauri()) {
       renderEmpty("Open a replay ledger (JSON) — or drop a .age3Yrec onto the analyzer app.");
     }
-  </script>
+</script>
 </body>
 </html>

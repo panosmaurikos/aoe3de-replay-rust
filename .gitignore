@@ -1,4 +1,7 @@
 /target
+/src-tauri/target
+# Tauri-generated schemas/permissions (regenerated on build)
+/src-tauri/gen
 *.parsed.json
 *.debug.json
 *.idempotent.json

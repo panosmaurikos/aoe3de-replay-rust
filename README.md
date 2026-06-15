@@ -31,6 +31,19 @@ Start `AoE3 Analyzer.cmd` (desktop shortcut: **AoE3 Replay Analyzer**). A small 
 
 Options: `-DebugCommands` (include the reverse-engineering command stream), `-NoShipments` (skip experimental shipment events), `-NoBrowser` (generate files only). Output goes to `target\analyze\<name>.json` and a self-contained `target\analyze\<name>.html` (viewer with the JSON embedded — no server or file picker needed).
 
+### Native desktop app (Tauri)
+
+For a single windowed app instead of the browser flow, run `AoE3 Analyzer (Desktop).cmd` (or `.\desktop.ps1`). It builds and launches a native window; drag a `.age3Yrec` onto it (or click **Open Replay**) and the bundled Rust parser renders the ledger in-app. The frontend is the same `viewer/index.html` and the backend reuses the CLI parser as a library (`src-tauri/`), so there is **no Node build step**.
+
+To produce distributable installers (`.msi` / `.exe`), install the Tauri CLI once and bundle:
+
+```powershell
+cargo install tauri-cli --version "^2"
+cargo tauri build   # output under src-tauri\target\release\bundle\
+```
+
+App icons are generated from `src-tauri/icons/icon.png`; replace it and run `cargo tauri icon src-tauri/icons/icon.png` to regenerate the full set.
+
 ## Usage
 
 ```powershell
@@ -55,13 +68,13 @@ To include command-level debug data for reverse engineering:
 cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o "D:\AGEOFEMPIRE3TEST\malloncheater.debug.json" --debug-commands
 ```
 
-To emit verified command-derived gameplay events (shipments, research, train, build, age-up) into the normal timeline:
+Verified command-derived gameplay events (research, train, build, age-up) plus per-player `playerStates` are emitted **by default**. To get a minimal chat+resign timeline instead, pass `--no-events`:
 
 ```powershell
-cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o ".\malloncheater.json" --events
+cargo run -- parse "D:\AGEOFEMPIRE3TEST\malloncheater.age3Yrec" -o ".\malloncheater.json" --no-events
 ```
 
-Event types: `chat`, `resign`, `shipment`, `research`, `train`, `build`, `age_up`. The drop-zone app and `analyze.ps1` use `--events` by default, so the viewer's **Build Order** tab shows each player's full action timeline. (`--experimental-shipments` still works for shipments only.)
+Event types: `chat`, `resign`, `research`, `train`, `build`, `age_up` (and `shipment` with `--experimental-shipments`). Each `research`/`train`/`build`/`age_up` payload also carries the action's eco `cost` (`{ food?, wood?, gold?, influence? }`), so per-event costs sum to the player's gross spend. The viewer's **Build Order** tab shows each player's full action timeline.
 
 The JSON shape is:
 
@@ -217,12 +230,13 @@ The viewer ("Campaign Ledger") is an AoE3-themed UI — wood-framed parchment,
 brass fittings, heraldic player cards. It includes:
 
 - overview gauges (map, result, per-type event counts)
-- heraldic player cards: civ-color shield, team, home city, age-up timings (II/III/IV/V with the politician), a resource-spent bar, and a military / economy / upgrades spend-split bar
+- heraldic player cards: civ-color shield, team, home city, **APM**, age-up timings (II/III/IV/V with the politician), a resource-spent bar, and a military / economy / upgrades spend-split bar
 - event type filter (chat / age-up / research / train / build / shipment / resign)
 - player filter, chat/player search, confirmed-shipment toggle
 - filtered view export
-- Build Order tab: per-player age-up / research / train / build / shipment timeline + resources spent
-- Economy tab: cumulative resources-spent-over-time chart, one line per player (economy pace)
+- Build Order tab: per-player age-up / research / train / build / shipment timeline + resources spent, with each action's eco cost
+- Economy tab: cumulative spend-over-time chart with a Total / Military / Economy / Upgrades metric toggle (one line per player)
+- Snapshot tab: a time scrubber showing each player's issued state (age, trained/built/researched/shipments, resources spent, mil/eco split, recent actions) *as of* the selected moment
 
 It is a single offline HTML file (no web fonts or game assets bundled) and is
 unofficial / fan-made.

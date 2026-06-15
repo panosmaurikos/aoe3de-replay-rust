@@ -361,6 +361,13 @@ fn parse_inner_command(
         71 => advance(position, 4, data.len())?,
         72 => advance(position, 16, data.len())?,
         73 => {}
+        // Command 79: a low-frequency, slot-attributed unit command. The generic
+        // command header (selection block + slot) consumes it exactly — verified
+        // across the corpus by the *next* command staying byte-aligned (gap == 75,
+        // following commands parse cleanly). There is no command-specific payload,
+        // so no extra advance is needed. The exact in-game verb is unconfirmed
+        // (it would take a controlled capture to pin down), so we emit no event.
+        79 => {}
         80 => advance(position, 8, data.len())?,
         _ => parsed_as = "unknown_command_id",
     }
@@ -396,6 +403,7 @@ fn command_name_for_command_id(command_id: i32) -> &'static str {
         16 => "resign",
         37 => "command_37_unclassified",
         66 => "deck_select_or_card_add",
+        79 => "unit_command_79_unconfirmed",
         _ => "known_layout_unclassified",
     }
 }
@@ -413,6 +421,7 @@ fn parsed_as_for_command_id(command_id: i32) -> &'static str {
         14 => "shipment_cancel_candidate",
         16 => "resign",
         37 => "command_37_unclassified",
+        79 => "unit_command_unconfirmed",
         _ => "known_layout",
     }
 }
