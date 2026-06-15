@@ -29,8 +29,11 @@ are not "not yet decoded"; they are not present. The state engine
 | Build building                     | supported   | normal `build` events (`--events`) | commandId=3, building-filtered, deduped |
 | Units trained (totals)             | supported   | `playerStates.unitsTrained` | prop/building-filtered (`units.json` `kind`) |
 | Resources **spent** (gross)        | supported   | `playerStates.resourcesSpent` + `resourcesSpentSeries` | trains+builds+research × `cost`; food/wood/gold/influence; shipments excluded (paid in shipment pts). NOT current/net resources |
-| Economy-pace chart                 | supported   | viewer Economy tab | cumulative resources spent over time per player (from `resourcesSpentSeries`) |
-| Military vs economy spend split     | supported   | `playerStates.spentByCategory` + viewer card bar | military units / economy (villagers+buildings) / upgrades (research); from `units.json` `mil`. Reflects only decoded trains (some civs' military arrives as shipments → shows low) |
+| Economy-pace chart                 | supported   | viewer Economy tab | cumulative spend over time per player, with a Total / Military / Economy / Upgrades metric toggle (from `resourcesSpentSeries` + `spentByCategorySeries`) |
+| Military vs economy spend split     | supported   | `playerStates.spentByCategory` (+ `spentByCategorySeries`) + viewer card bar | military units / economy (villagers+buildings) / upgrades (research); from `units.json` `mil`. Reflects only decoded trains (some civs' military arrives as shipments → shows low) |
+| Per-event cost                     | supported   | each `research`/`train`/`build`/`age_up` payload `cost` | eco cost of that single action (`{food?,wood?,gold?,influence?}`); per-event costs sum to gross spend; viewer shows cost badges |
+| APM (actions per minute)           | supported   | `playerStates.apm` + `commandsTotal` + viewer card chip | over the player's active span; from the full command stream (honest action count, not raw clicks) |
+| Stats export (JSON / CSV)          | supported   | viewer Export View (JSON) + Stats CSV | one CSV row per player: APM, counts, spend per resource + category, age timings |
 | Active unit counts                 | impossible* | — | sim state, not in command replay |
 | Units in queue                     | impossible* | — | sim state |
 | Unit death / loss                  | impossible* | — | no "death command" exists; deaths are sim results |
@@ -38,8 +41,8 @@ are not "not yet decoded"; they are not present. The state engine
 | Villagers lost + resource value    | impossible* | — | needs deaths (sim state) |
 | Idle villagers                     | impossible* | — | needs live unit state |
 | Techs currently applied to a unit  | impossible* | — | live unit state |
-| Build order tab                    | supported   | viewer Build Order tab + `debug.playerStates` | per-player age-up/research/train/build/shipment timeline |
-| State timeline slider              | partial     | — | per-timestamp aggregation of issued events is feasible; live state is not |
+| Build order tab                    | supported   | viewer Build Order tab + `debug.playerStates` | per-player age-up/research/train/build/shipment timeline, with per-action cost badges |
+| State timeline slider              | supported   | viewer Snapshot tab | time scrubber; per-player state *as of* T (age, trained/built/researched/shipments, spend, mil/eco split, recent actions) from issued events. Live sim state is still impossible |
 
 `*` impossible = not present in a command-only replay; needs live game capture or
 full re-simulation (`docs/replay-format.md`), not more decoding.
@@ -61,19 +64,31 @@ Note: some civs train units the cmd2 variant misses (e.g. a villager-heavy
 Chinese player whose military arrived as **shipments**, not trains) — that is
 correct, not a gap.
 
-## Next decoding targets (to move "partial" → "supported")
+## Mode A status
 
-1. Done: `unitsTrained` filtered to real trainable units (`units.json` `kind`,
-   from `populationcount` + unit types); `shipmentsSent` de-duplicated for
-   double-clicks (trains are real, not deduped).
-2. Recover the missing military trains for some civs (the cmd2 train variant does
-   not catch every train); confirm one command = one event; then emit verified
-   `research_tech` / `train_unit` into normal JSON.
-3. Derive **cumulative resources spent / military value produced** from issued
-   trains+techs+shipments × `protoy`/`techtreey` costs (honest "spent/produced",
-   never "current" or "lost").
-4. Decode buildings (commandId=3) and age-up; add to the state engine.
-5. Per-timestamp state slider over issued events.
+Every Mode-A row above that is *possible* from a command replay is now
+**supported**: shipments, research, train, build, age-up, units trained,
+resources spent (+ series + per-event cost), military/economy/upgrades split
+(+ series), economy chart with metric toggle, APM, build-order tab, the Snapshot
+state-timeline scrubber, and JSON/CSV export — plus a native Tauri desktop app.
+Command coverage is 100% on the corpus.
 
-Not on this list (out of scope for static parsing): deaths, losses, active
-counts, idle vills, current resources — see the `impossible*` rows above.
+Accuracy caveat (not a missing feature, and not a decode gap):
+
+- For some civs, part of the army does not appear in `unitsTrained` because it
+  is **not trained at all** — it arrives via **shipments** (e.g. Chinese banner
+  armies, some Ottoman/African military cards), which we already capture under
+  `shipmentsSent`. So those units are counted, just as shipments rather than
+  trains; `unitsTrained` and the military spend split are
+  **incomplete-but-never-wrong** (they under-count trained military, never
+  mis-attribute). This is a categorization nuance, not lost data.
+- `command_id == 37` was once floated as a possible extra train path. **Ruled
+  out:** it is the single most frequent command (up to ~56% of the stream), which
+  is impossible for training (a game has a few hundred trains, not thousands). Its
+  bytes are the unit-order shape (slot-attributed, `-1/-1` target fields, no
+  protoId), so it is a **unit movement/order** command. We decode its layout and
+  label it `unit_order` but emit no event — there is nothing to train here.
+
+Not decodable from the file (out of scope; need Mode B live capture): deaths,
+losses, active counts, idle vills, current resources — see the `impossible*`
+rows above.

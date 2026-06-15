@@ -312,6 +312,12 @@ fn parse_inner_command(
         26 => advance(position, 4, data.len())?,
         34 => {}
         35 => advance(position, 4, data.len())?,
+        // Command 37: the single most frequent command (up to ~56% of the
+        // stream in a long game). That volume — orders of magnitude above the
+        // few hundred trains a game has — plus the unit-order byte shape
+        // (slot-attributed, selectedCount==1, the -1/-1 target fields seen in
+        // cmd0/cmd79, no protoId) means it is a unit movement/order command, NOT
+        // a train. We decode its fixed layout (advance 5) but emit no event.
         37 => advance(position, 5, data.len())?,
         41 => {
             let control1 = read_i32_advance(data, position)?;
@@ -401,7 +407,7 @@ fn command_name_for_command_id(command_id: i32) -> &'static str {
         3 => "build_building_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",
-        37 => "command_37_unclassified",
+        37 => "unit_order_high_frequency",
         66 => "deck_select_or_card_add",
         79 => "unit_command_79_unconfirmed",
         _ => "known_layout_unclassified",
@@ -420,7 +426,7 @@ fn parsed_as_for_command_id(command_id: i32) -> &'static str {
         3 => "build_candidate",
         14 => "shipment_cancel_candidate",
         16 => "resign",
-        37 => "command_37_unclassified",
+        37 => "unit_order",
         79 => "unit_command_unconfirmed",
         _ => "known_layout",
     }
