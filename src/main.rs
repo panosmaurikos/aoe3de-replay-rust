@@ -138,8 +138,87 @@ fn run() -> Result<(), String> {
                 stats.cards, stats.techs, stats.units, stats.civs, stats.icons, stats.strings
             );
         }
+        Command::Capture {
+            offsets_path,
+            hz,
+            duration_s,
+            output_path,
+        } => {
+            run_capture(&offsets_path, hz, duration_s, output_path.as_deref())?;
+        }
     }
 
+    Ok(())
+}
+
+/// Mode B: attach to the running game and sample live state into a JSON capture.
+/// See `docs/mode-b-live-capture.md`.
+fn run_capture(
+    offsets_path: &Path,
+    hz: u32,
+    duration_s: u64,
+    output_path: Option<&Path>,
+) -> Result<(), String> {
+    use aoe3de_replay_rust::mode_b::{LiveCapture, PlatformProcess, Sampler};
+    use std::time::{Duration, Instant};
+
+    if hz == 0 {
+        return Err("--hz must be >= 1".into());
+    }
+
+    let cfg = aoe3de_replay_rust::mode_b::OffsetConfig::load(offsets_path)?;
+    eprintln!(
+        "Capture: offsets '{}' (game {}), {} player slots, {} fields @ {hz} Hz for {duration_s}s",
+        offsets_path.display(),
+        cfg.game_version,
+        cfg.player_count,
+        cfg.fields.len()
+    );
+
+    let mem = PlatformProcess::attach(&cfg)?;
+    let sampler = Sampler::new(&cfg, &mem);
+    sampler.check_sanity()?;
+    eprintln!("Attached and sanity check passed. Sampling... (Ctrl-C to stop early)");
+
+    let interval = Duration::from_millis(1000 / hz as u64);
+    let start = Instant::now();
+    let deadline = start + Duration::from_secs(duration_s);
+    let mut samples = Vec::new();
+    let mut next = start;
+    while Instant::now() < deadline {
+        let t_ms = start.elapsed().as_millis() as u64;
+        match sampler.sample(t_ms) {
+            Ok(s) => samples.push(s),
+            Err(e) => {
+                eprintln!("WARN sample at {t_ms}ms failed: {e}");
+            }
+        }
+        next += interval;
+        let now = Instant::now();
+        if next > now {
+            std::thread::sleep(next - now);
+        }
+    }
+
+    let capture = LiveCapture {
+        source: sampler.source_tag(),
+        game_version: cfg.game_version.clone(),
+        sample_hz: hz,
+        samples,
+    };
+    let json = serde_json::to_string_pretty(&capture)
+        .map_err(|err| format!("Could not serialize capture: {err}"))?;
+    match output_path {
+        Some(path) => {
+            write_json(path, json)?;
+            println!(
+                "Captured {} samples to {}",
+                capture.samples.len(),
+                path.display()
+            );
+        }
+        None => println!("{json}"),
+    }
     Ok(())
 }
 
@@ -1624,6 +1703,12 @@ enum Command {
     ValidateCorpus {
         dir: PathBuf,
     },
+    Capture {
+        offsets_path: PathBuf,
+        hz: u32,
+        duration_s: u64,
+        output_path: Option<PathBuf>,
+    },
 }
 
 #[derive(Debug)]
@@ -1708,6 +1793,52 @@ impl Cli {
                 }
                 Command::ValidateCorpus {
                     dir: PathBuf::from(input_arg.as_str()),
+                }
+            }
+            "capture" => {
+                let mut offsets_path: Option<PathBuf> = None;
+                let mut output_path: Option<PathBuf> = None;
+                let mut hz: u32 = 2;
+                let mut duration_s: u64 = 600;
+                let mut i = 1;
+                while i < args.len() {
+                    match args[i].as_str() {
+                        "--offsets" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            offsets_path = Some(PathBuf::from(v.as_str()));
+                            i += 2;
+                        }
+                        "-o" | "--output" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            output_path = Some(PathBuf::from(v.as_str()));
+                            i += 2;
+                        }
+                        "--hz" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            hz = v
+                                .parse()
+                                .map_err(|_| format!("--hz expects an integer, got '{v}'"))?;
+                            i += 2;
+                        }
+                        "--duration" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            duration_s = v
+                                .parse()
+                                .map_err(|_| format!("--duration expects seconds, got '{v}'"))?;
+                            i += 2;
+                        }
+                        other => {
+                            return Err(format!("Unexpected argument '{other}'\n\n{}", usage()));
+                        }
+                    }
+                }
+                let offsets_path = offsets_path
+                    .ok_or_else(|| format!("capture requires --offsets <file>\n\n{}", usage()))?;
+                Command::Capture {
+                    offsets_path,
+                    hz,
+                    duration_s,
+                    output_path,
                 }
             }
             "parse" => {
@@ -3079,7 +3210,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--no-events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--no-events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>\n  aoe3de-replay-rust capture --offsets <offsets-json> [--hz <n>] [--duration <seconds>] [-o <output-json-path>]".to_string()
 }
 
 #[derive(Default)]

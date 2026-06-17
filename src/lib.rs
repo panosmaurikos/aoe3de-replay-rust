@@ -4,6 +4,7 @@ pub mod constants;
 pub mod deck;
 pub mod fields;
 pub mod gamedata;
+pub mod mode_b;
 pub mod models;
 pub mod replay;
 pub mod state;

@@ -57,7 +57,20 @@ Honesty rule: normal JSON carries only confirmed events; candidates stay in
    compiling (`src-tauri/`, `desktop.ps1`); installer bundling via `cargo tauri
    build` once the Tauri CLI is installed.
 
-## Mode B — Runtime-assisted (CaptureAge-like, later)
+## Mode B — Runtime-assisted (CaptureAge-like) — *started*
+
+Status: design + capture harness landed. Approach decided and documented in
+`docs/mode-b-live-capture.md`: **external memory reading** (`ReadProcessMemory`,
+Cheat-Engine model — no injection) of the running game during **replay playback**
+of your own games. The `capture` CLI subcommand attaches to `aoe3de.exe`,
+resolves data-driven pointer chains (`data/offsets/<version>.json`), and samples
+per-player live state into a JSON capture; a sanity gate refuses to emit garbage
+if offsets are stale. Pure-logic parts (config, chain resolver, sampler) are
+unit-tested against a fake address space. **Remaining for the first live metric:**
+discover the resource pointer chains with Cheat Engine (human-in-the-loop, one
+time per patch — procedure in the design doc) and fill in
+`data/offsets/<version>.json`, then merge the capture into the analyzer JSON +
+viewer.
 
 Input: the **running game** (spectator / memory reading), optionally alongside the
 replay file. Source: live simulation state.
