@@ -122,40 +122,61 @@ the table as a curated-observer mode and a ToS-safe fallback respectively.
   A output byte-identical. Every live field is tagged with its source
   (`memory`/version) for auditability.
 
-## Proof-of-concept (first milestone)
+## Implementation (the real memory model — no Cheat Engine needed)
 
-Vertical slice that proves the pipeline end to end on **current resources**
-(the simplest deep `impossible*` metric):
+Rather than hand-discover fragile static pointer chains, the reader reproduces the
+**actual game structures** documented by the open-source AoE3 DE Lua engine
+([github.com/SystematicSkid/Age-of-Empires-3-DE-Lua], `Engine/Addresses.h`,
+`Engine/Classes/Player/Player.h`). That makes it robust (signature-anchored, not
+ASLR-fragile) and removes the manual offset-scan step. Every version-specific
+value lives in `data/offsets/aoe3de.json` (`mode_b::config::CaptureConfig`).
 
-1. **`capture` subcommand / `mode_b` module (Rust, Windows-gated):** attach to
-   `aoe3de` by process name, resolve module base, read a configured pointer chain,
-   print a timestamped `StateSample` for each player at ~2 Hz. Pure external read.
-2. **`data/offsets/<version>.json`:** pointer chains for `food/wood/coin/xp` per
-   player slot. Bootstrapped from a public Cheat Engine table where possible, then
-   verified live; if not, discovered with the guided Cheat-Engine procedure below.
-3. **Verify:** play back a known replay, confirm captured resources move sensibly
-   (rise with gather, drop on a known train/shipment) and cross-check the drops
-   against Mode A's `resourcesSpentSeries` for the same replay at the same T.
-4. **Merge + view:** emit the series in the analyzer JSON under a `liveState` key
-   and add a viewer line so issued-spend and actual-resources show together.
+Key facts the engine source gave us:
 
-### Offset discovery procedure (human-in-the-loop, one-time per patch)
+- **Process is `AoE3DE_s.exe`** (the simulation worker), not the `aoe3de.exe`
+  launcher.
+- The **Game instance** is found by an **AOB signature scan** of the module, then
+  a RIP-relative resolve: for `mov rcx,[rip+disp32]`
+  (`48 8B 0D ?? ?? ?? ?? ...`), `globalPtr = patternVA + disp32 + 7`, and
+  `game = *globalPtr`. Signature scanning survives ASLR and minor patches.
+- **Struct walk:** `game+0x148 → World`; `World+0x98 → Players` (Player\*\* array),
+  `World+0xA0 → NumPlayers`; `players[i]` → Player; `player+0x338 → ResourceList`.
+- **Resources are obfuscated in memory.** A plain Cheat-Engine float scan would
+  never find them. Decrypt each as:
+  `bits = (read_u32(ResourceList + 8*index) + 0x7BA9CCB8) ^ 0x86A4DFC9`, then
+  `value = f32::from_bits(bits)`. Resource index: Gold=0, Wood=1, Food=2, Fame=3,
+  SkillPoints=4, XP=5, Ships=6, Trade=7.
 
-The capture *harness* is fully buildable now; the pointer chains need the live
-game once:
+The capture loop (`Sampler`) resolves the Game instance once, then each tick walks
+to every player and reads + decrypts the configured resources (and age), emitting
+a `StateSample`. A **sanity gate** decrypts a known resource for one slot and
+refuses to run if it's wildly out of range — so stale offsets after a patch
+produce a clear error, never silent garbage.
 
-1. Launch AoE3 DE, start a skirmish or play back a replay.
-2. In Cheat Engine: attach to `aoe3de.exe`, scan for a known resource value
-   (e.g. starting gold), spend/gather to narrow, find the address.
-3. Pointer-scan that address to get a **static module-base + offset chain** that
-   survives a restart.
-4. Repeat for wood/food/xp and the per-player stride (slots are usually a fixed
-   array → one chain + a slot stride).
-5. Drop the chains into `data/offsets/<version>.json`; the Rust harness reads them.
+### How to run it
 
-Once resources work, the same method extends to **pop, score (→ losses), idle
-villagers, and the unit table (positions/counts)** — each is just another chain
-in the same config, captured by the same loop.
+```
+# 1. Launch AoE3 DE and start a skirmish or play back YOUR replay.
+# 2. Capture (writes a per-player resource time series):
+cargo run --release -- capture --offsets data/offsets/aoe3de.json --hz 2 --duration 600 -o cap.json
+# 3. Merge with the parsed replay timeline:
+cargo run --release -- merge-capture --replay game.parsed.json --capture cap.json -o game.live.json
+```
+
+If `capture` reports "signature not found" or a failed sanity check, the offsets
+have **drifted with a game patch**. Fix = edit `data/offsets/aoe3de.json` (no
+recompile): re-derive the signature/offsets/decrypt constants from an updated
+build of the Lua engine source, or by inspecting the running process. Pop count,
+score, and the unit table (positions/losses) are the same pattern — additional
+offsets in the same config, read by the same loop.
+
+### Verifying correctness against Mode A
+
+Because replay playback is deterministic, captured drops in a resource should line
+up with Mode A's issued spend: at time T the **decrease** in actual resources
+(minus gather income) is bounded by `resourcesSpentSeries`. A train/shipment we
+already decode should coincide with a dip in the live series — a free cross-check
+that the decryption and offsets are right.
 
 ## Roadmap within Mode B
 

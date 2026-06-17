@@ -1,0 +1,28 @@
+{
+  "_comment": "AoE3 DE live-memory model for Mode B capture. Signature, struct offsets, and resource decryption are reverse-engineered from github.com/SystematicSkid/Age-of-Empires-3-DE-Lua (Engine/Addresses.h, Player.h). These are version-specific: if `capture` reports 'signature not found' or a failed sanity check, they have drifted with a game patch — re-derive from an updated source or Cheat Engine and edit this file (no recompile needed). Resolution and the decrypt formula are documented in docs/mode-b-live-capture.md.",
+  "gameVersion": "SystematicSkid-Lua-engine baseline (verify against your build)",
+  "processName": "AoE3DE_s.exe",
+  "moduleName": "AoE3DE_s.exe",
+  "gameInstanceSig": "48 8B 0D ?? ?? ?? ?? 80 3D ?? ?? ?? ?? ?? 74 54",
+  "sigDispOffset": 3,
+  "sigInsnLen": 7,
+  "walk": {
+    "world": "0x148",
+    "players": "0x98",
+    "numPlayers": "0xA0",
+    "playerStride": "0x8",
+    "resourceList": "0x338",
+    "playerName": "0x8",
+    "playerAge": "0x80"
+  },
+  "resourceCrypt": { "add": "0x7BA9CCB8", "xor": "0x86A4DFC9" },
+  "resources": {
+    "coin": 0,
+    "wood": 1,
+    "food": 2,
+    "fame": 3,
+    "xp": 5
+  },
+  "maxPlayers": 16,
+  "sanity": { "resource": "food", "slot": 1, "min": 0.0, "max": 1000000.0 }
+}

@@ -3,7 +3,7 @@
 //! Module base is found via the ToolHelp snapshot API.
 
 use super::ProcessMemory;
-use super::config::OffsetConfig;
+use super::config::CaptureConfig;
 
 use windows_sys::Win32::Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::Debug::ReadProcessMemory;
@@ -15,16 +15,17 @@ use windows_sys::Win32::System::Threading::{
     OpenProcess, PROCESS_QUERY_INFORMATION, PROCESS_VM_READ,
 };
 
-/// A handle to the live game process plus the resolved module base.
+/// A handle to the live game process plus the resolved module base and size.
 pub struct WindowsProcess {
     handle: HANDLE,
     base: u64,
+    size: u64,
 }
 
 impl WindowsProcess {
     /// Find `cfg.process_name`, open it read-only, and resolve `cfg.module_name`'s
-    /// base address.
-    pub fn attach(cfg: &OffsetConfig) -> Result<Self, String> {
+    /// base address and image size.
+    pub fn attach(cfg: &CaptureConfig) -> Result<Self, String> {
         let pid = find_process_id(&cfg.process_name).ok_or_else(|| {
             format!(
                 "process '{}' not found — start AoE3 DE and load a game/replay first",
@@ -42,8 +43,8 @@ impl WindowsProcess {
             ));
         }
 
-        let base = match module_base(pid, &cfg.module_name) {
-            Some(b) => b,
+        let (base, size) = match module_base_and_size(pid, &cfg.module_name) {
+            Some(bs) => bs,
             None => {
                 // SAFETY: handle is valid here.
                 unsafe { CloseHandle(handle) };
@@ -54,7 +55,7 @@ impl WindowsProcess {
             }
         };
 
-        Ok(Self { handle, base })
+        Ok(Self { handle, base, size })
     }
 }
 
@@ -70,6 +71,10 @@ impl Drop for WindowsProcess {
 impl ProcessMemory for WindowsProcess {
     fn module_base(&self) -> u64 {
         self.base
+    }
+
+    fn module_size(&self) -> u64 {
+        self.size
     }
 
     fn read_bytes(&self, addr: u64, len: usize) -> Result<Vec<u8>, String> {
@@ -129,8 +134,9 @@ fn find_process_id(name: &str) -> Option<u32> {
     }
 }
 
-/// Base load address of `module_name` within `pid` (case-insensitive).
-fn module_base(pid: u32, module_name: &str) -> Option<u64> {
+/// Base load address and image size of `module_name` within `pid`
+/// (case-insensitive).
+fn module_base_and_size(pid: u32, module_name: &str) -> Option<(u64, u64)> {
     // SAFETY: ToolHelp module snapshot; handle closed before return.
     unsafe {
         let snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, pid);
@@ -139,12 +145,12 @@ fn module_base(pid: u32, module_name: &str) -> Option<u64> {
         }
         let mut entry: MODULEENTRY32W = core::mem::zeroed();
         entry.dwSize = core::mem::size_of::<MODULEENTRY32W>() as u32;
-        let mut base = None;
+        let mut found = None;
         if Module32FirstW(snap, &mut entry) != 0 {
             loop {
                 let name = wide_to_string(&entry.szModule);
                 if name.eq_ignore_ascii_case(module_name) {
-                    base = Some(entry.modBaseAddr as u64);
+                    found = Some((entry.modBaseAddr as u64, entry.modBaseSize as u64));
                     break;
                 }
                 if Module32NextW(snap, &mut entry) == 0 {
@@ -153,6 +159,6 @@ fn module_base(pid: u32, module_name: &str) -> Option<u64> {
             }
         }
         CloseHandle(snap);
-        base
+        found
     }
 }

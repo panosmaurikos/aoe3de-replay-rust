@@ -146,8 +146,58 @@ fn run() -> Result<(), String> {
         } => {
             run_capture(&offsets_path, hz, duration_s, output_path.as_deref())?;
         }
+        Command::MergeCapture {
+            replay_path,
+            capture_path,
+            offset_ms,
+            output_path,
+        } => {
+            run_merge_capture(&replay_path, &capture_path, offset_ms, output_path.as_deref())?;
+        }
     }
 
+    Ok(())
+}
+
+/// Mode B: attach a live capture's per-player series to a parsed replay JSON
+/// under a `liveState` key (aligned by `offset_ms`). See docs/mode-b-live-capture.md.
+fn run_merge_capture(
+    replay_path: &Path,
+    capture_path: &Path,
+    offset_ms: i64,
+    output_path: Option<&Path>,
+) -> Result<(), String> {
+    use aoe3de_replay_rust::mode_b::LiveCapture;
+
+    let mut replay_json = read_json_file(replay_path)?;
+    let capture_text = fs::read_to_string(capture_path)
+        .map_err(|e| format!("could not read capture '{}': {e}", capture_path.display()))?;
+    let capture: LiveCapture = serde_json::from_str(&capture_text)
+        .map_err(|e| format!("invalid capture JSON '{}': {e}", capture_path.display()))?;
+
+    let live_state = capture.to_live_state(offset_ms);
+    let live_value = serde_json::to_value(&live_state)
+        .map_err(|e| format!("could not serialize liveState: {e}"))?;
+    match replay_json {
+        Value::Object(ref mut map) => {
+            map.insert("liveState".to_string(), live_value);
+        }
+        _ => return Err("replay JSON is not an object — pass a parsed/normalized replay".into()),
+    }
+
+    let json = serde_json::to_string_pretty(&replay_json)
+        .map_err(|e| format!("could not serialize merged JSON: {e}"))?;
+    match output_path {
+        Some(path) => {
+            write_json(path, json)?;
+            println!(
+                "Merged {} player series into {}",
+                live_state.players.len(),
+                path.display()
+            );
+        }
+        None => println!("{json}"),
+    }
     Ok(())
 }
 
@@ -159,26 +209,26 @@ fn run_capture(
     duration_s: u64,
     output_path: Option<&Path>,
 ) -> Result<(), String> {
-    use aoe3de_replay_rust::mode_b::{LiveCapture, PlatformProcess, Sampler};
+    use aoe3de_replay_rust::mode_b::{CaptureConfig, LiveCapture, PlatformProcess, Sampler};
     use std::time::{Duration, Instant};
 
     if hz == 0 {
         return Err("--hz must be >= 1".into());
     }
 
-    let cfg = aoe3de_replay_rust::mode_b::OffsetConfig::load(offsets_path)?;
+    let cfg = CaptureConfig::load(offsets_path)?;
     eprintln!(
-        "Capture: offsets '{}' (game {}), {} player slots, {} fields @ {hz} Hz for {duration_s}s",
+        "Capture: config '{}' (game {}), process {}, {} resources @ {hz} Hz for {duration_s}s",
         offsets_path.display(),
         cfg.game_version,
-        cfg.player_count,
-        cfg.fields.len()
+        cfg.process_name,
+        cfg.resources.len()
     );
 
     let mem = PlatformProcess::attach(&cfg)?;
-    let sampler = Sampler::new(&cfg, &mem);
+    let sampler = Sampler::resolve(&cfg, &mem)?;
     sampler.check_sanity()?;
-    eprintln!("Attached and sanity check passed. Sampling... (Ctrl-C to stop early)");
+    eprintln!("Attached, game instance resolved, sanity check passed. Sampling... (Ctrl-C to stop early)");
 
     let interval = Duration::from_millis(1000 / hz as u64);
     let start = Instant::now();
@@ -1709,6 +1759,12 @@ enum Command {
         duration_s: u64,
         output_path: Option<PathBuf>,
     },
+    MergeCapture {
+        replay_path: PathBuf,
+        capture_path: PathBuf,
+        offset_ms: i64,
+        output_path: Option<PathBuf>,
+    },
 }
 
 #[derive(Debug)]
@@ -1838,6 +1894,53 @@ impl Cli {
                     offsets_path,
                     hz,
                     duration_s,
+                    output_path,
+                }
+            }
+            "merge-capture" => {
+                let mut replay_path: Option<PathBuf> = None;
+                let mut capture_path: Option<PathBuf> = None;
+                let mut output_path: Option<PathBuf> = None;
+                let mut offset_ms: i64 = 0;
+                let mut i = 1;
+                while i < args.len() {
+                    match args[i].as_str() {
+                        "--replay" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            replay_path = Some(PathBuf::from(v.as_str()));
+                            i += 2;
+                        }
+                        "--capture" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            capture_path = Some(PathBuf::from(v.as_str()));
+                            i += 2;
+                        }
+                        "--offset-ms" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            offset_ms = v
+                                .parse()
+                                .map_err(|_| format!("--offset-ms expects an integer, got '{v}'"))?;
+                            i += 2;
+                        }
+                        "-o" | "--output" => {
+                            let v = args.get(i + 1).ok_or_else(usage)?;
+                            output_path = Some(PathBuf::from(v.as_str()));
+                            i += 2;
+                        }
+                        other => {
+                            return Err(format!("Unexpected argument '{other}'\n\n{}", usage()));
+                        }
+                    }
+                }
+                let replay_path = replay_path
+                    .ok_or_else(|| format!("merge-capture requires --replay <file>\n\n{}", usage()))?;
+                let capture_path = capture_path.ok_or_else(|| {
+                    format!("merge-capture requires --capture <file>\n\n{}", usage())
+                })?;
+                Command::MergeCapture {
+                    replay_path,
+                    capture_path,
+                    offset_ms,
                     output_path,
                 }
             }
@@ -3210,7 +3313,7 @@ fn default_output_path(command_name: &str, input_path: &Path) -> PathBuf {
 }
 
 fn usage() -> String {
-    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--no-events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>\n  aoe3de-replay-rust capture --offsets <offsets-json> [--hz <n>] [--duration <seconds>] [-o <output-json-path>]".to_string()
+    "Usage:\n  aoe3de-replay-rust parse <path-to-age3Yrec> [-o <output-json-path>] [--debug-commands] [--experimental-shipments] [--no-events]\n  aoe3de-replay-rust normalize <path-to-parsed-json> [-o <output-json-path>]\n  aoe3de-replay-rust validate <path-to-normalized-json>\n  aoe3de-replay-rust inspect-commands <path-to-debug-json> [--from <timeMs>] [--to <timeMs>] [--command-id <id>] [--actor-slot <slot>] [--parsed-as <label>] [--limit <n>] [--full-hex]\n  aoe3de-replay-rust inspect-card-commands <path-to-debug-json> [--actor-slot <slot>]\n  aoe3de-replay-rust compare-commands --a <debug-json> --a-offset <offset> --b <debug-json> --b-offset <offset> [--limit <n>] [--show-same]\n  aoe3de-replay-rust compare-summaries --a <debug-json> --b <debug-json>\n  aoe3de-replay-rust dump-decks <path-to-json> [--slot <slotId>] [--card-id <rawId>]\n  aoe3de-replay-rust player-summary <path-to-debug-json>\n  aoe3de-replay-rust resolve-card --card-id <id>\n  aoe3de-replay-rust resolve-unit --unit-id <id>\n  aoe3de-replay-rust resolve-tech --tech-id <id>\n  aoe3de-replay-rust resolve-building --building-id <id>\n  aoe3de-replay-rust import-aoe3-companion --input <aoe3-companion path> [--out <data dir>]\n  aoe3de-replay-rust validate-corpus <dir-of-age3Yrec>\n  aoe3de-replay-rust capture --offsets <offsets-json> [--hz <n>] [--duration <seconds>] [-o <output-json-path>]\n  aoe3de-replay-rust merge-capture --replay <parsed-json> --capture <capture-json> [--offset-ms <ms>] [-o <output-json-path>]".to_string()
 }
 
 #[derive(Default)]

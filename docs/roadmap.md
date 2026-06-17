@@ -59,18 +59,22 @@ Honesty rule: normal JSON carries only confirmed events; candidates stay in
 
 ## Mode B — Runtime-assisted (CaptureAge-like) — *started*
 
-Status: design + capture harness landed. Approach decided and documented in
-`docs/mode-b-live-capture.md`: **external memory reading** (`ReadProcessMemory`,
-Cheat-Engine model — no injection) of the running game during **replay playback**
-of your own games. The `capture` CLI subcommand attaches to `aoe3de.exe`,
-resolves data-driven pointer chains (`data/offsets/<version>.json`), and samples
-per-player live state into a JSON capture; a sanity gate refuses to emit garbage
-if offsets are stale. Pure-logic parts (config, chain resolver, sampler) are
-unit-tested against a fake address space. **Remaining for the first live metric:**
-discover the resource pointer chains with Cheat Engine (human-in-the-loop, one
-time per patch — procedure in the design doc) and fill in
-`data/offsets/<version>.json`, then merge the capture into the analyzer JSON +
-viewer.
+Status: functional reader + merge landed (design in `docs/mode-b-live-capture.md`).
+**External memory reading** (`ReadProcessMemory`, Cheat-Engine model — no
+injection) of the running `AoE3DE_s.exe` during **replay playback** of your own
+games. The reader reproduces the real game structures from the open-source AoE3 DE
+Lua engine: AOB **signature scan** for the Game instance (ASLR-robust), struct
+walk Game→World→Players→Player→ResourceList, and **resource decryption**
+(`(u32+0x7BA9CCB8)^0x86A4DFC9` as f32). Every version-specific value is data in
+`data/offsets/aoe3de.json` — **no Cheat Engine step needed**, and a patch is a
+config edit. `capture` samples per-player resources+age to JSON (sanity gate
+rejects stale offsets); `merge-capture` attaches the series to a parsed replay
+under `liveState`. Pure logic (signature scan, RIP resolve, decrypt, struct walk,
+transpose) is unit-tested against a fake address space; merge is smoke-tested
+end-to-end. **Remaining:** validate against a live game (offsets/constants are
+from the Lua-engine baseline and may need a refresh for the current build — the
+sanity gate flags drift), then add a viewer "Live State" line and extend to
+pop/score/units.
 
 Input: the **running game** (spectator / memory reading), optionally alongside the
 replay file. Source: live simulation state.

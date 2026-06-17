@@ -1,181 +1,235 @@
-//! Mode B offset configuration — pointer chains as *data*, not code.
+//! Mode B capture configuration — the AoE3 DE live-memory model as *data*.
 //!
-//! Live game state (current resources, pop, score, ...) lives at addresses that
-//! move every patch, so we never hard-code them. Instead each field is described
-//! by a static `module-base + pointer-chain`, loaded from
-//! `data/offsets/<gameVersion>.json` and resolved at runtime against the running
-//! `aoe3de` process (see `mode_b::ProcessMemory`). A patch breaks capture → swap
-//! the JSON, not the binary.
+//! The model (signature, struct offsets, resource decryption) is reverse-
+//! engineered from the open-source AoE3 DE Lua engine
+//! (github.com/SystematicSkid/Age-of-Empires-3-DE-Lua). Every version-specific
+//! value lives here in JSON so a game patch is fixed by editing
+//! `data/offsets/aoe3de.json`, never the binary.
 //!
-//! This module is platform-independent and fully unit-tested without a game.
+//! Resolution at runtime (see `mode_b`):
+//!   1. AOB-scan the module for `game_instance_sig` → patternVA.
+//!   2. `globalPtrVA = patternVA + sig_disp_offset + read_i32(patternVA + sig_disp_offset)`
+//!      ... actually `patternVA + read_i32(patternVA + sig_disp_offset) + sig_insn_len`
+//!      (RIP-relative `mov reg,[rip+disp32]`).
+//!   3. `game = read_u64(globalPtrVA)`.
+//!   4. `world = read_u64(game + world_offset)`;
+//!      `players = read_u64(world + players_offset)`;
+//!      `player[i] = read_u64(players + i*player_stride)`;
+//!      `reslist = read_u64(player[i] + resource_list_offset)`.
+//!   5. For resource index r: `enc = read_u32(reslist + 8*r)`;
+//!      `bits = (enc + resource_add) ^ resource_xor`; value = `f32::from_bits(bits)`.
+//!
+//! This module is platform-independent and unit-tested without a game.
 
 use std::collections::BTreeMap;
 use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-/// Numeric type of a captured field, as stored in game memory.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum FieldType {
-    F32,
-    F64,
-    I32,
-    U32,
+/// Decryption constants for the obfuscated resource floats.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ResourceCrypt {
+    /// Added (mod 2^32) to the raw u32 before XOR. Hex string.
+    pub add: String,
+    /// XORed with the sum to recover the f32 bit pattern. Hex string.
+    pub xor: String,
 }
 
-impl FieldType {
-    /// Width in bytes of this field in memory.
-    pub fn width(self) -> usize {
-        match self {
-            FieldType::F32 | FieldType::I32 | FieldType::U32 => 4,
-            FieldType::F64 => 8,
-        }
+impl ResourceCrypt {
+    pub fn add_u32(&self) -> Result<u32, String> {
+        parse_hex_u32(&self.add).map_err(|e| format!("resourceCrypt.add '{}': {e}", self.add))
     }
-
-    /// Decode `bytes` (little-endian, length == `self.width()`) to an f64.
-    /// All captured values surface as f64 so resources, pop, and score share one
-    /// series type in the viewer.
-    pub fn decode(self, bytes: &[u8]) -> Result<f64, String> {
-        if bytes.len() < self.width() {
-            return Err(format!(
-                "field decode: need {} bytes, got {}",
-                self.width(),
-                bytes.len()
-            ));
-        }
-        Ok(match self {
-            FieldType::F32 => f32::from_le_bytes(bytes[..4].try_into().unwrap()) as f64,
-            FieldType::F64 => f64::from_le_bytes(bytes[..8].try_into().unwrap()),
-            FieldType::I32 => i32::from_le_bytes(bytes[..4].try_into().unwrap()) as f64,
-            FieldType::U32 => u32::from_le_bytes(bytes[..4].try_into().unwrap()) as f64,
-        })
+    pub fn xor_u32(&self) -> Result<u32, String> {
+        parse_hex_u32(&self.xor).map_err(|e| format!("resourceCrypt.xor '{}': {e}", self.xor))
+    }
+    /// Decrypt one raw resource word to its float value.
+    pub fn decrypt(&self, raw: u32) -> Result<f32, String> {
+        let bits = raw.wrapping_add(self.add_u32()?) ^ self.xor_u32()?;
+        Ok(f32::from_bits(bits))
+    }
+    /// Inverse of `decrypt` — used by tests to plant known values in fake memory.
+    pub fn encrypt(&self, value: f32) -> Result<u32, String> {
+        let bits = value.to_bits() ^ self.xor_u32()?;
+        Ok(bits.wrapping_sub(self.add_u32()?))
     }
 }
 
-/// A pointer chain from the module base to one field of player slot 0.
-///
-/// Resolution: `addr = moduleBase + base`; then for each `off` in `chain`,
-/// `addr = read_ptr(addr) + off`; the final field of player `slot` is read at
-/// `addr + slot * playerStride` (stride applied by the sampler, not here).
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct FieldChain {
-    /// Offset from the module base to the first pointer, as a hex string
-    /// (`"0x01A2B3C0"`). Hex keeps the JSON readable and matches Cheat Engine.
-    pub base: String,
-    /// Offsets applied after each dereference. Empty = `base` is the value itself.
-    #[serde(default)]
-    pub chain: Vec<String>,
-    #[serde(rename = "type")]
-    pub field_type: FieldType,
+/// Struct-walk offsets from the Game instance down to a player's resource list.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WalkOffsets {
+    #[serde(rename = "world")]
+    pub world: String,
+    #[serde(rename = "players")]
+    pub players: String,
+    #[serde(rename = "numPlayers")]
+    pub num_players: String,
+    #[serde(rename = "playerStride")]
+    pub player_stride: String,
+    #[serde(rename = "resourceList")]
+    pub resource_list: String,
+    /// Optional: player name pointer (UTF-16) offset, for slot correlation.
+    #[serde(rename = "playerName", default)]
+    pub player_name: Option<String>,
+    /// Optional: player age (int) offset.
+    #[serde(rename = "playerAge", default)]
+    pub player_age: Option<String>,
 }
 
-impl FieldChain {
-    /// Parse `base` to a u64 (`0x` prefix optional).
-    pub fn base_offset(&self) -> Result<u64, String> {
-        parse_hex(&self.base).map_err(|e| format!("field base '{}': {e}", self.base))
+impl WalkOffsets {
+    pub fn world_off(&self) -> Result<u64, String> {
+        parse_hex(&self.world)
     }
-
-    /// Parse the post-dereference offsets to u64s.
-    pub fn chain_offsets(&self) -> Result<Vec<u64>, String> {
-        self.chain
-            .iter()
-            .map(|s| parse_hex(s).map_err(|e| format!("chain offset '{s}': {e}")))
-            .collect()
+    pub fn players_off(&self) -> Result<u64, String> {
+        parse_hex(&self.players)
+    }
+    pub fn num_players_off(&self) -> Result<u64, String> {
+        parse_hex(&self.num_players)
+    }
+    pub fn player_stride(&self) -> Result<u64, String> {
+        parse_hex(&self.player_stride)
+    }
+    pub fn resource_list_off(&self) -> Result<u64, String> {
+        parse_hex(&self.resource_list)
+    }
+    pub fn player_name_off(&self) -> Result<Option<u64>, String> {
+        self.player_name.as_deref().map(parse_hex).transpose()
+    }
+    pub fn player_age_off(&self) -> Result<Option<u64>, String> {
+        self.player_age.as_deref().map(parse_hex).transpose()
     }
 }
 
-/// A sanity gate: the sampler refuses to emit if this field for slot 0 is out of
-/// `[min, max]`, so a post-patch wrong chain produces an error, not garbage.
+/// Anti-garbage gate: a resource whose decrypted value must land in `[min, max]`
+/// for slot `slot`, else the sampler errors (stale offsets / no match running).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SanityCheck {
-    pub field: String,
-    pub min: f64,
-    pub max: f64,
+    pub resource: String,
+    pub slot: u32,
+    pub min: f32,
+    pub max: f32,
 }
 
-/// The full offset config for one game version.
+/// Full Mode B capture config for one game version.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct OffsetConfig {
-    /// Human-readable game version these offsets were captured against
-    /// (AoE3 DE About screen). Stamped onto every sample for auditability.
+pub struct CaptureConfig {
     #[serde(rename = "gameVersion")]
     pub game_version: String,
-    /// Process to attach to, e.g. `"aoe3de.exe"`.
+    /// The simulation worker process, e.g. `"AoE3DE_s.exe"`.
     #[serde(rename = "processName")]
     pub process_name: String,
-    /// Module whose base anchors the chains (usually == `processName`).
     #[serde(rename = "moduleName")]
     pub module_name: String,
-    /// Number of player slots to read.
-    #[serde(rename = "playerCount")]
-    pub player_count: u32,
-    /// Bytes between consecutive players' copies of the same field.
-    /// `0` (the template default) means "not yet discovered" → only slot 0 is
-    /// meaningful; the sampler warns.
-    #[serde(rename = "playerStride", default)]
-    pub player_stride: u64,
-    /// Field name → pointer chain. Ordered (BTreeMap) for deterministic output.
-    pub fields: BTreeMap<String, FieldChain>,
-    /// Optional anti-garbage gate.
+    /// AOB signature (bytes + `??` wildcards) locating the Game-instance pointer.
+    #[serde(rename = "gameInstanceSig")]
+    pub game_instance_sig: String,
+    /// Byte offset of the disp32 within the matched instruction (3 for
+    /// `48 8B 0D <disp32>`).
+    #[serde(rename = "sigDispOffset", default = "default_disp_offset")]
+    pub sig_disp_offset: u64,
+    /// Total length of the matched instruction (7 for `mov reg,[rip+disp32]`).
+    #[serde(rename = "sigInsnLen", default = "default_insn_len")]
+    pub sig_insn_len: u64,
+    pub walk: WalkOffsets,
+    #[serde(rename = "resourceCrypt")]
+    pub resource_crypt: ResourceCrypt,
+    /// Resource name → index into the resource list (Gold=0, Wood=1, Food=2, ...).
+    pub resources: BTreeMap<String, u32>,
+    /// Hard cap on players to read, so a bad NumPlayers can't run away.
+    #[serde(rename = "maxPlayers", default = "default_max_players")]
+    pub max_players: u32,
     #[serde(default)]
     pub sanity: Option<SanityCheck>,
 }
 
-impl OffsetConfig {
+fn default_disp_offset() -> u64 {
+    3
+}
+fn default_insn_len() -> u64 {
+    7
+}
+fn default_max_players() -> u32 {
+    16
+}
+
+impl CaptureConfig {
     pub fn from_json(text: &str) -> Result<Self, String> {
-        serde_json::from_str(text).map_err(|e| format!("invalid offset config JSON: {e}"))
+        serde_json::from_str(text).map_err(|e| format!("invalid capture config JSON: {e}"))
     }
 
     pub fn load(path: &Path) -> Result<Self, String> {
         let text = std::fs::read_to_string(path)
-            .map_err(|e| format!("could not read offset config '{}': {e}", path.display()))?;
+            .map_err(|e| format!("could not read capture config '{}': {e}", path.display()))?;
         let cfg = Self::from_json(&text)?;
         cfg.validate()?;
         Ok(cfg)
     }
 
-    /// Static checks that don't need a running game: non-empty fields, parseable
-    /// hex, a real sanity target, a placeholder guard.
+    /// Static checks that don't need a running game.
     pub fn validate(&self) -> Result<(), String> {
-        if self.fields.is_empty() {
-            return Err("offset config has no fields".into());
+        parse_signature(&self.game_instance_sig)
+            .map_err(|e| format!("gameInstanceSig: {e}"))
+            .and_then(|p| {
+                if p.is_empty() {
+                    Err("gameInstanceSig is empty".into())
+                } else if p.iter().all(Option::is_none) {
+                    Err("gameInstanceSig is all wildcards".into())
+                } else {
+                    Ok(())
+                }
+            })?;
+        self.walk.world_off()?;
+        self.walk.players_off()?;
+        self.walk.num_players_off()?;
+        self.walk.resource_list_off()?;
+        let stride = self.walk.player_stride()?;
+        if stride == 0 {
+            return Err("walk.playerStride must be non-zero".into());
         }
-        if self.player_count == 0 {
-            return Err("offset config playerCount must be >= 1".into());
+        self.walk.player_name_off()?;
+        self.walk.player_age_off()?;
+        self.resource_crypt.add_u32()?;
+        self.resource_crypt.xor_u32()?;
+        if self.resources.is_empty() {
+            return Err("config has no resources".into());
         }
-        for (name, fc) in &self.fields {
-            fc.base_offset()
-                .map_err(|e| format!("field '{name}': {e}"))?;
-            fc.chain_offsets()
-                .map_err(|e| format!("field '{name}': {e}"))?;
-            if fc.base_offset()? == 0 && fc.chain.is_empty() {
-                return Err(format!(
-                    "field '{name}' is still a template placeholder (base 0x0, no chain) — \
-                     discover its pointer chain (see docs/mode-b-live-capture.md) before capturing"
-                ));
-            }
+        if self.max_players == 0 {
+            return Err("maxPlayers must be >= 1".into());
         }
         if let Some(s) = &self.sanity {
-            if !self.fields.contains_key(&s.field) {
+            if !self.resources.contains_key(&s.resource) {
                 return Err(format!(
-                    "sanity check references unknown field '{}'",
-                    s.field
+                    "sanity references unknown resource '{}'",
+                    s.resource
                 ));
             }
             if s.min > s.max {
-                return Err(format!(
-                    "sanity check min {} > max {} for field '{}'",
-                    s.min, s.max, s.field
-                ));
+                return Err(format!("sanity min {} > max {}", s.min, s.max));
             }
         }
         Ok(())
     }
 }
 
-/// Parse a hex string with an optional `0x`/`0X` prefix and optional `_`
-/// separators to a u64.
+/// One pattern byte: `Some(b)` matches exactly, `None` is a `??` wildcard.
+pub type SigByte = Option<u8>;
+
+/// Parse an AOB signature like `"48 8B 0D ?? ?? ?? ?? 80 3D"` into bytes/wildcards.
+/// Accepts `?` or `??` for wildcards; whitespace-separated.
+pub fn parse_signature(sig: &str) -> Result<Vec<SigByte>, String> {
+    let mut out = Vec::new();
+    for tok in sig.split_whitespace() {
+        if tok == "?" || tok == "??" {
+            out.push(None);
+        } else if tok.len() == 2 && tok.chars().all(|c| c.is_ascii_hexdigit()) {
+            out.push(Some(u8::from_str_radix(tok, 16).unwrap()));
+        } else {
+            return Err(format!("bad signature token '{tok}'"));
+        }
+    }
+    Ok(out)
+}
+
+/// Parse a hex string with optional `0x` prefix and `_` separators to u64.
 pub fn parse_hex(s: &str) -> Result<u64, String> {
     let t = s.trim();
     let stripped = t
@@ -184,78 +238,94 @@ pub fn parse_hex(s: &str) -> Result<u64, String> {
         .unwrap_or(t);
     let cleaned: String = stripped.chars().filter(|c| *c != '_').collect();
     if cleaned.is_empty() {
-        return Err("empty hex value".into());
+        return Err(format!("empty hex value '{s}'"));
     }
-    u64::from_str_radix(&cleaned, 16).map_err(|e| format!("not hex: {e}"))
+    u64::from_str_radix(&cleaned, 16).map_err(|e| format!("'{s}' not hex: {e}"))
+}
+
+/// Parse a hex string to u32 (with wraparound semantics for crypto constants).
+pub fn parse_hex_u32(s: &str) -> Result<u32, String> {
+    let v = parse_hex(s)?;
+    if v > u32::MAX as u64 {
+        return Err(format!("'{s}' exceeds u32"));
+    }
+    Ok(v as u32)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn parses_hex_with_and_without_prefix() {
-        assert_eq!(parse_hex("0x1A").unwrap(), 26);
-        assert_eq!(parse_hex("1a").unwrap(), 26);
-        assert_eq!(parse_hex("0x01_A2_B3").unwrap(), 0x01A2B3);
-        assert!(parse_hex("0xZZ").is_err());
-        assert!(parse_hex("").is_err());
-    }
+    const REAL: &str = r#"{
+        "gameVersion": "from SystematicSkid Lua engine",
+        "processName": "AoE3DE_s.exe",
+        "moduleName": "AoE3DE_s.exe",
+        "gameInstanceSig": "48 8B 0D ?? ?? ?? ?? 80 3D ?? ?? ?? ?? ?? 74 54",
+        "walk": {
+            "world": "0x148", "players": "0x98", "numPlayers": "0xA0",
+            "playerStride": "0x8", "resourceList": "0x338",
+            "playerName": "0x8", "playerAge": "0x80"
+        },
+        "resourceCrypt": { "add": "0x7BA9CCB8", "xor": "0x86A4DFC9" },
+        "resources": { "coin": 0, "wood": 1, "food": 2, "xp": 5 },
+        "sanity": { "resource": "coin", "slot": 1, "min": 0.0, "max": 1000000.0 }
+    }"#;
 
     #[test]
-    fn field_type_decodes_little_endian() {
-        assert_eq!(FieldType::I32.decode(&[1, 0, 0, 0]).unwrap(), 1.0);
-        assert_eq!(FieldType::U32.decode(&200u32.to_le_bytes()).unwrap(), 200.0);
-        assert_eq!(FieldType::F32.decode(&1.5f32.to_le_bytes()).unwrap(), 1.5);
-        assert_eq!(FieldType::F64.decode(&2.5f64.to_le_bytes()).unwrap(), 2.5);
-        assert!(FieldType::F64.decode(&[0, 0, 0, 0]).is_err());
-    }
-
-    #[test]
-    fn round_trips_a_real_config() {
-        let json = r#"{
-            "gameVersion": "100.15.0",
-            "processName": "aoe3de.exe",
-            "moduleName": "aoe3de.exe",
-            "playerCount": 2,
-            "playerStride": 4096,
-            "fields": {
-                "coin": { "base": "0x01A2B3C0", "chain": ["0x10", "0x8"], "type": "f32" }
-            },
-            "sanity": { "field": "coin", "min": 0.0, "max": 1000000.0 }
-        }"#;
-        let cfg = OffsetConfig::from_json(json).unwrap();
+    fn parses_the_real_config() {
+        let cfg = CaptureConfig::from_json(REAL).unwrap();
         cfg.validate().unwrap();
-        assert_eq!(cfg.player_stride, 4096);
-        let coin = &cfg.fields["coin"];
-        assert_eq!(coin.base_offset().unwrap(), 0x01A2B3C0);
-        assert_eq!(coin.chain_offsets().unwrap(), vec![0x10, 0x8]);
-        assert_eq!(coin.field_type, FieldType::F32);
+        assert_eq!(cfg.process_name, "AoE3DE_s.exe");
+        assert_eq!(cfg.sig_disp_offset, 3); // defaulted
+        assert_eq!(cfg.sig_insn_len, 7);
+        assert_eq!(cfg.walk.world_off().unwrap(), 0x148);
+        assert_eq!(cfg.walk.resource_list_off().unwrap(), 0x338);
+        assert_eq!(cfg.resources["food"], 2);
     }
 
     #[test]
-    fn rejects_template_placeholder_fields() {
-        let json = r#"{
-            "gameVersion": "TEMPLATE",
-            "processName": "aoe3de.exe",
-            "moduleName": "aoe3de.exe",
-            "playerCount": 8,
-            "fields": { "food": { "base": "0x0", "chain": [], "type": "f32" } }
-        }"#;
-        let cfg = OffsetConfig::from_json(json).unwrap();
-        let err = cfg.validate().unwrap_err();
-        assert!(err.contains("template placeholder"), "got: {err}");
+    fn signature_parses_bytes_and_wildcards() {
+        let p = parse_signature("48 8B 0D ?? ? 74").unwrap();
+        assert_eq!(p[0], Some(0x48));
+        assert_eq!(p[2], Some(0x0D));
+        assert_eq!(p[3], None);
+        assert_eq!(p[4], None);
+        assert_eq!(p[5], Some(0x74));
+        assert!(parse_signature("zz").is_err());
     }
 
     #[test]
-    fn rejects_sanity_for_unknown_field() {
-        let json = r#"{
-            "gameVersion": "x", "processName": "aoe3de.exe", "moduleName": "aoe3de.exe",
-            "playerCount": 1,
-            "fields": { "coin": { "base": "0x10", "chain": [], "type": "f32" } },
-            "sanity": { "field": "ghost", "min": 0.0, "max": 1.0 }
-        }"#;
-        let cfg = OffsetConfig::from_json(json).unwrap();
-        assert!(cfg.validate().unwrap_err().contains("unknown field"));
+    fn resource_crypt_round_trips() {
+        let cfg = CaptureConfig::from_json(REAL).unwrap();
+        let c = &cfg.resource_crypt;
+        for v in [0.0f32, 200.0, 12345.5, 999999.0] {
+            let enc = c.encrypt(v).unwrap();
+            let dec = c.decrypt(enc).unwrap();
+            assert_eq!(dec, v, "round-trip failed for {v}");
+        }
+    }
+
+    #[test]
+    fn rejects_all_wildcard_signature() {
+        let mut v: serde_json::Value = serde_json::from_str(REAL).unwrap();
+        v["gameInstanceSig"] = serde_json::json!("?? ?? ??");
+        let cfg = CaptureConfig::from_json(&v.to_string()).unwrap();
+        assert!(cfg.validate().unwrap_err().contains("all wildcards"));
+    }
+
+    #[test]
+    fn rejects_unknown_sanity_resource() {
+        let mut v: serde_json::Value = serde_json::from_str(REAL).unwrap();
+        v["sanity"]["resource"] = serde_json::json!("ghost");
+        let cfg = CaptureConfig::from_json(&v.to_string()).unwrap();
+        assert!(cfg.validate().unwrap_err().contains("unknown resource"));
+    }
+
+    #[test]
+    fn parses_hex_forms() {
+        assert_eq!(parse_hex("0x148").unwrap(), 0x148);
+        assert_eq!(parse_hex("338").unwrap(), 0x338);
+        assert_eq!(parse_hex_u32("0x7BA9CCB8").unwrap(), 0x7BA9CCB8);
+        assert!(parse_hex_u32("0x1_0000_0000").is_err());
     }
 }
