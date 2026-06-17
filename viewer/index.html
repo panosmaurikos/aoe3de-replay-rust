@@ -489,6 +489,7 @@
         <button type="button" data-view="buildOrder">Build Order</button>
         <button type="button" data-view="economy">Economy</button>
         <button type="button" data-view="snapshot">Snapshot</button>
+        <button type="button" data-view="live" id="liveTab" hidden>Live State</button>
       </div>
 
       <div id="timelinePanel">
@@ -552,6 +553,16 @@
         </div>
         <div id="snapshot" class="snapshot-grid"></div>
       </div>
+
+      <div id="livePanel" hidden>
+        <div class="section-head">
+          <h2>Live State</h2>
+          <span class="muted">actual <em>current</em> resources captured from the running game (Mode B)</span>
+        </div>
+        <div class="metric-tabs" id="liveMetrics"></div>
+        <div id="live"></div>
+        <div id="liveLegend" class="chart-legend"></div>
+      </div>
     </section>
 
     <footer class="app-footer">
@@ -569,6 +580,7 @@
       activeType: "all",
       activeView: "timeline",
       economyMetric: "total",
+      liveResource: null,
       snapshotT: null,
       confirmedShipmentsOnly: false,
     };
@@ -651,6 +663,11 @@
       state.filteredEvents = state.events;
       state.snapshotT = null;
       snapCache = null;
+      // Mode B: reveal the Live State tab only when a capture is merged in.
+      const hasLive = (data.liveState?.players ?? []).some((p) => (p.points ?? []).length > 1);
+      liveTab.hidden = !hasLive;
+      if (!hasLive && state.activeView === "live") state.activeView = "timeline";
+      buildLiveMetrics();
       renderSummary();
       renderPlayers();
       renderPlayerFilter();
@@ -664,9 +681,11 @@
       buildOrderPanel.hidden = state.activeView !== "buildOrder";
       economyPanel.hidden = state.activeView !== "economy";
       snapshotPanel.hidden = state.activeView !== "snapshot";
+      livePanel.hidden = state.activeView !== "live";
       if (state.activeView === "buildOrder") renderBuildOrder();
       else if (state.activeView === "economy") renderEconomy();
       else if (state.activeView === "snapshot") renderSnapshot();
+      else if (state.activeView === "live") renderLive();
       else renderEvents();
     }
 
@@ -733,6 +752,98 @@
         const color = colors.get(s.slotId) ?? DEFAULT_PCOLOR;
         const total = s.points.at(-1)?.[1] ?? 0;
         return `<span><i style="background:${color}"></i>${escapeHtml(names.get(s.slotId) ?? ("Slot " + s.slotId))} <b>${kfmt(total)}</b></span>`;
+      }).join("");
+    }
+
+    // ---- Mode B: Live State (actual current resources over time) ----
+
+    // Distinct resource names present across the captured series, ordered with
+    // the common ones first.
+    function liveResourceNames() {
+      const order = ["food", "wood", "coin", "fame", "xp"];
+      const seen = new Set();
+      for (const p of state.data?.liveState?.players ?? []) {
+        for (const pt of p.points ?? []) {
+          for (const k of Object.keys(pt.resources ?? {})) seen.add(k);
+        }
+      }
+      const known = order.filter((k) => seen.has(k));
+      const extra = [...seen].filter((k) => !order.includes(k)).sort();
+      return [...known, ...extra];
+    }
+
+    // Build the resource selector buttons for the Live tab.
+    function buildLiveMetrics() {
+      const names = liveResourceNames();
+      if (!names.length) { liveMetrics.innerHTML = ""; return; }
+      if (!names.includes(state.liveResource)) state.liveResource = names[0];
+      liveMetrics.innerHTML = names.map((n) =>
+        `<button type="button" data-live-res="${escapeHtml(n)}" class="${n === state.liveResource ? "active" : ""}">${escapeHtml(n)}</button>`
+      ).join("");
+      liveMetrics.querySelectorAll("[data-live-res]").forEach((b) => {
+        b.addEventListener("click", () => {
+          state.liveResource = b.dataset.liveRes;
+          liveMetrics.querySelectorAll("[data-live-res]").forEach((i) => i.classList.toggle("active", i === b));
+          renderLive();
+        });
+      });
+    }
+
+    function renderLive() {
+      const res = state.liveResource;
+      const players = (state.data?.liveState?.players ?? [])
+        .map((p) => ({
+          slotId: p.slot,
+          name: p.name ?? ("Slot " + p.slot),
+          points: (p.points ?? []).map((pt) => [pt.tMs, pt.resources?.[res] ?? 0]),
+        }))
+        .filter((p) => p.points.length > 1);
+      if (!players.length || !res) {
+        live.innerHTML = `<div class="empty">No live capture. Merge one with <code>merge-capture</code>.</div>`;
+        liveLegend.innerHTML = "";
+        return;
+      }
+
+      const colors = colorBySlot();
+      const maxT = Math.max(...players.flatMap((s) => s.points.map((p) => p[0])), 1);
+      const maxV = Math.max(...players.flatMap((s) => s.points.map((p) => p[1])), 1);
+
+      const W = 960, H = 460, padL = 64, padR = 18, padT = 18, padB = 40;
+      const x = (t) => padL + (t / (maxT || 1)) * (W - padL - padR);
+      const y = (v) => H - padB - (v / (maxV || 1)) * (H - padT - padB);
+
+      const yTicks = 5, xTicks = 6;
+      let grid = "";
+      for (let i = 0; i <= yTicks; i++) {
+        const v = (maxV / yTicks) * i, yy = y(v);
+        grid += `<line class="grid" x1="${padL}" y1="${yy}" x2="${W - padR}" y2="${yy}"/>`;
+        grid += `<text class="axis-label" x="${padL - 8}" y="${yy + 4}" text-anchor="end">${kfmt(v)}</text>`;
+      }
+      for (let i = 0; i <= xTicks; i++) {
+        const t = (maxT / xTicks) * i, xx = x(t);
+        grid += `<line class="grid" x1="${xx}" y1="${padT}" x2="${xx}" y2="${H - padB}"/>`;
+        grid += `<text class="axis-label" x="${xx}" y="${H - padB + 16}" text-anchor="middle">${formatTime(t)}</text>`;
+      }
+
+      const lines = players.map((s) => {
+        const pts = s.points.map((p) => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ");
+        const color = colors.get(s.slotId) ?? DEFAULT_PCOLOR;
+        return `<polyline class="line" points="${pts}" stroke="${color}"><title>${escapeHtml(s.name)}</title></polyline>`;
+      }).join("");
+
+      live.innerHTML = `
+        <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img">
+          ${grid}
+          <line class="axis" x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}"/>
+          <line class="axis" x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}"/>
+          <text class="axis-title" x="${padL}" y="${padT - 4}">current ${escapeHtml(res)}</text>
+          ${lines}
+        </svg>`;
+
+      liveLegend.innerHTML = players.map((s) => {
+        const color = colors.get(s.slotId) ?? DEFAULT_PCOLOR;
+        const cur = s.points.at(-1)?.[1] ?? 0;
+        return `<span><i style="background:${color}"></i>${escapeHtml(s.name)} <b>${kfmt(cur)}</b></span>`;
       }).join("");
     }
 
