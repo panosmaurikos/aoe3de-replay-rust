@@ -11,3 +11,8 @@ out/
 
 # Raw extracted game data (re-import into data/ instead of vendoring)
 aoe3-companion/
+
+# Local icon tooling + extracted Microsoft game art (never commit)
+/tools/
+/icons-cache/
+u.json
